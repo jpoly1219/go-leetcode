@@ -41,5 +41,7 @@
   - the info mentioned above will be parsed into a JSON, then be sent back to the user
   - after sending the JSON back to the user, the unique file will be deleted and the goroutine will gracefully shut down
 - user authentication with a third party auth service (it's not really worth it to implement auth myself by scratch IMO...)
+  - probably Auth0? if I can wrap my head around how third party auth services work, it would be great.
+  - this might be a good way to learn Firebase or Supabase, but they seem like more of a shortcut for frontend developers to scaffold together a backend...
 - resources:
   - https://callistaenterprise.se/blogg/teknik/2019/10/05/go-worker-cancellation/
