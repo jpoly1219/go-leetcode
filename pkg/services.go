@@ -2,6 +2,7 @@ package pkg
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -23,6 +24,7 @@ func runCpp(input []byte, userfileDir string) {
 	fileId := uuid.New()
 	fileName := fmt.Sprintf("%s.cpp", fileId)
 	pathToFile := filepath.Join(userfileDir, fileName)
+	fmt.Println(pathToFile)
 
 	cmd := exec.Command("touch", pathToFile)
 	fmt.Println("creating file")
@@ -31,17 +33,21 @@ func runCpp(input []byte, userfileDir string) {
 		log.Fatal(err)
 	}
 
-	cmdInsertInput := fmt.Sprintf("%s > %s.cpp", string(input), fileId)
-	cmd = exec.Command(cmdInsertInput)
-	fmt.Println("inserting input")
+	err = ioutil.WriteFile(pathToFile, input, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	compiledFileName := fmt.Sprintf("%s.out", fileId)
+	pathToCompiledFile := filepath.Join(userfileDir, compiledFileName)
+	cmd = exec.Command("g++", pathToFile, "-o", pathToCompiledFile)
+	fmt.Println("compiling and running")
 	err = cmd.Run()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	cmdCompileAndRun := fmt.Sprintf("g++ %s -o %s; ./%s", pathToFile, fileId, fileId)
-	fmt.Println("compiling and running")
-	out, err := exec.Command(cmdCompileAndRun).Output()
+	out, err := exec.Command(pathToCompiledFile).Output()
 	if err != nil {
 		log.Fatal(err)
 	}
