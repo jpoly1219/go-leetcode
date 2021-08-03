@@ -11,9 +11,10 @@ func SayHello(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("endpoint reached")
 
 	baseDir := LoadEnv("BASEDIR")
-	userfilesDir := filepath.Join(baseDir, "userfiles")
+	userfilesDir := filepath.Join(baseDir, "userfiles/")
 	content, _ := ioutil.ReadFile(filepath.Join(userfilesDir, "test.cpp"))
 	runCpp(content, userfilesDir)
+	fmt.Fprintf(w, "done\n")
 
 	/*
 		out1 := make(chan string)
