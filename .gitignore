@@ -20,3 +20,6 @@
 
 # go build binaries
 main
+
+# test files
+test.*
