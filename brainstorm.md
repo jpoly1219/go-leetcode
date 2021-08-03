@@ -43,5 +43,10 @@
 - user authentication with a third party auth service (it's not really worth it to implement auth myself by scratch IMO...)
   - probably Auth0? if I can wrap my head around how third party auth services work, it would be great.
   - this might be a good way to learn Firebase or Supabase, but they seem like more of a shortcut for frontend developers to scaffold together a backend...
+- just realized that letting code compile and run on the backend could be a huge backdoor and a security threat
+  - instead of just goroutines, we can have goroutines spawn a docker container?
+  - could be resource intensive this way, but a docker container with alpine should be small enough...
+  - I can just throw away any processes that take too long. timing happens outside the container, and the running happens inside the container.
+  - this is a great opportunity to learn docker... I've been putting it off to the side for too long at this point
 - resources:
   - https://callistaenterprise.se/blogg/teknik/2019/10/05/go-worker-cancellation/
