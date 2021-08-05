@@ -68,9 +68,8 @@ type Language interface {
 }
 // all languages should be able to generate a file with their respective user inputs and extensions
 type FileGenerator interface {
-  Create() error
-  Insert() error
-  // could be just CreateAndInsert() error
+  Create() error // touches file and inserts user input
+  FindPath() string // returns a file path string
 }
 
 type Cpp struct {
