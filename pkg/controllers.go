@@ -14,6 +14,7 @@ func SayHello(w http.ResponseWriter, r *http.Request) {
 	userfilesDir := filepath.Join(baseDir, "userfiles/")
 	content, _ := ioutil.ReadFile(filepath.Join(userfilesDir, "test.cpp"))
 	runCpp(content, userfilesDir)
+	runPy(content, userfilesDir)
 	fmt.Fprintf(w, "done\n")
 
 	/*
