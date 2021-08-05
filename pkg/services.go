@@ -55,7 +55,41 @@ func runCpp(input []byte, userfileDir string) {
 }
 
 func runPy(input []byte, userfileDir string) {
-	
+
+}
+
+// interpreted languages don't need this because it basically runs without needing additional steps
+type CompiledLang interface {
+	Compile(fileId, path string) string // returns output or error
+}
+
+// all languages will need to be run at some point
+type Language interface {
+	Run() string // returns output or error
+}
+
+// all languages should be able to generate a file with their respective user inputs and extensions
+type FileGenerator interface {
+	Create() error    // touches file and inserts user input
+	FindPath() string // returns a file path string
+}
+
+type Cpp struct {
+	id        string
+	userInput []byte
+}
+type Py struct {
+	id        string
+	userInput []byte
+}
+
+func (cpp Cpp) Compile(fileId, path string) error {
+	cmd := exec.Command("g++", path, "-o", fileId)
+	err := cmd.Run()
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 /*
