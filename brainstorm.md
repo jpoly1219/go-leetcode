@@ -50,3 +50,39 @@
   - this is a great opportunity to learn docker... I've been putting it off to the side for too long at this point
 - resources:
   - https://callistaenterprise.se/blogg/teknik/2019/10/05/go-worker-cancellation/
+
+## Goals
+- Learn more about Go
+- Try using Go's cool features: goroutines and interfaces
+- Interfaces:
+  - Pretty neat if you have a lot of similar parts doing similar things but have to be implemented in a different way
+  - Struct for each language might make sense. Each language has a compile/run phase that are handles differently
+
+// interpreted languages don't need this because it basically runs without needing additional steps
+type CompiledLang interface {
+  Compile() string // returns output or error
+}
+// all languages will need to be run at some point
+type Language interface {
+  Run() string // returns output or error
+}
+// all languages should be able to generate a file with their respective user inputs and extensions
+type FileGenerator interface {
+  Create() error
+  Insert() error
+  // could be just CreateAndInsert() error
+}
+
+type Cpp struct {
+  id string
+  userInput []byte
+}
+type Py struct {
+  id string
+  userInput []byte
+}
+
+func (cpp Cpp) Compile() string {
+  // generate file
+  // compile
+}
