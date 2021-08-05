@@ -54,6 +54,10 @@ func runCpp(input []byte, userfileDir string) {
 	fmt.Println("output:\n", string(out))
 }
 
+func runPy(input []byte, userfileDir string) {
+	
+}
+
 /*
 func PrintHello(num int, out chan string) {
 	defer close(out)
