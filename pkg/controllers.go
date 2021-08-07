@@ -10,8 +10,7 @@ import (
 func SayHello(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("endpoint reached")
 
-	baseDir := LoadEnv("BASEDIR")
-	userfilesDir := filepath.Join(baseDir, "userfiles/")
+	userfilesDir := filepath.Join(".", "userfiles/")
 	content, _ := ioutil.ReadFile(filepath.Join(userfilesDir, "test.cpp"))
 	runCpp(content, userfilesDir)
 	runPy(content, userfilesDir)
