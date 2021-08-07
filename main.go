@@ -12,7 +12,7 @@ import (
 func main() {
 
 	r := mux.NewRouter()
-	r.HandleFunc("/run", pkg.SayHello)
+	r.HandleFunc("/run", pkg.Run)
 
 	log.Fatal(http.ListenAndServe(":8090", r))
 }
