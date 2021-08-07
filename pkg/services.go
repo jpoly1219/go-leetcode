@@ -19,6 +19,10 @@ func runCpp(input []byte, pathUsersfiles string) (string, error) {
 	return output, nil
 }
 
+func runPython(input []byte, pathUsersfiles string) (string, error) {
+	pyStruct := Py
+}
+
 /*
 implementing interfaces
 the following steps apply to all languages:
@@ -98,21 +102,3 @@ func getOutput(lang Language, pathUserfiles string) (string, error) {
 
 	return out, nil
 }
-
-/*
-func PrintHello(num int, out chan string) {
-	defer close(out)
-	for i := 0; i < num; i++ {
-		out <- "hello world!\n"
-		time.Sleep(time.Second)
-	}
-}
-
-func PrintBye(num int, out chan string) {
-	defer close(out)
-	for i := 0; i < num; i++ {
-		out <- "goodbye!\n"
-		time.Sleep(time.Second)
-	}
-}
-*/
