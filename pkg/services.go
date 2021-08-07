@@ -2,50 +2,21 @@ package pkg
 
 import (
 	"fmt"
-	"io/ioutil"
-	"log"
+	"os"
 	"os/exec"
 	"path/filepath"
 
 	"github.com/google/uuid"
 )
 
-func runCpp(input []byte, userfileDir string) {
-	fileId := uuid.New()
-	fileName := fmt.Sprintf("%s.cpp", fileId)
-	pathToFile := filepath.Join(userfileDir, fileName)
-	fmt.Println(pathToFile)
-
-	cmd := exec.Command("touch", pathToFile)
-	fmt.Println("creating file")
-	err := cmd.Run()
+func runCpp(input []byte, pathUsersfiles string) (string, error) {
+	cppStruct := Cpp{id: uuid.NewString(), userInput: input}
+	output, err := getOutput(cppStruct, pathUsersfiles)
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 
-	err = ioutil.WriteFile(pathToFile, input, 0644)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	compiledFileName := fmt.Sprintf("%s.out", fileId)
-	pathToCompiledFile := filepath.Join(userfileDir, compiledFileName)
-	cmd = exec.Command("g++", pathToFile, "-o", pathToCompiledFile)
-	fmt.Println("compiling and running")
-	err = cmd.Run()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	out, err := exec.Command(pathToCompiledFile).Output()
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println("output:\n", string(out))
-}
-
-func runPy(input []byte, userfileDir string) {
-
+	return output, nil
 }
 
 /*
@@ -59,9 +30,9 @@ steps that are different across languages: 2, 3, 4
 - 4: different languages require different tools to run their files, so the command will differ across languages
 */
 type Language interface {
-	GenerateFile() error
-	Compile() error
-	Run() (string, error)
+	GenerateFile(pathUserfiles string) (string, error)
+	Compile(pathUserfiles string, pathSource string) (string, error)
+	Run(pathBinary string) (string, error)
 }
 
 type Cpp struct {
@@ -69,45 +40,63 @@ type Cpp struct {
 	userInput []byte
 }
 
-func (cpp Cpp) GenerateFile() error {
-	return nil
-}
-
-func (cpp Cpp) Compile() error {
-	return nil
-}
-
-func (cpp Cpp) Run() error {
-	return nil
-}
-
-type Py struct {
-	id        string
-	userInput []byte
-}
-
-func (py Py) GenerateFile() error {
-	return nil
-}
-
-func (py Py) Compile() error {
-	return nil
-}
-
-func (py Py) Run() error {
-	return nil
-}
-
-func parseOutput(lang Language) (string, error) {
-	err := lang.Compile()
+func (cpp Cpp) GenerateFile(pathUserfiles string) (string, error) {
+	fileName := fmt.Sprintf("%s.cpp", cpp.id)
+	path := filepath.Join(pathUserfiles, fileName)
+	f, err := os.Create(path)
 	if err != nil {
-		return "error", err
+		return "", fmt.Errorf("failed to create file: %s\n%w", path, err)
 	}
-	output, err := lang.Run()
+	defer f.Close()
+
+	_, err = f.Write(cpp.userInput)
 	if err != nil {
-		return "error", err
+		return "", fmt.Errorf("failed to write to file: %s\n%w", path, err)
 	}
-	return output, nil
+	f.Sync()
+
+	return path, nil
+}
+
+func (cpp Cpp) Compile(pathUserfiles string, pathSource string) (string, error) {
+	compiledFileName := fmt.Sprintf("%s.out", cpp.id)
+	pathBinary := filepath.Join(pathUserfiles, compiledFileName)
+
+	cmd := exec.Command("g++", pathSource, "-o", pathBinary)
+	err := cmd.Run()
+	if err != nil {
+		return "", fmt.Errorf("failed to compile file: %s\n%w", pathSource, err)
+	}
+
+	return pathBinary, nil
+}
+
+func (cpp Cpp) Run(pathBinary string) (string, error) {
+	out, err := exec.Command(pathBinary).Output()
+	if err != nil {
+		return "", fmt.Errorf("failed to run binary: %s\n%w", pathBinary, err)
+	}
+
+	return string(out), nil
+}
+
+func getOutput(lang Language, pathUserfiles string) (string, error) {
+	pathSource, err := lang.GenerateFile(pathUserfiles)
+	if err != nil {
+		return "", err
+	}
+
+	pathBinary, err := lang.Compile(pathUserfiles, pathSource)
+	if err != nil {
+		return "", err
+	}
+
+	out, err := lang.Run(pathBinary)
+	if err != nil {
+		return "", err
+	}
+
+	return out, nil
 }
 
 /*
