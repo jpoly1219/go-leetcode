@@ -19,8 +19,14 @@ func runCpp(input []byte, pathUsersfiles string) (string, error) {
 	return output, nil
 }
 
-func runPython(input []byte, pathUsersfiles string) (string, error) {
-	pyStruct := Py
+func runPy(input []byte, pathUsersfiles string) (string, error) {
+	pyStruct := Py{id: uuid.NewString(), userInput: input}
+	output, err := getOutput(pyStruct, pathUsersfiles)
+	if err != nil {
+		return "", err
+	}
+
+	return output, nil
 }
 
 /*
@@ -77,6 +83,44 @@ func (cpp Cpp) Compile(pathUserfiles string, pathSource string) (string, error) 
 
 func (cpp Cpp) Run(pathBinary string) (string, error) {
 	out, err := exec.Command(pathBinary).Output()
+	if err != nil {
+		return "", fmt.Errorf("failed to run binary: %s\n%w", pathBinary, err)
+	}
+
+	return string(out), nil
+}
+
+type Py struct {
+	id        string
+	userInput []byte
+}
+
+func (py Py) GenerateFile(pathUserfiles string) (string, error) {
+	fileName := fmt.Sprintf("%s.py", py.id)
+	path := filepath.Join(pathUserfiles, fileName)
+	f, err := os.Create(path)
+	if err != nil {
+		return "", fmt.Errorf("failed to create file: %s\n%w", path, err)
+	}
+	defer f.Close()
+
+	_, err = f.Write(py.userInput)
+	if err != nil {
+		return "", fmt.Errorf("failed to write to file: %s\n%w", path, err)
+	}
+	f.Sync()
+
+	return path, nil
+}
+
+func (py Py) Compile(pathUserfiles string, pathSource string) (string, error) {
+	pathBinary := pathSource
+
+	return pathBinary, nil
+}
+
+func (py Py) Run(pathBinary string) (string, error) {
+	out, err := exec.Command("python3", pathBinary).Output()
 	if err != nil {
 		return "", fmt.Errorf("failed to run binary: %s\n%w", pathBinary, err)
 	}
