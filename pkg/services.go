@@ -4,21 +4,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"os"
 	"os/exec"
 	"path/filepath"
 
 	"github.com/google/uuid"
-	"github.com/joho/godotenv"
 )
-
-func LoadEnv(key string) string {
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatal(err)
-	}
-	return os.Getenv(key)
-}
 
 func runCpp(input []byte, userfileDir string) {
 	fileId := uuid.New()
