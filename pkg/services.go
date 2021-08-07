@@ -58,38 +58,66 @@ func runPy(input []byte, userfileDir string) {
 
 }
 
-// interpreted languages don't need this because it basically runs without needing additional steps
-type CompiledLang interface {
-	Compile(fileId, path string) string // returns output or error
-}
-
-// all languages will need to be run at some point
+/*
+implementing interfaces
+the following steps apply to all languages:
+accept user input > create file with the user input > compile > run > return output as string or error
+steps that are same across all languages: 1, 5
+steps that are different across languages: 2, 3, 4
+- 2: file extensions are different
+- 3: some languages need to be compiled, but some don't. For interpreted languages, compile() may as well be a pass statement
+- 4: different languages require different tools to run their files, so the command will differ across languages
+*/
 type Language interface {
-	Run() string // returns output or error
-}
-
-// all languages should be able to generate a file with their respective user inputs and extensions
-type FileGenerator interface {
-	Create() error    // touches file and inserts user input
-	FindPath() string // returns a file path string
+	GenerateFile() error
+	Compile() error
+	Run() (string, error)
 }
 
 type Cpp struct {
 	id        string
 	userInput []byte
 }
+
+func (cpp Cpp) GenerateFile() error {
+	return nil
+}
+
+func (cpp Cpp) Compile() error {
+	return nil
+}
+
+func (cpp Cpp) Run() error {
+	return nil
+}
+
 type Py struct {
 	id        string
 	userInput []byte
 }
 
-func (cpp Cpp) Compile(fileId, path string) error {
-	cmd := exec.Command("g++", path, "-o", fileId)
-	err := cmd.Run()
-	if err != nil {
-		return err
-	}
+func (py Py) GenerateFile() error {
 	return nil
+}
+
+func (py Py) Compile() error {
+	return nil
+}
+
+func (py Py) Run() error {
+	return nil
+}
+
+func parseOutput(lang Language) (string, error) {
+	err := lang.Compile()
+	if err != nil {
+		return "error", err
+	}
+	output, err := lang.Run()
+	if err != nil {
+		return "error", err
+	}
+	return output, nil
 }
 
 /*
