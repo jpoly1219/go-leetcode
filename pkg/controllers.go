@@ -8,36 +8,81 @@ import (
 	"path/filepath"
 )
 
+func fileGen(testfile string, pathUserfiles string) {
+	content, _ := ioutil.ReadFile(filepath.Join(pathUserfiles, testfile))
+	switch testfile {
+	case "test.cpp":
+		out, err := runCpp(content, pathUserfiles)
+		if err != nil {
+			log.Fatal(err)
+		}
+		// w.Write
+		fmt.Println(out)
+	case "test.java":
+		out, err := runJava(content, pathUserfiles)
+		if err != nil {
+			log.Fatal(err)
+		}
+		// w.Write
+		fmt.Println(out)
+	case "test.js":
+		out, err := runJs(content, pathUserfiles)
+		if err != nil {
+			log.Fatal(err)
+		}
+		// w.Write
+		fmt.Println(out)
+	case "test.py":
+		out, err := runPy(content, pathUserfiles)
+		if err != nil {
+			log.Fatal(err)
+		}
+		// w.Write
+		fmt.Println(out)
+	}
+}
+
 func Run(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("endpoint reached")
 
 	pathUserfiles := filepath.Join(".", "userfiles", "testuserfiles")
 
-	content, _ := ioutil.ReadFile(filepath.Join(pathUserfiles, "test.cpp"))
-	outCpp, err := runCpp(content, pathUserfiles)
-	if err != nil {
-		log.Fatal(err)
-	}
-	w.Write([]byte(outCpp))
+	// reading from test.* files is only temporary; later on these will be actual user inputs sent over from the frontend
 
-	content, _ = ioutil.ReadFile(filepath.Join(pathUserfiles, "test.java"))
-	outJava, err := runJava(content, pathUserfiles)
-	if err != nil {
-		log.Fatal(err)
+	for i := 0; i < 10; i++ {
+		go fileGen("test.cpp", pathUserfiles)
+		go fileGen("test.java", pathUserfiles)
+		go fileGen("test.js", pathUserfiles)
+		go fileGen("test.py", pathUserfiles)
 	}
-	w.Write([]byte(outJava))
+	w.Write([]byte("done\n"))
+	/*
+		content, _ := ioutil.ReadFile(filepath.Join(pathUserfiles, "test.cpp"))
+		outCpp, err := runCpp(content, pathUserfiles)
+		if err != nil {
+			log.Fatal(err)
+		}
+		w.Write([]byte(outCpp))
 
-	content, _ = ioutil.ReadFile(filepath.Join(pathUserfiles, "test.js"))
-	outJs, err := runJs(content, pathUserfiles)
-	if err != nil {
-		log.Fatal(err)
-	}
-	w.Write([]byte(outJs))
+		content, _ = ioutil.ReadFile(filepath.Join(pathUserfiles, "test.java"))
+		outJava, err := runJava(content, pathUserfiles)
+		if err != nil {
+			log.Fatal(err)
+		}
+		w.Write([]byte(outJava))
 
-	content, _ = ioutil.ReadFile(filepath.Join(pathUserfiles, "test.py"))
-	outPy, err := runPy(content, pathUserfiles)
-	if err != nil {
-		log.Fatal(err)
-	}
-	w.Write([]byte(outPy))
+		content, _ = ioutil.ReadFile(filepath.Join(pathUserfiles, "test.js"))
+		outJs, err := runJs(content, pathUserfiles)
+		if err != nil {
+			log.Fatal(err)
+		}
+		w.Write([]byte(outJs))
+
+		content, _ = ioutil.ReadFile(filepath.Join(pathUserfiles, "test.py"))
+		outPy, err := runPy(content, pathUserfiles)
+		if err != nil {
+			log.Fatal(err)
+		}
+		w.Write([]byte(outPy))
+	*/
 }
