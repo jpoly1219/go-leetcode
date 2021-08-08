@@ -57,31 +57,16 @@
 - Interfaces:
   - Pretty neat if you have a lot of similar parts doing similar things but have to be implemented in a different way
   - Struct for each language might make sense. Each language has a compile/run phase that are handles differently
-
-// interpreted languages don't need this because it basically runs without needing additional steps
-type CompiledLang interface {
-  Compile() string // returns output or error
-}
-// all languages will need to be run at some point
-type Language interface {
-  Run() string // returns output or error
-}
-// all languages should be able to generate a file with their respective user inputs and extensions
-type FileGenerator interface {
-  Create() error // touches file and inserts user input
-  FindPath() string // returns a file path string
-}
-
-type Cpp struct {
-  id string
-  userInput []byte
-}
-type Py struct {
-  id string
-  userInput []byte
-}
-
-func (cpp Cpp) Compile() string {
-  // generate file
-  // compile
-}
+- Goroutines:
+  - Each goroutine should run the code and return its output.
+    - The output also has to be compared to the answer and return false if it doesn't match with the expected answer.
+  - Because letting people run code natively on the server is a huge security risk, the goroutines should spawn a docker container to run the code.
+- Docker:
+  - Containerized environment for each users will be good for security reasons.
+  - So... create a file named `uuid.filetype`, create a `Dockerfile` with a dynamically generated `RUN` statement, get output and errors
+  - How to communicate between container and host?
+- Database:
+  - `users` database for storing user info
+    - ID, username, password, etc.
+  - `submissions` database for storing user submissions
+    - Submission number, output, run time, success/fail, user (foreign key)
