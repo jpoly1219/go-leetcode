@@ -9,9 +9,9 @@ import (
 	"github.com/google/uuid"
 )
 
-func runCpp(input []byte, pathUsersfiles string) (string, error) {
+func runCpp(input []byte, pathUserfiles string) (string, error) {
 	cppStruct := Cpp{id: uuid.NewString(), userInput: input}
-	output, err := getOutput(cppStruct, pathUsersfiles)
+	output, err := getOutput(cppStruct, pathUserfiles)
 	if err != nil {
 		return "", err
 	}
@@ -19,9 +19,29 @@ func runCpp(input []byte, pathUsersfiles string) (string, error) {
 	return output, nil
 }
 
-func runPy(input []byte, pathUsersfiles string) (string, error) {
+func runJava(input []byte, pathUserfiles string) (string, error) {
+	javaStruct := Java{id: uuid.NewString(), userInput: input}
+	output, err := getOutput(javaStruct, pathUserfiles)
+	if err != nil {
+		return "", err
+	}
+
+	return output, nil
+}
+
+func runJs(input []byte, pathUserfiles string) (string, error) {
+	jsStruct := Js{id: uuid.NewString(), userInput: input}
+	output, err := getOutput(jsStruct, pathUserfiles)
+	if err != nil {
+		return "", err
+	}
+
+	return output, nil
+}
+
+func runPy(input []byte, pathUserfiles string) (string, error) {
 	pyStruct := Py{id: uuid.NewString(), userInput: input}
-	output, err := getOutput(pyStruct, pathUsersfiles)
+	output, err := getOutput(pyStruct, pathUserfiles)
 	if err != nil {
 		return "", err
 	}
@@ -45,6 +65,7 @@ type Language interface {
 	Run(pathBinary string) (string, error)
 }
 
+// C++
 type Cpp struct {
 	id        string
 	userInput []byte
@@ -90,6 +111,85 @@ func (cpp Cpp) Run(pathBinary string) (string, error) {
 	return string(out), nil
 }
 
+// Java
+type Java struct {
+	id        string
+	userInput []byte
+}
+
+func (java Java) GenerateFile(pathUserfiles string) (string, error) {
+	fileName := fmt.Sprintf("%s.java", java.id)
+	path := filepath.Join(pathUserfiles, fileName)
+	f, err := os.Create(path)
+	if err != nil {
+		return "", fmt.Errorf("failed to create file: %s\n%w", path, err)
+	}
+	defer f.Close()
+
+	_, err = f.Write(java.userInput)
+	if err != nil {
+		return "", fmt.Errorf("failed to write to file: %s\n%w", path, err)
+	}
+	f.Sync()
+
+	return path, nil
+}
+
+func (java Java) Compile(pathUserfiles string, pathSource string) (string, error) {
+	pathBinary := pathSource
+
+	return pathBinary, nil
+}
+
+func (java Java) Run(pathBinary string) (string, error) {
+	out, err := exec.Command("java", pathBinary).Output()
+	if err != nil {
+		return "", fmt.Errorf("failed to run binary: %s\n%w", pathBinary, err)
+	}
+
+	return string(out), nil
+}
+
+// Javascript
+type Js struct {
+	id        string
+	userInput []byte
+}
+
+func (js Js) GenerateFile(pathUserfiles string) (string, error) {
+	fileName := fmt.Sprintf("%s.js", js.id)
+	path := filepath.Join(pathUserfiles, fileName)
+	f, err := os.Create(path)
+	if err != nil {
+		return "", fmt.Errorf("failed to create file: %s\n%w", path, err)
+	}
+	defer f.Close()
+
+	_, err = f.Write(js.userInput)
+	if err != nil {
+		return "", fmt.Errorf("failed to write to file: %s\n%w", path, err)
+	}
+	f.Sync()
+
+	return path, nil
+}
+
+func (js Js) Compile(pathUserfiles string, pathSource string) (string, error) {
+	pathBinary := pathSource
+
+	return pathBinary, nil
+}
+
+func (js Js) Run(pathBinary string) (string, error) {
+	out, err := exec.Command("node", pathBinary).Output()
+	if err != nil {
+		return "", fmt.Errorf("failed to run binary: %s\n%w", pathBinary, err)
+	}
+
+	return string(out), nil
+}
+
+// Python
 type Py struct {
 	id        string
 	userInput []byte
