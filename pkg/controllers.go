@@ -12,28 +12,28 @@ func fileGen(testfile string, pathUserfiles string) {
 	content, _ := ioutil.ReadFile(filepath.Join(pathUserfiles, testfile))
 	switch testfile {
 	case "test.cpp":
-		out, err := runCpp(content, pathUserfiles)
+		out, err := RunCpp(content, pathUserfiles)
 		if err != nil {
 			log.Fatal(err)
 		}
 		// w.Write
 		fmt.Println(out)
 	case "test.java":
-		out, err := runJava(content, pathUserfiles)
+		out, err := RunJava(content, pathUserfiles)
 		if err != nil {
 			log.Fatal(err)
 		}
 		// w.Write
 		fmt.Println(out)
 	case "test.js":
-		out, err := runJs(content, pathUserfiles)
+		out, err := RunJs(content, pathUserfiles)
 		if err != nil {
 			log.Fatal(err)
 		}
 		// w.Write
 		fmt.Println(out)
 	case "test.py":
-		out, err := runPy(content, pathUserfiles)
+		out, err := RunPy(content, pathUserfiles)
 		if err != nil {
 			log.Fatal(err)
 		}
