@@ -9,7 +9,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func runCpp(input []byte, pathUserfiles string) (string, error) {
+func RunCpp(input []byte, pathUserfiles string) (string, error) {
 	cppStruct := Cpp{id: uuid.NewString(), userInput: input}
 	output, err := getOutput(cppStruct, pathUserfiles)
 	if err != nil {
@@ -19,7 +19,7 @@ func runCpp(input []byte, pathUserfiles string) (string, error) {
 	return output, nil
 }
 
-func runJava(input []byte, pathUserfiles string) (string, error) {
+func RunJava(input []byte, pathUserfiles string) (string, error) {
 	javaStruct := Java{id: uuid.NewString(), userInput: input}
 	output, err := getOutput(javaStruct, pathUserfiles)
 	if err != nil {
@@ -29,7 +29,7 @@ func runJava(input []byte, pathUserfiles string) (string, error) {
 	return output, nil
 }
 
-func runJs(input []byte, pathUserfiles string) (string, error) {
+func RunJs(input []byte, pathUserfiles string) (string, error) {
 	jsStruct := Js{id: uuid.NewString(), userInput: input}
 	output, err := getOutput(jsStruct, pathUserfiles)
 	if err != nil {
@@ -39,7 +39,7 @@ func runJs(input []byte, pathUserfiles string) (string, error) {
 	return output, nil
 }
 
-func runPy(input []byte, pathUserfiles string) (string, error) {
+func RunPy(input []byte, pathUserfiles string) (string, error) {
 	pyStruct := Py{id: uuid.NewString(), userInput: input}
 	output, err := getOutput(pyStruct, pathUserfiles)
 	if err != nil {
