@@ -65,6 +65,8 @@
     - `go test`
     - So `*_test.go` files need to be in the same directory as files that they are testing, but I want a better way to organize the test files.
     - https://medium.com/@matryer/5-simple-tips-and-tricks-for-writing-unit-tests-in-golang-619653f90742
+    - https://tutorialedge.net/golang/intro-testing-in-go/
+    - https://golang.org/doc/tutorial/add-a-test
 - Learn Docker:
   - Containerized environment for each users will be good for security reasons.
   - So... create a file named `uuid.filetype`, create a `Dockerfile` with a dynamically generated `RUN` statement, get output and errors
