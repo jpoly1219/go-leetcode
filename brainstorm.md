@@ -54,22 +54,27 @@
 ## Goals
 - Learn more about Go
 - Try using Go's cool features: goroutines and interfaces
-- Interfaces:
-  - Pretty neat if you have a lot of similar parts doing similar things but have to be implemented in a different way
-  - Struct for each language might make sense. Each language has a compile/run phase that are handles differently
-- Goroutines:
-  - Each goroutine should run the code and return its output.
-    - The output also has to be compared to the answer and return false if it doesn't match with the expected answer.
-  - Because letting people run code natively on the server is a huge security risk, the goroutines should spawn a docker container to run the code.
-- Docker:
+  - Interfaces:
+    - Pretty neat if you have a lot of similar parts doing similar things but have to be implemented in a different way
+    - Struct for each language might make sense. Each language has a compile/run phase that are handles differently
+  - Goroutines:
+    - Each goroutine should run the code and return its output.
+      - The output also has to be compared to the answer and return false if it doesn't match with the expected answer.
+    - Because letting people run code natively on the server is a huge security risk, the goroutines should spawn a docker container to run the code.
+  - Testing:
+    - `go test`
+    - So `*_test.go` files need to be in the same directory as files that they are testing, but I want a better way to organize the test files.
+    - https://medium.com/@matryer/5-simple-tips-and-tricks-for-writing-unit-tests-in-golang-619653f90742
+- Learn Docker:
   - Containerized environment for each users will be good for security reasons.
   - So... create a file named `uuid.filetype`, create a `Dockerfile` with a dynamically generated `RUN` statement, get output and errors
   - How to communicate between container and host?
-- Database:
+- Learn a different database such as PostgreSQL:
   - `users` database for storing user info
     - ID, username, password, etc.
   - `submissions` database for storing user submissions
     - Submission number, output, run time, success/fail, user (foreign key)
+- Learn Test Driven Development:
 
 - Frontend:
   - Use CodeMirror for implementing a code editor inside our frontend
