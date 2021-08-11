@@ -70,3 +70,7 @@
     - ID, username, password, etc.
   - `submissions` database for storing user submissions
     - Submission number, output, run time, success/fail, user (foreign key)
+
+- Frontend:
+  - Use CodeMirror for implementing a code editor inside our frontend
+  - https://codemirror.net/
