@@ -25,3 +25,12 @@ func TestRunJava(t *testing.T) {
 		t.Errorf("expected 'running test.java'")
 	}
 }
+
+func TestRunJs(t *testing.T) {
+	pathUserfiles := filepath.Join(".", "testuserfiles")
+	input, _ := ioutil.ReadFile(filepath.Join(pathUserfiles, "test.js"))
+	output, _ := pkg.RunJs(input, pathUserfiles)
+	if output != "running test.js\n" {
+		t.Errorf("expected 'running test.js'")
+	}
+}
