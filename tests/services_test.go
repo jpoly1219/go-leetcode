@@ -9,11 +9,28 @@ import (
 )
 
 func TestRunCpp(t *testing.T) {
+	type cppTest struct {
+		input                  []byte
+		dirUserfiles, expected string
+	}
+
 	pathUserfiles := filepath.Join(".", "testuserfiles")
-	input, _ := ioutil.ReadFile(filepath.Join(pathUserfiles, "test.cpp"))
-	output, _ := pkg.RunCpp(input, pathUserfiles)
-	if output != "running test.cpp\n" {
-		t.Errorf("expected 'running test.cpp'")
+	input1, _ := ioutil.ReadFile(filepath.Join(pathUserfiles, "test1.cpp"))
+	input2, _ := ioutil.ReadFile(filepath.Join(pathUserfiles, "test2.cpp"))
+	input3, _ := ioutil.ReadFile(filepath.Join(pathUserfiles, "test3.cpp"))
+	input4, _ := ioutil.ReadFile(filepath.Join(pathUserfiles, "test4.cpp"))
+	cppTests := []cppTest{
+		{input1, pathUserfiles, "running test.cpp\n"},
+		{input2, pathUserfiles, "foobaraboof\n"},
+		{input3, pathUserfiles, "5 6 11 12 13 \n"},
+		{input4, pathUserfiles, "The animal makes a sound \nThe pig says: wee wee \nThe dog says: bow wow \n"},
+	}
+
+	for _, test := range cppTests {
+		output, _ := pkg.RunCpp(test.input, test.dirUserfiles)
+		if output != test.expected {
+			t.Errorf("Output %q not equal to expected %q", output, test.expected)
+		}
 	}
 }
 
