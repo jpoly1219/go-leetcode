@@ -81,3 +81,8 @@
 - Frontend:
   - Use CodeMirror for implementing a code editor inside our frontend
   - https://codemirror.net/
+
+### TODO:
+  - Load `problems` database with problem sets.
+  - Create a query in `controllers.go` to select all problems. More detailed queries will be implemented later.
+  - Call the Go API with `fetch` inside `problemstore.js`.
