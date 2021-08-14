@@ -13,6 +13,7 @@ func main() {
 
 	r := mux.NewRouter()
 	r.HandleFunc("/run", pkg.Run)
+	r.HandleFunc("/problemsets", pkg.Problemsets)
 
 	log.Fatal(http.ListenAndServe(":8090", r))
 }
