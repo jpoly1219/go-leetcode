@@ -82,7 +82,13 @@
   - Use CodeMirror for implementing a code editor inside our frontend
   - https://codemirror.net/
 
+### Work Log:
+- Created frontend using SvelteKit.
+- Created `index` and `problemset` pages.
+- Created handler for `/problemset` endpoint in main.go.
+- Created an empty controller for `/problemset` endpoint in main.go.
+- Created an empty database `problems` using PostgreSQL.
 ### TODO:
-  - Load `problems` database with problem sets.
-  - Create a query in `controllers.go` to select all problems. More detailed queries will be implemented later.
-  - Call the Go API with `fetch` inside `problemstore.js`.
+- Load `problems` database with problem sets.
+- Create a query in `controllers.go` to select all problems. More detailed queries will be implemented later.
+- Call the Go API with `fetch` inside `problemstore.js`.
