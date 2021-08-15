@@ -90,5 +90,6 @@
 - Created an empty database `problems` using PostgreSQL.
 ### TODO:
 - Load `problems` database with problem sets.
+  - This is done in memory at the moment, will load database later.
 - Create a query in `controllers.go` to select all problems. More detailed queries will be implemented later.
 - Call the Go API with `fetch` inside `problemstore.js`.
