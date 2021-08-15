@@ -1,4 +1,4 @@
-<nav>
-    <a href="/">Home</a>
-    <a href="/problemset">Problems</a>
+<nav class="flex justify-center w-full">
+    <a href="/" class="mx-4 text-lg">Home</a>
+    <a href="/problemset" class="mx-4 text-lg">Problems</a>
 </nav>
