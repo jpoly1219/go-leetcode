@@ -117,5 +117,6 @@ func Problemsets(w http.ResponseWriter, r *http.Request) {
 		problem1, problem2, problem3, problem4, problem5,
 	}
 
+	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
 	json.NewEncoder(w).Encode(problems)
 }
