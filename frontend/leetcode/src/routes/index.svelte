@@ -1,5 +1,6 @@
 <script>
     
+    console.log("reached index page")
 </script>
 
 <svelte:head>
