@@ -94,23 +94,22 @@ func Problemsets(w http.ResponseWriter, r *http.Request) {
 		Title       string `json:"title"`
 		Difficulty  string `json:"difficulty"`
 		Description string `json:"description"`
-		Answer      string `json:"answer"`
 	}
 
 	problem1 := problem{
-		1, "Problem 1", "easy", "This is problem 1.", "answer 1",
+		1, "Problem 1", "easy", "This is problem 1.",
 	}
 	problem2 := problem{
-		1, "Problem 2", "medium", "This is problem 2.", "answer 2",
+		1, "Problem 2", "medium", "This is problem 2.",
 	}
 	problem3 := problem{
-		1, "Problem 3", "easy", "This is problem 3.", "answer 3",
+		1, "Problem 3", "easy", "This is problem 3.",
 	}
 	problem4 := problem{
-		1, "Problem 4", "hard", "This is problem 4.", "answer 4",
+		1, "Problem 4", "hard", "This is problem 4.",
 	}
 	problem5 := problem{
-		1, "Problem 5", "medium", "This is problem 5.", "answer 5",
+		1, "Problem 5", "medium", "This is problem 5.",
 	}
 
 	problems := []problem{
