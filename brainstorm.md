@@ -72,10 +72,19 @@
   - So... create a file named `uuid.filetype`, create a `Dockerfile` with a dynamically generated `RUN` statement, get output and errors
   - How to communicate between container and host?
 - Learn a different database such as PostgreSQL:
-  - `users` database for storing user info
+  - `users` table for storing user info
     - ID, username, password, etc.
-  - `submissions` database for storing user submissions
+  - `submissions` table for storing user submissions
     - Submission number, output, run time, success/fail, user (foreign key)
+  - `problems` table for storing problems
+    - CREATE TABLE problems (
+      id serial PRIMARY KEY,
+      title VARCHAR(50) UNIQUE NOT NULL,
+      difficulty VARCHAR(10) NOT NULL,
+      description TEXT NOT NULL,
+      answer TEXT NOT NULL
+    );
+  - How should I handle test cases? Should I store them in the DB or just do it inside the backend code?
 - Learn Test Driven Development:
 
 - Frontend:
@@ -83,13 +92,15 @@
   - https://codemirror.net/
 
 ### Work Log:
-- Created frontend using SvelteKit.
-- Created `index` and `problemset` pages.
-- Created handler for `/problemset` endpoint in main.go.
-- Created an empty controller for `/problemset` endpoint in main.go.
-- Created an empty database `problems` using PostgreSQL.
+- Created /problems/number.md to store problems as markdown, which will be stored inside the database as `TEXT`.
+- Scaffolded five instances of a problem struct inside the backend controller function.
+- Frontend now loads problems.
+- Implemented TailwindCSS for styling.
+
 ### TODO:
 - Load `problems` database with problem sets.
   - This is done in memory at the moment, will load database later.
 - Create a query in `controllers.go` to select all problems. More detailed queries will be implemented later.
 - Call the Go API with `fetch` inside `problemstore.js`.
+- Load problems as a markdown.
+  - Save each problem as markdown, then parse this using `snarkdown`.
