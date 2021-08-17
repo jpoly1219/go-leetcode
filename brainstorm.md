@@ -69,6 +69,7 @@
     - https://golang.org/doc/tutorial/add-a-test
 - Learn Docker:
   - Containerized environment for each users will be good for security reasons.
+  - https://dev.to/narasimha1997/building-a-secure-sandboxed-environment-for-executing-untrusted-code-7e8
   - So... create a file named `uuid.filetype`, create a `Dockerfile` with a dynamically generated `RUN` statement, get output and errors
   - How to communicate between container and host?
   - Good idea:
