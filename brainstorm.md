@@ -71,6 +71,11 @@
   - Containerized environment for each users will be good for security reasons.
   - So... create a file named `uuid.filetype`, create a `Dockerfile` with a dynamically generated `RUN` statement, get output and errors
   - How to communicate between container and host?
+  - Good idea:
+    - Create a docker image for each problem and spin up a container for each attempt.
+    - The container will contain a Go program that basically tests the user's code.
+    - The user's code should be passed into the container for each attempt.
+    - This will be done using a volume or a Dockerfile? I still need to figure this out.
 - Learn a different database such as PostgreSQL:
   - `users` table for storing user info
     - ID, username, password, etc.
