@@ -88,7 +88,6 @@
       title VARCHAR(50) UNIQUE NOT NULL,
       difficulty VARCHAR(10) NOT NULL,
       description TEXT NOT NULL,
-      answer TEXT NOT NULL
     );
   - How should I handle test cases? Should I store them in the DB or just do it inside the backend code?
 - Learn Test Driven Development:
