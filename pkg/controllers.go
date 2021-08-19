@@ -89,31 +89,23 @@ func Run(w http.ResponseWriter, r *http.Request) {
 }
 
 func Problemsets(w http.ResponseWriter, r *http.Request) {
-	type problem struct {
-		Id          int    `json:"id"`
-		Title       string `json:"title"`
-		Difficulty  string `json:"difficulty"`
-		Description string `json:"description"`
-	}
+	var problems = make([]problem, 0)
 
-	problem1 := problem{
-		1, "Problem 1", "easy", "This is problem 1.",
+	result, err := Db.Query("SELECT * FROM problems;")
+	if err != nil {
+		log.Fatal("failed to execute query")
 	}
-	problem2 := problem{
-		1, "Problem 2", "medium", "This is problem 2.",
-	}
-	problem3 := problem{
-		1, "Problem 3", "easy", "This is problem 3.",
-	}
-	problem4 := problem{
-		1, "Problem 4", "hard", "This is problem 4.",
-	}
-	problem5 := problem{
-		1, "Problem 5", "medium", "This is problem 5.",
-	}
-
-	problems := []problem{
-		problem1, problem2, problem3, problem4, problem5,
+	for result.Next() {
+		var p problem
+		err = result.Scan(&p.Id, &p.Title, &p.Difficulty, &p.Description)
+		if err != nil {
+			log.Fatal("failed to scan")
+		}
+		problems = append(problems, p)
+		fmt.Println(p.Id)
+		fmt.Println(p.Title)
+		fmt.Println(p.Difficulty)
+		fmt.Println(p.Description)
 	}
 
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
