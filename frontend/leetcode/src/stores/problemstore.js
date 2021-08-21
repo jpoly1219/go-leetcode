@@ -10,8 +10,10 @@ const fetchProblem = async () => {
         return {
             num: index + 1,
             title: data.title,
+            slug: data.slug,
             difficulty: data.difficulty,
             description: data.description,
+            created: data.created
         }
     })
     problems.set(loadedProblem)
