@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+
+	"github.com/gorilla/mux"
 )
 
 func fileGen(testfile string, pathUserfiles string) {
@@ -91,25 +93,39 @@ func Run(w http.ResponseWriter, r *http.Request) {
 func Problemsets(w http.ResponseWriter, r *http.Request) {
 	var problems = make([]problem, 0)
 
-	result, err := Db.Query("SELECT * FROM problems;")
+	results, err := Db.Query("SELECT * FROM problems;")
 	if err != nil {
-		log.Fatal("failed to execute query")
+		log.Fatal("failed to execute query", err)
 	}
-	for result.Next() {
+	for results.Next() {
 		var p problem
-		err = result.Scan(&p.Id, &p.Title, &p.Slug, &p.Difficulty, &p.Description, &p.Created)
+		err = results.Scan(&p.Id, &p.Title, &p.Slug, &p.Difficulty, &p.Description, &p.Created)
 		if err != nil {
-			log.Fatal("failed to scan")
+			log.Fatal("failed to scan", err)
 		}
 		problems = append(problems, p)
-		fmt.Println(p.Id)
-		fmt.Println(p.Title)
-		fmt.Println(p.Slug)
-		fmt.Println(p.Difficulty)
-		fmt.Println(p.Description)
-		fmt.Println(p.Created)
 	}
 
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
 	json.NewEncoder(w).Encode(problems)
+}
+
+func SolveProblem(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	keys := vars["slug"]
+
+	var p problem
+	results, err := Db.Query("SELECT * FROM problems WHERE slug = $1;", keys)
+	if err != nil {
+		log.Fatal("failed to execute query", err)
+	}
+	for results.Next() {
+		err = results.Scan(&p.Id, &p.Title, &p.Slug, &p.Difficulty, &p.Description, &p.Created)
+		if err != nil {
+			log.Fatal("failed to scan")
+		}
+	}
+	// SELECT * FROM problems WHERE slug = userSlug
+	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
+	json.NewEncoder(w).Encode(p)
 }
