@@ -97,15 +97,17 @@ func Problemsets(w http.ResponseWriter, r *http.Request) {
 	}
 	for result.Next() {
 		var p problem
-		err = result.Scan(&p.Id, &p.Title, &p.Difficulty, &p.Description)
+		err = result.Scan(&p.Id, &p.Title, &p.Slug, &p.Difficulty, &p.Description, &p.Created)
 		if err != nil {
 			log.Fatal("failed to scan")
 		}
 		problems = append(problems, p)
 		fmt.Println(p.Id)
 		fmt.Println(p.Title)
+		fmt.Println(p.Slug)
 		fmt.Println(p.Difficulty)
 		fmt.Println(p.Description)
+		fmt.Println(p.Created)
 	}
 
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
