@@ -2,7 +2,7 @@
     import Nav from "../components/nav.svelte"
 </script>
 
-<div class="p-8">
+<div class="p-8 h-screen">
     <Nav/>
     <slot></slot>
 </div>
