@@ -29,6 +29,19 @@
         </div>
     </div>
     <div class="row-span-1 border border-gray-300 rounded-lg">
-        <p>Bottom Bar</p>
+        <div class="grid grid-cols-2">
+            <div class="flex flex-row">
+                <button>Problems</button>
+                <button>Pick One</button>
+                <button>Prev</button>
+                <p>1/1977</p>
+                <button>Next</button>
+            </div>
+            <div class="flex flex-row">
+                <button>Console</button>
+                <button>Run Code</button>
+                <button>Submit</button>
+            </div>
+        </div>
     </div>
 </div>
