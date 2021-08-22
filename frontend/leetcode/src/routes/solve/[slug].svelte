@@ -17,13 +17,18 @@
     <title>{problem.title} - go-leetcode</title>
 </svelte:head>
 
-<div class="grid grid-cols-2 gap-6 h-full">
-    <div class="prose border border-gray-300 rounded-lg max-w-max overflow-auto">
-        <p class="">{problem.title}</p>
-        <p class="">{problem.difficulty}</p>
-        <p class="">{@html snarkdown(problem.description)}</p>
+<div class="grid grid-rows-16 h-full">
+    <div class="row-span-15 grid grid-cols-2">
+        <div class="prose border border-gray-300 rounded-lg max-w-max overflow-auto">
+            <p class="">{problem.title}</p>
+            <p class="">{problem.difficulty}</p>
+            <p class="">{@html snarkdown(problem.description)}</p>
+        </div>
+        <div class="border border-gray-300 rounded-lg">
+            <p>Your code here!</p>
+        </div>
     </div>
-    <div class="border border-gray-300 rounded-lg">
-        <p>Your code here!</p>
+    <div class="row-span-1 border border-gray-300 rounded-lg">
+        <p>Bottom Bar</p>
     </div>
 </div>
