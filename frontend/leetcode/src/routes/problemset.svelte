@@ -1,5 +1,5 @@
 <script context="module">
-    export async function load({page}) {
+    export async function load() {
         const url = "http://jpoly1219devbox.xyz:8090/problemsets"
         const res = await fetch(url)
         const data = await res.json()
