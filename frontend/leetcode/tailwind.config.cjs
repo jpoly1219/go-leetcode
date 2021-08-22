@@ -5,10 +5,10 @@ module.exports = {
   theme: {
     extend: {
       gridTemplateRows: {
-        '12': 'repeat(12, minmax(0, 1fr))',
+        '16': 'repeat(16, minmax(0, 1fr))',
       },
       gridRow: {
-        'span-11': 'span 11 / span 11',
+        'span-15': 'span 15 / span 15',
       }
     }
   }
