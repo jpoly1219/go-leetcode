@@ -9,7 +9,21 @@
 </script>
 
 <script>
+    import snarkdown from "snarkdown"
     export let problem
 </script>
 
-<h1>{problem.title}</h1>
+<svelte:head>
+    <title>{problem.title} - go-leetcode</title>
+</svelte:head>
+
+<div class="grid grid-cols-2 gap-6 h-full">
+    <div class="prose border border-gray-300 rounded-lg max-w-max overflow-auto">
+        <p class="">{problem.title}</p>
+        <p class="">{problem.difficulty}</p>
+        <p class="">{@html snarkdown(problem.description)}</p>
+    </div>
+    <div class="border border-gray-300 rounded-lg">
+        <p>Your code here!</p>
+    </div>
+</div>
