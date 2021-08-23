@@ -102,7 +102,11 @@
 - Learn Test Driven Development:
 
 - Frontend:
-  - Use CodeMirror for embedding a code editor to the frontend
+  - Use `svelte-codejar` for embedding a code editor to the frontend.
+    - `codejar` itself is the only editor that I found that is installed via npm and is maintained properly.
+    - Other editors such as `ace` or `codemirror` is good but are difficult to implement with Svelte.
+  - https://novacbn.github.io/svelte-codejar/
+  - I will look into the code later to see how it is implemented...
 
 ### Work Log:
 - Created /problems/number.md to store problems as markdown, which will be stored inside the database as `TEXT`.
