@@ -10,7 +10,10 @@
 
 <script>
     import snarkdown from "snarkdown"
+    
     export let problem
+
+    
 </script>
 
 <svelte:head>
@@ -18,17 +21,18 @@
 </svelte:head>
 
 <div class="grid grid-rows-16 h-full">
-    <div class="row-span-15 grid grid-cols-2">
-        <div class="prose border border-gray-300 rounded-lg max-w-max overflow-auto">
-            <p class="">{problem.title}</p>
-            <p class="">{problem.difficulty}</p>
-            <p class="">{@html snarkdown(problem.description)}</p>
+    <div class="row-span-15 grid grid-cols-2 gap-4">
+        <div class="overflow-auto border border-gray-300 p-4">
+            <p class="font-bold">{problem.title}</p>
+            <p class="text-sm text-green-600 font-light mt-2">{problem.difficulty}</p>
+            <hr class="my-4">
+            <p class="prose max-w-max">{@html snarkdown(problem.description)}</p>
         </div>
-        <div class="border border-gray-300 rounded-lg">
-            <p>Your code here!</p>
+        <div class="border border-gray-300">
+            
         </div>
     </div>
-    <div class="row-span-1 grid grid-cols-2 content-center border border-gray-300 rounded-lg">
+    <div class="row-span-1 grid grid-cols-2 gap-4 content-center">
         <div class="flex flex-row">
             <div class="flex-1 flex">
                 <button class="border border-gray-300 rounded-lg px-3 py-2">Problems</button>
@@ -38,12 +42,14 @@
             <div class="mx-2 flex">
                 <p class="self-center">1/1977</p>
             </div>
-            <button class="border border-gray-300 rounded-lg px-3 py-2 mx-4">Next</button>
+            <button class="border border-gray-300 rounded-lg px-3 py-2 ml-4">Next</button>
         </div>
         <div class="flex flex-row">
-            <button>Console</button>
-            <button>Run Code</button>
-            <button>Submit</button>
+            <div class="flex-1 flex">
+                <button class="border border-gray-300 rounded-lg px-3 py-2">Console</button>
+            </div>
+            <button class="border border-gray-300 rounded-lg px-3 py-2 mx-2">Run Code</button>
+            <button class="border border-gray-300 rounded-lg px-3 py-2 ml-2">Submit</button>
         </div>
     </div>
 </div>
