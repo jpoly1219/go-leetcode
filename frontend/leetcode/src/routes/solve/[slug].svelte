@@ -9,11 +9,15 @@
 </script>
 
 <script>
-    import {CodeJar} from "svelte-codejar"
+    import {onMount} from "svelte"
     import snarkdown from "snarkdown"
     
     export let problem
-    export let value = `console.log("Hello World!");`;
+    let CodeJar;
+    onMount(async () => {
+        ({CodeJar} = await import("svelte-codejar"));
+    });
+    export let value = `console.log("Hello World!");`
 </script>
 
 <svelte:head>
@@ -29,7 +33,11 @@
             <p class="prose max-w-max">{@html snarkdown(problem.description)}</p>
         </div>
         <div class="border border-gray-300">
-            <CodeJar addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} bind:value />
+            {#if CodeJar}
+            <CodeJar addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} bind:value/>
+            {:else}
+            <pre><code>{value}</code></pre>
+            {/if}
         </div>
     </div>
     <div class="row-span-1 grid grid-cols-2 gap-4 content-center">
