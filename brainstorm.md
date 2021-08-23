@@ -1,5 +1,14 @@
 # Structure
 
+## Workflow
+- User types up code in the frontend.
+  - The code needs to be in a certain format to accept test case inputs and return outputs.
+- Code is sent to the backend.
+- The backend checks the language the code is written in, then creates a container from the image of that language.
+- User code is passed into the container, and the container builds and runs the code.
+- Test cases are pulled from a database, then is used to run the code and check for answers.
+- Once the run is complete, the output or error is sent to the frontend.
+
 ## Frontend
 - home page (before login)
 - personalized dashboard page (after login)
@@ -93,8 +102,7 @@
 - Learn Test Driven Development:
 
 - Frontend:
-  - Use CodeMirror for implementing a code editor inside our frontend
-  - https://codemirror.net/
+  - Use CodeMirror for embedding a code editor to the frontend
 
 ### Work Log:
 - Created /problems/number.md to store problems as markdown, which will be stored inside the database as `TEXT`.
