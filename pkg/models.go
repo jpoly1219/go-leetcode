@@ -14,3 +14,8 @@ type problem struct {
 	Description string `json:"description"`
 	Created     string `json:"created"`
 }
+
+type userCode struct {
+	Lang string `json:"lang"`
+	Code string `json:"code"`
+}
