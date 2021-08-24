@@ -24,7 +24,10 @@ func main() {
 	r.HandleFunc("/problemsets", pkg.Problemsets)
 
 	solveR := r.PathPrefix("/solve").Subrouter()
-	solveR.HandleFunc("/{slug}", pkg.SolveProblem)
+	solveR.HandleFunc("/{slug}", pkg.ReturnProblem)
+
+	checkR := r.PathPrefix("/check").Subrouter()
+	checkR.HandleFunc("/{slug}", pkg.CheckProblem)
 
 	log.Fatal(http.ListenAndServe(":8090", r))
 }
