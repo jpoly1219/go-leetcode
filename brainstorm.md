@@ -127,3 +127,8 @@
 - Call the Go API with `fetch` inside `problemstore.js`.
 - Load problems as a markdown.
   - Save each problem as markdown, then parse this using `snarkdown`.
+
+- 21.08.24
+  - Backend needs to process the code sent from the frontend.
+    - Experimentation with Docker is required, but it is not a priority.
+  - Frontend needs syntax highlighting via PrismJS.
