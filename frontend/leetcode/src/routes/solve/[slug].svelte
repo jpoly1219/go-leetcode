@@ -32,7 +32,7 @@
             <hr class="my-4">
             <p class="prose max-w-max">{@html snarkdown(problem.description)}</p>
         </div>
-        <div class="border border-gray-300">
+        <div class="border border-gray-300 overflow-auto">
             {#if CodeJar}
             <CodeJar addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} bind:value/>
             {:else}
