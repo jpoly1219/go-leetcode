@@ -114,6 +114,12 @@
 - Frontend now loads problems.
 - Implemented TailwindCSS for styling.
 
+- 21.08.24
+  - Implemented code editor in the frontend.
+  - Submit button sends user's code to the backend.
+  - Backend handles this request via CheckProblem() handler.
+  - Additional functionalities are coming.
+
 ### TODO:
 - Load `problems` database with problem sets.
   - This is done in memory at the moment, will load database later.
