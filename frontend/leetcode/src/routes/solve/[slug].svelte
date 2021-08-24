@@ -13,11 +13,26 @@
     import snarkdown from "snarkdown"
     
     export let problem
+    
     let CodeJar;
     onMount(async () => {
         ({CodeJar} = await import("svelte-codejar"));
     });
     export let value = `console.log("Hello World!");`
+
+    async function submit() {
+        const userInput = {
+            lang: "C++",
+            code: value
+        }
+
+        const options = {
+            method: "POST",
+            body: JSON.stringify(userInput)
+        }
+        const res = await fetch(`http://jpoly1219devbox.xyz:8090/check/${problem.slug}`, options)
+        alert("code submitted!")
+    }
 </script>
 
 <svelte:head>
@@ -57,7 +72,7 @@
                 <button class="border border-gray-300 rounded-lg px-3 py-2">Console</button>
             </div>
             <button class="border border-gray-300 rounded-lg px-3 py-2 mx-2">Run Code</button>
-            <button class="border border-gray-300 rounded-lg px-3 py-2 ml-2">Submit</button>
+            <button on:click={submit} class="border border-gray-300 rounded-lg px-3 py-2 ml-2">Submit</button>
         </div>
     </div>
 </div>
