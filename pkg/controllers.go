@@ -131,5 +131,10 @@ func ReturnProblem(w http.ResponseWriter, r *http.Request) {
 }
 
 func CheckProblem(w http.ResponseWriter, r *http.Request) {
+	var input userCode
+	json.NewDecoder(r.Body).Decode(&input)
 
+	fmt.Println(input.Lang, input.Code)
+	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
+	w.Write([]byte("Code accepted!"))
 }
