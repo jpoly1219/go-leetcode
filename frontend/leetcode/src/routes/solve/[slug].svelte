@@ -34,7 +34,7 @@
         </div>
         <div class="border border-gray-300 overflow-auto">
             {#if CodeJar}
-            <CodeJar addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} bind:value/>
+            <CodeJar addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} withLineNumbers={true} bind:value/>
             {:else}
             <pre><code>{value}</code></pre>
             {/if}
