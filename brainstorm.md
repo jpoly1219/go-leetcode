@@ -132,3 +132,5 @@
   - Backend needs to process the code sent from the frontend.
     - Experimentation with Docker is required, but it is not a priority.
   - Frontend needs syntax highlighting via PrismJS.
+  - Frontend needs a dropdown menu with langauge selections.
+    - Syntax highlighting should switch according to the language chosen.
