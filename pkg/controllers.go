@@ -138,8 +138,13 @@ func CheckProblem(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(input.Lang, input.Code)
 
 	pathUserfiles := filepath.Join(".", "userfiles", "testuserfiles")
-	output := fileGen(input.Lang, input.Code, pathUserfiles)
+	out := fileGen(input.Lang, input.Code, pathUserfiles)
 
+	type outJson struct {
+		Output string `json:"output"`
+	}
+
+	res := outJson{Output: out}
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
-	w.Write([]byte(output))
+	json.NewEncoder(w).Encode(res)
 }
