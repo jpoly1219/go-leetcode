@@ -10,37 +10,40 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func fileGen(language string, userInput string, pathUserfiles string) {
+func fileGen(language string, userInput string, pathUserfiles string) string {
+	var out string
+	var err error
 	switch language {
 	case "C++":
-		out, err := RunCpp([]byte(userInput), pathUserfiles)
+		out, err = RunCpp([]byte(userInput), pathUserfiles)
 		if err != nil {
 			log.Fatal(err)
 		}
 		// w.Write
 		fmt.Println(out)
 	case "Java":
-		out, err := RunJava([]byte(userInput), pathUserfiles)
+		out, err = RunJava([]byte(userInput), pathUserfiles)
 		if err != nil {
 			log.Fatal(err)
 		}
 		// w.Write
 		fmt.Println(out)
 	case "Javascript":
-		out, err := RunJs([]byte(userInput), pathUserfiles)
+		out, err = RunJs([]byte(userInput), pathUserfiles)
 		if err != nil {
 			log.Fatal(err)
 		}
 		// w.Write
 		fmt.Println(out)
 	case "Python":
-		out, err := RunPy([]byte(userInput), pathUserfiles)
+		out, err = RunPy([]byte(userInput), pathUserfiles)
 		if err != nil {
 			log.Fatal(err)
 		}
 		// w.Write
 		fmt.Println(out)
 	}
+	return out
 }
 
 func Run(w http.ResponseWriter, r *http.Request) {
@@ -135,8 +138,8 @@ func CheckProblem(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(input.Lang, input.Code)
 
 	pathUserfiles := filepath.Join(".", "userfiles", "testuserfiles")
-	fileGen(input.Lang, input.Code, pathUserfiles)
+	output := fileGen(input.Lang, input.Code, pathUserfiles)
 
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
-	w.Write([]byte("Code accepted!"))
+	w.Write([]byte(output))
 }
