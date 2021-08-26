@@ -3,7 +3,6 @@ package pkg
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"path/filepath"
@@ -11,32 +10,31 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func fileGen(testfile string, pathUserfiles string) {
-	content, _ := ioutil.ReadFile(filepath.Join(pathUserfiles, testfile))
-	switch testfile {
-	case "test.cpp":
-		out, err := RunCpp(content, pathUserfiles)
+func fileGen(language string, userInput string, pathUserfiles string) {
+	switch language {
+	case "C++":
+		out, err := RunCpp([]byte(userInput), pathUserfiles)
 		if err != nil {
 			log.Fatal(err)
 		}
 		// w.Write
 		fmt.Println(out)
-	case "test.java":
-		out, err := RunJava(content, pathUserfiles)
+	case "Java":
+		out, err := RunJava([]byte(userInput), pathUserfiles)
 		if err != nil {
 			log.Fatal(err)
 		}
 		// w.Write
 		fmt.Println(out)
-	case "test.js":
-		out, err := RunJs(content, pathUserfiles)
+	case "Javascript":
+		out, err := RunJs([]byte(userInput), pathUserfiles)
 		if err != nil {
 			log.Fatal(err)
 		}
 		// w.Write
 		fmt.Println(out)
-	case "test.py":
-		out, err := RunPy(content, pathUserfiles)
+	case "Python":
+		out, err := RunPy([]byte(userInput), pathUserfiles)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -53,10 +51,10 @@ func Run(w http.ResponseWriter, r *http.Request) {
 	// reading from test.* files is only temporary; later on these will be actual user inputs sent over from the frontend
 
 	for i := 0; i < 10; i++ {
-		go fileGen("test.cpp", pathUserfiles)
-		go fileGen("test.java", pathUserfiles)
-		go fileGen("test.js", pathUserfiles)
-		go fileGen("test.py", pathUserfiles)
+		go fileGen("test.cpp", "hi", pathUserfiles)
+		go fileGen("test.java", "hi", pathUserfiles)
+		go fileGen("test.js", "hi", pathUserfiles)
+		go fileGen("test.py", "hi", pathUserfiles)
 	}
 	w.Write([]byte("done\n"))
 	/*
@@ -135,6 +133,7 @@ func CheckProblem(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&input)
 
 	fmt.Println(input.Lang, input.Code)
+
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
 	w.Write([]byte("Code accepted!"))
 }
