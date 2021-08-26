@@ -134,6 +134,9 @@ func CheckProblem(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(input.Lang, input.Code)
 
+	pathUserfiles := filepath.Join(".", "userfiles", "testuserfiles")
+	fileGen(input.Lang, input.Code, pathUserfiles)
+
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
 	w.Write([]byte("Code accepted!"))
 }
