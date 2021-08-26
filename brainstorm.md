@@ -7,7 +7,9 @@
 - The backend checks the language the code is written in, then creates a container from the image of that language.
 - User code is passed into the container, and the container builds and runs the code.
 - Test cases are pulled from a database, then is used to run the code and check for answers.
+  - Database is run inside a container that is attached to a volume.
 - Once the run is complete, the output or error is sent to the frontend.
+  - Results are also saved to the user database.
 
 ## Frontend
 - home page (before login)
