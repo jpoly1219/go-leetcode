@@ -20,9 +20,12 @@
     });
     export let value = `console.log("Hello World!");`
 
+    let languages = ["C++", "Java", "Javascript", "Python"]
+    let selected
+
     async function submit() {
         const userInput = {
-            lang: "C++",
+            lang: selected,
             code: value
         }
 
@@ -73,6 +76,11 @@
             <div class="flex-1 flex">
                 <button class="border border-gray-300 rounded-lg px-3 py-2">Console</button>
             </div>
+            <select bind:value={selected} class="border border-gray-300 rounded-lg px-3 py-2 mx-2">
+                {#each languages as language}
+                <option value={language}>{language}</option>
+                {/each}
+            </select>
             <button class="border border-gray-300 rounded-lg px-3 py-2 mx-2">Run Code</button>
             <button on:click={submit} class="border border-gray-300 rounded-lg px-3 py-2 ml-2">Submit</button>
         </div>
