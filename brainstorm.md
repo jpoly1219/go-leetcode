@@ -2,14 +2,16 @@
 
 ## Workflow
 - User types up code in the frontend.
-  - The code needs to be in a certain format to accept test case inputs and return outputs.
+  - The code needs to accept CLI input (something like int argc, char argv) to accept test case inputs and return outputs.
+  - The code needs to have a class Solution (for languages that support OOP), then have it run Solution.method().
 - Code is sent to the backend.
 - The backend saves the code to the submissions database. (columns = username, question number, language, code, runtime, result, output)
   - Database is run inside a container that is attached to a volume.
-- The backend checks the language the code is written in, then creates a container from the image of that language.
-  - The backend sends POST requests to the container to give username and question number.
+- The backend checks what problem it is, then creates a container from the image of that problem.
+  - The backend sends POST requests to the container to give the username.
 - The container queries the submissions and test cases databases.
-- Test cases are pulled from a database, then is used to run the code and check for answers.
+  - Test cases are stores in a .txt file. This makes it easier for data to be read (unlike command line arguments).
+- The container runs the code.
 - Once the run is complete, the output or error is sent to the frontend.
   - Results and outputs are also saved to the submissions database.
 
