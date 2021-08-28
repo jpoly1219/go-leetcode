@@ -11,6 +11,7 @@
   - The backend sends POST requests to the container to give the username.
 - The container queries the submissions databases.
   - Test cases are stored locally, for each language. This makes it easier for data to be read.
+  - Making each test separate from each other, instead of running a for loop inside one file to go over all the cases, might allow me to leverage the power of goroutines to basically... run all tests concurrently?
 - The container runs the code.
 - Once the run is complete, the output or error is sent to the frontend.
   - Results and outputs are also saved to the submissions database.
