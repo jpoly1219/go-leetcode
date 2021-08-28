@@ -137,7 +137,7 @@ func CheckProblem(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(input.Lang, input.Code)
 
-	pathUserfiles := filepath.Join(".", "userfiles", "testuserfiles")
+	pathUserfiles := filepath.Join(".", "userfiles")
 	out := fileGen(input.Lang, input.Code, pathUserfiles)
 
 	type outJson struct {
