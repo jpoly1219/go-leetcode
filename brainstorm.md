@@ -4,12 +4,14 @@
 - User types up code in the frontend.
   - The code needs to be in a certain format to accept test case inputs and return outputs.
 - Code is sent to the backend.
-- The backend checks the language the code is written in, then creates a container from the image of that language.
-- User code is passed into the container, and the container builds and runs the code.
-- Test cases are pulled from a database, then is used to run the code and check for answers.
+- The backend saves the code to the submissions database. (columns = username, question number, language, code, runtime, result, output)
   - Database is run inside a container that is attached to a volume.
+- The backend checks the language the code is written in, then creates a container from the image of that language.
+  - The backend sends POST requests to the container to give username and question number.
+- The container queries the submissions and test cases databases.
+- Test cases are pulled from a database, then is used to run the code and check for answers.
 - Once the run is complete, the output or error is sent to the frontend.
-  - Results are also saved to the user database.
+  - Results and outputs are also saved to the submissions database.
 
 ## Frontend
 - home page (before login)
