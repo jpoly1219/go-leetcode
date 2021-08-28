@@ -9,8 +9,8 @@
   - Database is run inside a container that is attached to a volume.
 - The backend checks what problem it is, then creates a container from the image of that problem.
   - The backend sends POST requests to the container to give the username.
-- The container queries the submissions and test cases databases.
-  - Test cases are stores in a .txt file. This makes it easier for data to be read (unlike command line arguments).
+- The container queries the submissions databases.
+  - Test cases are stored locally, for each language. This makes it easier for data to be read.
 - The container runs the code.
 - Once the run is complete, the output or error is sent to the frontend.
   - Results and outputs are also saved to the submissions database.
