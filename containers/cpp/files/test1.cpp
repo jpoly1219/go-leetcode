@@ -49,7 +49,10 @@ int main() {
             o << output << endl;
         }
         else {
-            cout << "OK" << endl;
+            json output = {
+                {"result", "OK"}
+            };
+            o << output << endl;
         }
     }
     i.close();
