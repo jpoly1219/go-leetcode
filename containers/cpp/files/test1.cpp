@@ -1,9 +1,10 @@
+#include <fstream>
 #include <iostream>
-#include <iterator>
-#include <sstream>
 #include <vector>
+#include "json.hpp"
 
 using namespace std;
+using json = nlohmann::json;
 
 // insert Solution class from the backend using Go's file write functions
 class Solution {
@@ -18,46 +19,39 @@ public:
     }
 };
 
-struct Testcases {
-    vector<vector<int>> vecNums;
-    vector<int> vecTargets;
-    vector<vector<int>> vecExpected;
-};
-
 int main() {
-    struct Testcases tc;
     Solution sol;
 
     // add testcases from the backend using Go's file write functions
     // tc.vecNums = ...
     // tc.vecTarget = ...
     // tc.vecExpected = ...
-    tc.vecNums = {{1, 2, 3, 4, 5}, {1, 2, 3}};
-    tc.vecTargets = {1, 2};
-    tc.vecExpected = {{2, 3, 4, 5, 6}, {3, 4, 5}};
+    ifstream i("testcase.json");
+    json j;
+    i >> j;
 
-    ostringstream oss;
+    ofstream o("result.json");
+
+    vector<vector<int>> vecNums = j["input"]["nums"];
+    vector<int> vecTargets = j["input"]["target"];
+    vector<vector<int>> vecExpected = j["expected"];
 
     // test
-    for (int i = 0; i < tc.vecNums.size(); i++) {
-        vector<int> vecSolution = sol.twoSum(tc.vecNums.at(i), tc.vecTargets.at(i));
-        if (vecSolution != tc.vecExpected.at(i)) {
-            cout << "Wrong Answer" << endl << "input: nums=";
-            copy(tc.vecNums.at(i).begin(), tc.vecNums.at(i).end()-1, ostream_iterator<int>(oss, ","));
-            oss << tc.vecNums.at(i).back() << ", target=" << tc.vecTargets.at(i);
-            cout << oss.str() << endl << "expected: ";
-            oss.str("");
-            copy(tc.vecExpected.at(i).begin(), tc.vecExpected.at(i).end()-1, ostream_iterator<int>(oss, ","));
-            oss << tc.vecExpected.at(i).back();
-            cout << oss.str() << endl << "output: ";
-            oss.str("");
-            copy(vecSolution.begin(), vecSolution.end()-1, ostream_iterator<int>(oss, ","));
-            oss << vecSolution.back();
-            cout << oss.str() << endl;
-            break;
+    for (int i = 0; i < vecNums.size(); i++) {
+        vector<int> vecSolution = sol.twoSum(vecNums.at(i), vecTargets.at(i));
+        if (vecSolution != vecExpected.at(i)) {
+            json output = {
+                {"result", "wrong"},
+                {"input", vecNums.at(i)},
+                {"expected", vecExpected.at(i)},
+                {"output", vecSolution}
+            };
+            o << output << endl;
         }
         else {
             cout << "OK" << endl;
         }
     }
+    i.close();
+    o.close();
 }
