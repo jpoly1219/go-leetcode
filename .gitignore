@@ -25,3 +25,4 @@ main
 test.*
 
 .vscode
+json.hpp
