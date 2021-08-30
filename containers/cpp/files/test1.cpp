@@ -30,12 +30,13 @@ int main() {
     json j;
     i >> j;
 
-    ofstream o("result.json");
+    ofstream o("result.json", ios::trunc);
 
     vector<vector<int>> vecNums = j["input"]["nums"];
     vector<int> vecTargets = j["input"]["target"];
     vector<vector<int>> vecExpected = j["expected"];
 
+    bool isOk = true;
     // test
     for (int i = 0; i < vecNums.size(); i++) {
         vector<int> vecSolution = sol.twoSum(vecNums.at(i), vecTargets.at(i));
@@ -47,13 +48,18 @@ int main() {
                 {"output", vecSolution}
             };
             o << output << endl;
+            isOk = false;
+            break;
         }
         else {
-            json output = {
-                {"result", "OK"}
-            };
-            o << output << endl;
+            cout << "OK" << endl;
         }
+    }
+    if (isOk) {
+        json output = {
+            {"result", "OK"}
+        };
+        o << output << endl;
     }
     i.close();
     o.close();
