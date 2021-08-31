@@ -19,8 +19,9 @@ func RunCpp() {
 }
 
 func RunTest(w http.ResponseWriter, r *http.Request) {
-	// insert user code
-	
+	// Insert user code here. By inserting code within RunTest, we can control when the test is run.
+	// It wouldn't make sense for the test to run when the user code isn't in the file.
+
 	// main_test.go will do the testing of user code and generate an output
 	// this will be sent back to the user
 	output, err := exec.Command("go", "test").Output()
