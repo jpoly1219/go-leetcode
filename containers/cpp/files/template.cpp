@@ -7,7 +7,7 @@ using namespace std;
 using json = nlohmann::json;
 
 // insert Solution class from the backend using Go's file write functions
-
+class Solution;
 
 int main() {
     Solution sol;
@@ -54,3 +54,4 @@ int main() {
     i.close();
     o.close();
 }
+
