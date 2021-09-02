@@ -7,7 +7,11 @@ import (
 
 	"github.com/gorilla/mux"
 )
-import "os/exec"
+import (
+	"encoding/json"
+	"fmt"
+	"os"
+)
 
 func RunCpp() {
 	// receive request with user code inside
@@ -19,16 +23,41 @@ func RunCpp() {
 }
 
 func RunTest(w http.ResponseWriter, r *http.Request) {
-	// Insert user code here. By inserting code within RunTest, we can control when the test is run.
+	// Insert user code to template.cpp. By inserting code within RunTest, we can control when the test is run.
 	// It wouldn't make sense for the test to run when the user code isn't in the file.
-
-	// main_test.go will do the testing of user code and generate an output
-	// this will be sent back to the user
-	output, err := exec.Command("go", "test").Output()
-	if err != nil {
-		panic(err.Error())
+	type userCode struct {
+		Lang string `json:"lang"`
+		Code string `json:"code"`
 	}
-	w.Write([]byte(output))
+
+	var code userCode
+	json.NewDecoder(r.Body).Decode(&code)
+
+	f, err := os.OpenFile("template.cpp", os.O_APPEND|os.O_WRONLY, 0644)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer f.Close()
+
+	codeToInsert := code.Code
+	_, err = fmt.Fprintln(f, codeToInsert)
+	if err != nil {
+		fmt.Println(err)
+		f.Close()
+		return
+	}
+	fmt.Println("user code appended successfully")
+	/*
+		// main_test.go will do the testing of user code and generate an output
+		// this will be sent back to the user
+		output, err := exec.Command("go", "test").Output()
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		w.Write([]byte(output))
+	*/
 }
 
 func main() {
