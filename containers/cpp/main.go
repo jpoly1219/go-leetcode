@@ -1,16 +1,14 @@
 package main
 
 import (
-	"C"
 	"log"
 	"net/http"
 
-	"github.com/gorilla/mux"
-)
-import (
 	"encoding/json"
 	"fmt"
 	"os"
+
+	"github.com/gorilla/mux"
 )
 
 func RunCpp() {
