@@ -46,7 +46,7 @@ func RunCpp() {
 	}
 	json.Unmarshal(f, &result)
 	// save to submissions database. (columns = username, question number, language, code, runtime, result, output)
-	// send results and output back as JSON
+	// send results and output back as JSON (RunTest)
 }
 
 func RunTest(w http.ResponseWriter, r *http.Request) {
@@ -75,16 +75,9 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Println("user code appended successfully")
-	/*
-		// main_test.go will do the testing of user code and generate an output
-		// this will be sent back to the user
-		output, err := exec.Command("go", "test").Output()
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		w.Write([]byte(output))
-	*/
+	
+	// run user code and get any compile or runtime errors using exec.Command().Output()
+	// if there are no errors, read the result.json
 }
 
 func main() {
