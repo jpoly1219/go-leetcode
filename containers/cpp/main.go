@@ -12,12 +12,36 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func RunCpp() {
-	// receive request with user code inside (RunTest)
-	// insert user code into file at a certain place within the template file (RunTest)
-	// compile and run
+func RunTest(w http.ResponseWriter, r *http.Request) {
+	// Insert user code to template.cpp. By inserting code within RunTest, we can control when the test is run.
+	// It wouldn't make sense for the test to run when the user code isn't in the file.
+	type userCode struct {
+		Lang string `json:"lang"`
+		Code string `json:"code"`
+	}
+
+	var code userCode
+	json.NewDecoder(r.Body).Decode(&code)
+
+	templateFile, err := os.OpenFile("template.cpp", os.O_APPEND|os.O_WRONLY, 0644)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer templateFile.Close()
+
+	codeToInsert := code.Code
+	_, err = fmt.Fprintln(templateFile, codeToInsert)
+	if err != nil {
+		fmt.Println(err)
+		templateFile.Close()
+		return
+	}
+	fmt.Println("user code appended successfully")
+
+	// run user code and get any compile or runtime errors using exec.Command().Output()
 	cmd := exec.Command("g++", "template.cpp", "-o", "template.out")
-	err := cmd.Run()
+	err = cmd.Run()
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -39,45 +63,16 @@ func RunCpp() {
 	}
 	var result resultFile
 
-	f, err := os.ReadFile("result.json")
+	resFile, err := os.ReadFile("result.json")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	json.Unmarshal(f, &result)
-	// save to submissions database. (columns = username, question number, language, code, runtime, result, output)
-	// send results and output back as JSON (RunTest)
-}
+	json.Unmarshal(resFile, &result)
 
-func RunTest(w http.ResponseWriter, r *http.Request) {
-	// Insert user code to template.cpp. By inserting code within RunTest, we can control when the test is run.
-	// It wouldn't make sense for the test to run when the user code isn't in the file.
-	type userCode struct {
-		Lang string `json:"lang"`
-		Code string `json:"code"`
-	}
-
-	var code userCode
-	json.NewDecoder(r.Body).Decode(&code)
-
-	f, err := os.OpenFile("template.cpp", os.O_APPEND|os.O_WRONLY, 0644)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	defer f.Close()
-
-	codeToInsert := code.Code
-	_, err = fmt.Fprintln(f, codeToInsert)
-	if err != nil {
-		fmt.Println(err)
-		f.Close()
-		return
-	}
-	fmt.Println("user code appended successfully")
-	
-	// run user code and get any compile or runtime errors using exec.Command().Output()
 	// if there are no errors, read the result.json
+	// save to submissions database. (columns = username, question number, language, code, runtime, result, output)
+	// send results and output back as JSON
 }
 
 func main() {
