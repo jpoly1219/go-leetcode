@@ -144,3 +144,7 @@
   - Frontend needs syntax highlighting via PrismJS.
   - Frontend needs a dropdown menu with langauge selections.
     - Syntax highlighting should switch according to the language chosen.
+
+- Inserting code to line number x
+  - https://siongui.github.io/2017/01/30/go-insert-line-or-string-to-file/
+  - 
