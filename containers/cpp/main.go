@@ -36,7 +36,7 @@ func LinesFromFile(r io.Reader) ([]string, error) {
 	return lines, nil
 }
 
-func WriteLinesToFile(filePath string, lines []string) error {
+func WriteLinesToFile(filePath, code string, lines []string) error {
 	f, err := os.Create(filePath)
 	if err != nil {
 		fmt.Println(err)
@@ -46,6 +46,9 @@ func WriteLinesToFile(filePath string, lines []string) error {
 
 	writer := bufio.NewWriter(f)
 	for _, line := range lines {
+		if line == "// insert Solution class here" {
+			_, _ = writer.WriteString(code + "\n")
+		}
 		_, _ = writer.WriteString(line + "\n")
 	}
 	writer.Flush()
