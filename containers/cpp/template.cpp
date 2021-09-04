@@ -41,9 +41,6 @@ int main() {
             isOk = false;
             break;
         }
-        else {
-            cout << "OK" << endl;
-        }
     }
     if (isOk) {
         json output = {
@@ -51,6 +48,7 @@ int main() {
         };
         o << output << endl;
     }
+    cout << "done" << endl;
     i.close();
     o.close();
 }
