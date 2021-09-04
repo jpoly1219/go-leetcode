@@ -36,7 +36,7 @@ func LinesFromFile(r io.Reader) ([]string, error) {
 	return lines, nil
 }
 
-func WriteLinesToFile(filePath, code string, lines []string) error {
+func WriteCodeToFile(filePath, code string, lines []string) error {
 	f, err := os.Create(filePath)
 	if err != nil {
 		fmt.Println(err)
