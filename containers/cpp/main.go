@@ -54,6 +54,11 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println(string(out))
 
+	// return compile or runtime error back to the backend
+	if string(out) != "done\n" {
+		w.Write(out)
+	}
+
 	// read result from result.json
 	type resultFile struct {
 		Result   string `json:"result"`
@@ -64,13 +69,13 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 	var result resultFile
 
 	resFile, err := os.ReadFile("result.json")
+	// if there are no errors, read the result.json
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	json.Unmarshal(resFile, &result)
 
-	// if there are no errors, read the result.json
 	// save to submissions database. (columns = username, question number, language, code, runtime, result, output)
 	// send results and output back as JSON
 }
