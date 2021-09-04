@@ -65,17 +65,27 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&code)
 
 	// read template.cpp, save each line as slice, insert user code into it, then write the slice
+	lines, err := FileToLines("template.cpp")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	err = WriteCodeToFile("file.cpp", code.Code, lines)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	fmt.Println("user code appended successfully")
 
 	// run user code and get any compile or runtime errors using exec.Command().Output()
-	cmd := exec.Command("g++", "template.cpp", "-o", "template.out")
+	cmd := exec.Command("g++", "file.cpp", "-o", "file.out")
 	err = cmd.Run()
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	out, err := exec.Command("template.out").Output()
+	out, err := exec.Command("./file.out").Output()
 	if err != nil {
 		fmt.Println(err)
 		return
