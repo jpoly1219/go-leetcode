@@ -56,6 +56,7 @@ func WriteCodeToFile(filePath, code string, lines []string) error {
 
 func RunTest(w http.ResponseWriter, r *http.Request) {
 	type userCode struct {
+		Pnum int    `json:"pnum"`
 		Lang string `json:"lang"`
 		Code string `json:"code"`
 	}
