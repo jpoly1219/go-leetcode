@@ -63,6 +63,45 @@ func GetOuput(lang, code string) {
 	}
 }
 
+type Language interface {
+	GenerateFile(templatePath, sourcePath string)
+	CompileAndRun(sourcePath string)
+}
+type Cpp struct {
+	Code string
+}
+
+func (cpp Cpp) GenerateFile(templatePath, sourcePath string) error {
+	lines, err := FileToLines(templatePath)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	err = WriteCodeToFile(sourcePath, cpp.Code, lines)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	return nil
+}
+
+func (cpp Cpp) CompileAndRun(sourcePath string) (string, error) {
+	cmd := exec.Command("g++", "file.cpp", "-o", "file.out")
+	err := cmd.Run()
+	if err != nil {
+		fmt.Println(err)
+		return "", err
+	}
+
+	out, err := exec.Command("./file.out").Output()
+	if err != nil {
+		fmt.Println(err)
+		return "", err
+	}
+	fmt.Println(string(out))
+	return string(out), nil
+}
+
 func RunTest(w http.ResponseWriter, r *http.Request) {
 	type userCode struct {
 		Pnum int    `json:"pnum"`
@@ -130,7 +169,7 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	r := mux.NewRouter()
-	r.HandleFunc("/run-cpp", RunTest)
+	r.HandleFunc("/run", RunTest)
 
 	log.Fatal(http.ListenAndServe(":8090", r))
 }
