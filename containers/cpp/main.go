@@ -2,14 +2,13 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
-	"os/exec"
-
-	"encoding/json"
-	"fmt"
 	"os"
+	"os/exec"
 
 	"github.com/gorilla/mux"
 )
