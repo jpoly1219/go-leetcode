@@ -63,9 +63,10 @@ func GetOuput(lang, code string) {
 	}
 }
 
+// interface and structs/methods definition
 type Language interface {
-	GenerateFile(templatePath, sourcePath string)
-	CompileAndRun(sourcePath string)
+	GenerateFile(templatePath, sourcePath string) error
+	CompileAndRun(sourcePath string) (string, error)
 }
 type Cpp struct {
 	Code string
@@ -102,6 +103,30 @@ func (cpp Cpp) CompileAndRun(sourcePath string) (string, error) {
 	return string(out), nil
 }
 
+func GetOutput(lang Language, templatePath, sourcePath string) (string, []byte, error) {
+	err := lang.GenerateFile(templatePath, sourcePath)
+	if err != nil {
+		fmt.Println(err)
+		return "", nil, err
+	}
+	output, err := lang.CompileAndRun(sourcePath)
+	if err != nil {
+		fmt.Println(err)
+		return "", nil, err
+	}
+
+	if string(output) != "done\n" {
+		return output, nil, nil
+	}
+
+	result, err := os.ReadFile("result.json")
+	if err != nil {
+		fmt.Println(err)
+		return "", nil, err
+	}
+	return "", result, nil
+}
+
 func RunTest(w http.ResponseWriter, r *http.Request) {
 	type userCode struct {
 		Pnum int    `json:"pnum"`
@@ -124,6 +149,7 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Println("user code appended successfully")
+
 
 	// run user code and get any compile or runtime errors using exec.Command().Output()
 	cmd := exec.Command("g++", "file.cpp", "-o", "file.out")
