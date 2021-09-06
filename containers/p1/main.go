@@ -66,12 +66,13 @@ type Cpp struct {
 func (cpp Cpp) GenerateFile(templatePath, sourcePath string) error {
 	lines, err := FileToLines(templatePath)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("FileToLines failed")
 		return err
 	}
+
 	err = WriteCodeToFile(sourcePath, cpp.Code, lines)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("WriteCodeToFile failed")
 		return err
 	}
 	return nil
@@ -81,13 +82,13 @@ func (cpp Cpp) CompileAndRun(sourcePath string) (string, error) {
 	cmd := exec.Command("g++", "file.cpp", "-o", "file.out")
 	err := cmd.Run()
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("compile failed")
 		return "", err
 	}
 
 	out, err := exec.Command("./file.out").Output()
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("run failed")
 		return "", err
 	}
 	fmt.Println(string(out))
@@ -97,12 +98,12 @@ func (cpp Cpp) CompileAndRun(sourcePath string) (string, error) {
 func GetOutput(lang Language, templatePath, sourcePath string) (string, []byte, error) {
 	err := lang.GenerateFile(templatePath, sourcePath)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("GenerateFile failed")
 		return "", nil, err
 	}
 	output, err := lang.CompileAndRun(sourcePath)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("CompileAndRun failed")
 		return "", nil, err
 	}
 
