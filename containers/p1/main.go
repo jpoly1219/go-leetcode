@@ -54,15 +54,6 @@ func WriteCodeToFile(filePath, code string, lines []string) error {
 	return nil
 }
 
-func GetOuput(lang, code string) {
-	switch lang {
-	case "cpp":
-	case "java":
-	case "javascript":
-	case "python":
-	}
-}
-
 // interface and structs/methods definition
 type Language interface {
 	GenerateFile(templatePath, sourcePath string) error
@@ -137,41 +128,22 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 	var code userCode
 	json.NewDecoder(r.Body).Decode(&code)
 
-	// read template.cpp, save each line as slice, insert user code into it, then write the slice
-	lines, err := FileToLines("template.cpp")
+	var cppCode Cpp
+	switch code.Code {
+	case "cpp":
+		cppCode.Code = code.Code
+	}
+
+	userCodeErr, resultJson, err := GetOutput(cppCode, "cpp/template.cpp", "cpp/file.cpp")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	err = WriteCodeToFile("file.cpp", code.Code, lines)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println("user code appended successfully")
-
-
-	// run user code and get any compile or runtime errors using exec.Command().Output()
-	cmd := exec.Command("g++", "file.cpp", "-o", "file.out")
-	err = cmd.Run()
-	if err != nil {
-		fmt.Println(err)
+	if userCodeErr != "" {
+		w.Write([]byte(userCodeErr))
 		return
 	}
 
-	out, err := exec.Command("./file.out").Output()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(string(out))
-
-	// return compile or runtime error back to the backend
-	if string(out) != "done\n" {
-		w.Write(out)
-	}
-
-	// if there are no errors, read result from result.json
 	type resultFile struct {
 		Result   string `json:"result"`
 		Input    string `json:"input"`
@@ -180,12 +152,29 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 	}
 	var result resultFile
 
-	resFile, err := os.ReadFile("result.json")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	json.Unmarshal(resFile, &result)
+	json.Unmarshal(resultJson, &result)
+	/*
+		// run user code and get any compile or runtime errors using exec.Command().Output()
+		cmd := exec.Command("g++", "file.cpp", "-o", "file.out")
+		err = cmd.Run()
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		out, err := exec.Command("./file.out").Output()
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Println(string(out))
+
+		// return compile or runtime error back to the backend
+		if string(out) != "done\n" {
+			w.Write(out)
+		}
+	*/
+	// if there are no errors, read result from result.json
 
 	// save to submissions database. (columns = username, question number, language, code, runtime, result, output)
 	// (do this in the backend not the container)
