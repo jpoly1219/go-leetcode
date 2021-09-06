@@ -130,7 +130,7 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&code)
 
 	var cppCode Cpp
-	switch code.Code {
+	switch code.Lang {
 	case "cpp":
 		cppCode.Code = code.Code
 	}
