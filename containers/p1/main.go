@@ -79,14 +79,14 @@ func (cpp Cpp) GenerateFile(templatePath, sourcePath string) error {
 }
 
 func (cpp Cpp) CompileAndRun(sourcePath string) (string, error) {
-	cmd := exec.Command("g++", "file.cpp", "-o", "file.out")
+	cmd := exec.Command("g++", "cpp/file.cpp", "-o", "cpp/file.out")
 	err := cmd.Run()
 	if err != nil {
 		fmt.Println("compile failed")
 		return "", err
 	}
 
-	out, err := exec.Command("./file.out").Output()
+	out, err := exec.Command("cd", "cpp").Output()
 	if err != nil {
 		fmt.Println("run failed")
 		return "", err
