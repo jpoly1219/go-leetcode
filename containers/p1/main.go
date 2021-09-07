@@ -86,7 +86,13 @@ func (cpp Cpp) CompileAndRun(sourcePath string) (string, error) {
 		return "", err
 	}
 
-	out, err := exec.Command("cd", "cpp").Output()
+	err = os.Chdir("cpp")
+	if err != nil {
+		fmt.Println("cd failed")
+		return "", err
+	}
+
+	out, err := exec.Command("./file.out").Output()
 	if err != nil {
 		fmt.Println("run failed")
 		return "", err
