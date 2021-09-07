@@ -59,6 +59,7 @@ type Language interface {
 	GenerateFile(templatePath, sourcePath string) error
 	CompileAndRun(sourcePath string) (string, error)
 }
+
 type Cpp struct {
 	Code string
 }
@@ -123,6 +124,14 @@ func GetOutput(lang Language, templatePath, sourcePath string) (string, []byte, 
 		return "", nil, err
 	}
 	return "", result, nil
+}
+
+type Py struct {
+	Code string
+}
+
+func (py Py) GenerateFile(templatePath, sourcePath string) error {
+	return nil
 }
 
 func RunTest(w http.ResponseWriter, r *http.Request) {
