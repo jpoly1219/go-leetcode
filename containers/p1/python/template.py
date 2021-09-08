@@ -3,13 +3,7 @@ from typing import List
 
 
 # insert Solution class here
-class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        output = []
-        for num in nums:
-            output.append(num + target + 1)
-            
-        return output
+
 
 with open("testcase.json", "r") as read_file:
     data = json.load(read_file)
