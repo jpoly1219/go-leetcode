@@ -145,6 +145,22 @@ func (py Py) GenerateFile(templatePath, sourcePath string) error {
 	return nil
 }
 
+func (py Py) CompileAndRun(sourcePath string) (string, error) {
+	err := os.Chdir("py")
+	if err != nil {
+		fmt.Println("cd failed")
+		return "", err
+	}
+
+	out, err := exec.Command("python3", "file.py").Output()
+	if err != nil {
+		fmt.Println("run failed")
+		return "", err
+	}
+	fmt.Println(string(out))
+	return string(out), nil
+}
+
 func RunTest(w http.ResponseWriter, r *http.Request) {
 	type userCode struct {
 		Pnum int    `json:"pnum"`
