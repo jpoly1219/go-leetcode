@@ -131,6 +131,17 @@ type Py struct {
 }
 
 func (py Py) GenerateFile(templatePath, sourcePath string) error {
+	lines, err := FileToLines(templatePath)
+	if err != nil {
+		fmt.Println("FileToLines failed")
+		return err
+	}
+
+	err = WriteCodeToFile(sourcePath, py.Code, lines)
+	if err != nil {
+		fmt.Println("WriteCodeToFile failed")
+		return err
+	}
 	return nil
 }
 
