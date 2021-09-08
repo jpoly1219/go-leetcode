@@ -172,30 +172,51 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&code)
 
 	var cppCode Cpp
+	var pyCode Py
 	switch code.Lang {
 	case "cpp":
 		cppCode.Code = code.Code
-	}
+		userCodeErr, resultJson, err := GetOutput(cppCode, "cpp/template.cpp", "cpp/file.cpp")
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		if userCodeErr != "" {
+			w.Write([]byte(userCodeErr))
+			return
+		}
+		type resultFile struct {
+			Result   string `json:"result"`
+			Input    string `json:"input"`
+			Expected string `json:"expected"`
+			Output   string `json:"output"`
+		}
+		var result resultFile
 
-	userCodeErr, resultJson, err := GetOutput(cppCode, "cpp/template.cpp", "cpp/file.cpp")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	if userCodeErr != "" {
-		w.Write([]byte(userCodeErr))
-		return
-	}
+		json.Unmarshal(resultJson, &result)
+		json.NewEncoder(w).Encode(result)
+	case "py":
+		pyCode.Code = code.Code
+		userCodeErr, resultJson, err := GetOutput(cppCode, "py/template.py", "py/file.py")
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		if userCodeErr != "" {
+			w.Write([]byte(userCodeErr))
+			return
+		}
+		type resultFile struct {
+			Result   string `json:"result"`
+			Input    string `json:"input"`
+			Expected string `json:"expected"`
+			Output   string `json:"output"`
+		}
+		var result resultFile
 
-	type resultFile struct {
-		Result   string `json:"result"`
-		Input    string `json:"input"`
-		Expected string `json:"expected"`
-		Output   string `json:"output"`
+		json.Unmarshal(resultJson, &result)
+		json.NewEncoder(w).Encode(result)
 	}
-	var result resultFile
-
-	json.Unmarshal(resultJson, &result)
 	/*
 		// run user code and get any compile or runtime errors using exec.Command().Output()
 		cmd := exec.Command("g++", "file.cpp", "-o", "file.out")
@@ -222,7 +243,6 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 	// save to submissions database. (columns = username, question number, language, code, runtime, result, output)
 	// (do this in the backend not the container)
 	// send results and output back as JSON
-	json.NewEncoder(w).Encode(result)
 }
 
 func main() {
