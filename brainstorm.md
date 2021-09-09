@@ -147,4 +147,4 @@
 
 - Inserting code to line number x
   - https://siongui.github.io/2017/01/30/go-insert-line-or-string-to-file/
-  - 
+  - need A Better Way To Handle Different Language Because It Is Way Too Repetitive At The Moment.
