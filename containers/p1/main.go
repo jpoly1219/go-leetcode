@@ -169,6 +169,8 @@ type resultFile struct {
 }
 
 func HandleLangs(code, lang string) (*resultFile, error) {
+	var result resultFile
+
 	switch lang {
 	case "cpp":
 		cppCode := Cpp{Code: code}
@@ -182,10 +184,22 @@ func HandleLangs(code, lang string) (*resultFile, error) {
 			return &result, nil
 		}
 
-		var result resultFile
 		json.Unmarshal(resultJson, &result)
-		return &result, nil
+	case "py":
+		pyCode := Py{Code: code}
+		userCodeErr, resultJson, err := GetOutput(pyCode, "py/template.py", "py/file.py")
+		if err != nil {
+			fmt.Println(err)
+			return nil, err
+		}
+		if userCodeErr != "" {
+			result := resultFile{Result: "wrong", Input: "", Expected: "", Output: userCodeErr}
+			return &result, nil
+		}
+
+		json.Unmarshal(resultJson, &result)
 	}
+	return &result, nil
 }
 
 func RunTest(w http.ResponseWriter, r *http.Request) {
