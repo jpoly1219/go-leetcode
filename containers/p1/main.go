@@ -161,6 +161,33 @@ func (py Py) CompileAndRun(sourcePath string) (string, error) {
 	return string(out), nil
 }
 
+type resultFile struct {
+	Result   string `json:"result"`
+	Input    string `json:"input"`
+	Expected string `json:"expected"`
+	Output   string `json:"output"`
+}
+
+func HandleLangs(code, lang string) (*resultFile, error) {
+	switch lang {
+	case "cpp":
+		cppCode := Cpp{Code: code}
+		userCodeErr, resultJson, err := GetOutput(cppCode, "cpp/template.cpp", "cpp/file.cpp")
+		if err != nil {
+			fmt.Println(err)
+			return nil, err
+		}
+		if userCodeErr != "" {
+			result := resultFile{Result: "wrong", Input: "", Expected: "", Output: userCodeErr}
+			return &result, nil
+		}
+
+		var result resultFile
+		json.Unmarshal(resultJson, &result)
+		return &result, nil
+	}
+}
+
 func RunTest(w http.ResponseWriter, r *http.Request) {
 	type userCode struct {
 		Pnum int    `json:"pnum"`
