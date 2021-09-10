@@ -171,6 +171,8 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 	var code userCode
 	json.NewDecoder(r.Body).Decode(&code)
 
+	// wrap this portion into a function in order to make it less repetitive
+	// the function should return a struct that can be sent by json.NewEncoder
 	var cppCode Cpp
 	var pyCode Py
 	switch code.Lang {
