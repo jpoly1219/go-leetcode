@@ -218,31 +218,9 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	json.NewEncoder(w).Encode(result)
-	/*
-		// run user code and get any compile or runtime errors using exec.Command().Output()
-		cmd := exec.Command("g++", "file.cpp", "-o", "file.out")
-		err = cmd.Run()
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-
-		out, err := exec.Command("./file.out").Output()
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		fmt.Println(string(out))
-
-		// return compile or runtime error back to the backend
-		if string(out) != "done\n" {
-			w.Write(out)
-		}
-	*/
-	// if there are no errors, read result from result.json
 
 	// save to submissions database. (columns = username, question number, language, code, runtime, result, output)
-	// (do this in the backend not the container)
+
 	// send results and output back as JSON
 }
 
