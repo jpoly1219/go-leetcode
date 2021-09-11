@@ -1,8 +1,10 @@
 package pkg
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"path/filepath"
@@ -137,14 +139,37 @@ func CheckProblem(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(input.Lang, input.Code)
 
-	pathUserfiles := filepath.Join(".", "userfiles")
-	out := fileGen(input.Lang, input.Code, pathUserfiles)
-
-	type outJson struct {
-		Output string `json:"output"`
+	// use Docker SDK to run a container to run user code safely inside a sandbox
+	// then send a POST request which contains several fields to the container
+	postBody, _ := json.Marshal(map[string]string{
+		"lang": input.Lang,
+		"code": input.Code,
+	})
+	responseBody := bytes.NewBuffer(postBody)
+	resp, err := http.Post("http://jpoly1219devbox.xyz:8091/run", "application/json", responseBody)
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
+	defer resp.Body.Close()
 
-	res := outJson{Output: out}
-	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
-	json.NewEncoder(w).Encode(res)
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(string(body))
+
+	/*
+		pathUserfiles := filepath.Join(".", "userfiles")
+		out := fileGen(input.Lang, input.Code, pathUserfiles)
+
+		type outJson struct {
+			Output string `json:"output"`
+		}
+
+		res := outJson{Output: out}
+		w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
+		json.NewEncoder(w).Encode(res)
+	*/
 }
