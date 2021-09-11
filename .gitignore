@@ -26,3 +26,5 @@ test.*
 
 .vscode
 *.hpp
+.gradle
+build
