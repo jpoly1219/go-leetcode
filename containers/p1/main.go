@@ -300,7 +300,7 @@ func HandleLangs(code, lang string) (*resultFile, error) {
 
 func RunTest(w http.ResponseWriter, r *http.Request) {
 	type userCode struct {
-		Pnum int    `json:"pnum"`
+		// Pnum int    `json:"pnum"`
 		Lang string `json:"lang"`
 		Code string `json:"code"`
 	}
@@ -324,5 +324,5 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/run", RunTest)
 
-	log.Fatal(http.ListenAndServe(":8090", r))
+	log.Fatal(http.ListenAndServe(":8091", r))
 }
