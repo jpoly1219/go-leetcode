@@ -28,6 +28,7 @@ for (let i = 0; i < tc.input.nums.length; i++) {
             }
         })
         isOk = false
+        break
     }
 }
 
