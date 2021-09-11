@@ -126,6 +126,41 @@ func GetOutput(lang Language, templatePath, sourcePath string) (string, []byte, 
 	return "", result, nil
 }
 
+type Java struct {
+	Code string
+}
+
+func (java Java) GenerateFile(templatePath, sourcePath string) error {
+	lines, err := FileToLines(templatePath)
+	if err != nil {
+		fmt.Println("FileToLines failed")
+		return err
+	}
+
+	err = WriteCodeToFile(sourcePath, java.Code, lines)
+	if err != nil {
+		fmt.Println("WriteCodeToFile failed")
+		return err
+	}
+	return nil
+}
+
+func (java Java) CompileAndRun(sourcePath string) (string, error) {
+	err := os.Chdir("js")
+	if err != nil {
+		fmt.Println("cd failed")
+		return "", err
+	}
+
+	out, err := exec.Command("java", "file.java").Output()
+	if err != nil {
+		fmt.Println("run failed")
+		return "", err
+	}
+	fmt.Println(string(out))
+	return string(out), nil
+}
+
 type Js struct {
 	Code string
 }
@@ -220,9 +255,9 @@ func HandleLangs(code, lang string) (*resultFile, error) {
 		}
 
 		json.Unmarshal(resultJson, &result)
-	case "py":
-		pyCode := Py{Code: code}
-		userCodeErr, resultJson, err := GetOutput(pyCode, "py/template.py", "py/file.py")
+	case "java":
+		javaCode := Java{Code: code}
+		userCodeErr, resultJson, err := GetOutput(javaCode, "java/template.java", "java/file.java")
 		if err != nil {
 			fmt.Println(err)
 			return nil, err
@@ -236,6 +271,19 @@ func HandleLangs(code, lang string) (*resultFile, error) {
 	case "js":
 		jsCode := Js{Code: code}
 		userCodeErr, resultJson, err := GetOutput(jsCode, "js/template.js", "js/file.js")
+		if err != nil {
+			fmt.Println(err)
+			return nil, err
+		}
+		if userCodeErr != "" {
+			result := resultFile{Result: "wrong", Input: "", Expected: "", Output: userCodeErr}
+			return &result, nil
+		}
+
+		json.Unmarshal(resultJson, &result)
+	case "py":
+		pyCode := Py{Code: code}
+		userCodeErr, resultJson, err := GetOutput(pyCode, "py/template.py", "py/file.py")
 		if err != nil {
 			fmt.Println(err)
 			return nil, err
