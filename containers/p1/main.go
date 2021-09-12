@@ -316,13 +316,14 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(result)
 
 	// save to submissions database. (columns = username, question number, language, code, runtime, result, output)
-
-	// send results and output back as JSON
 }
 
 func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/run", RunTest)
 
+	// each container will have the exact same domain, so how will the backend distinguish between the containers?
+	// plus, if all containers use port 8091, it would be even more confusing...
+	// may need a container orchestration tool
 	log.Fatal(http.ListenAndServe(":8091", r))
 }
