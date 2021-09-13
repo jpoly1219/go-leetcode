@@ -242,7 +242,7 @@ func HandleLangs(code, lang string) (*resultFile, error) {
 	var result resultFile
 
 	switch lang {
-	case "cpp":
+	case "C++":
 		cppCode := Cpp{Code: code}
 		userCodeErr, resultJson, err := GetOutput(cppCode, "cpp/template.cpp", "cpp/file.cpp")
 		if err != nil {
@@ -255,7 +255,7 @@ func HandleLangs(code, lang string) (*resultFile, error) {
 		}
 
 		json.Unmarshal(resultJson, &result)
-	case "java":
+	case "Java":
 		javaCode := Java{Code: code}
 		userCodeErr, resultJson, err := GetOutput(javaCode, "java/template.java", "java/file.java")
 		if err != nil {
@@ -268,7 +268,7 @@ func HandleLangs(code, lang string) (*resultFile, error) {
 		}
 
 		json.Unmarshal(resultJson, &result)
-	case "js":
+	case "Javascript":
 		jsCode := Js{Code: code}
 		userCodeErr, resultJson, err := GetOutput(jsCode, "js/template.js", "js/file.js")
 		if err != nil {
@@ -281,7 +281,8 @@ func HandleLangs(code, lang string) (*resultFile, error) {
 		}
 
 		json.Unmarshal(resultJson, &result)
-	case "py":
+	case "Python":
+		fmt.Println("python detected")
 		pyCode := Py{Code: code}
 		userCodeErr, resultJson, err := GetOutput(pyCode, "py/template.py", "py/file.py")
 		if err != nil {
@@ -307,6 +308,7 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 
 	var code userCode
 	json.NewDecoder(r.Body).Decode(&code)
+	fmt.Println(code.Lang, code.Code)
 
 	result, err := HandleLangs(code.Code, code.Lang)
 	if err != nil {
