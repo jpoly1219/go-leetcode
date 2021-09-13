@@ -148,3 +148,4 @@
 - Inserting code to line number x
   - https://siongui.github.io/2017/01/30/go-insert-line-or-string-to-file/
   - need A Better Way To Handle Different Language Because It Is Way Too Repetitive At The Moment.
+  - For a successful insert, the code must be formatted into a single line. For some reason, multi-line inserts don't seem to work...
