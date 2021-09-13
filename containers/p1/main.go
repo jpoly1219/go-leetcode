@@ -239,6 +239,10 @@ type resultFile struct {
 	Output   string `json:"output"`
 }
 
+func toOneLine(code string) (string, error) {
+	return "one liner", nil
+}
+
 func HandleLangs(code, lang string) (*resultFile, error) {
 	var result resultFile
 
