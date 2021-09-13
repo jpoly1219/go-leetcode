@@ -201,6 +201,7 @@ type Py struct {
 }
 
 func (py Py) GenerateFile(templatePath, sourcePath string) error {
+	fmt.Println(templatePath, sourcePath, py.Code)
 	lines, err := FileToLines(templatePath)
 	if err != nil {
 		fmt.Println("FileToLines failed")
