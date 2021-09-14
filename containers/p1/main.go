@@ -320,7 +320,8 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-	json.NewEncoder(w).Encode(result)
+	fmt.Println(*result)
+	json.NewEncoder(w).Encode(*result)
 
 	// save to submissions database. (columns = username, question number, language, code, runtime, result, output)
 }
