@@ -62,35 +62,6 @@ func Run(w http.ResponseWriter, r *http.Request) {
 		go fileGen("test.py", "hi", pathUserfiles)
 	}
 	w.Write([]byte("done\n"))
-	/*
-		content, _ := ioutil.ReadFile(filepath.Join(pathUserfiles, "test.cpp"))
-		outCpp, err := runCpp(content, pathUserfiles)
-		if err != nil {
-			log.Fatal(err)
-		}
-		w.Write([]byte(outCpp))
-
-		content, _ = ioutil.ReadFile(filepath.Join(pathUserfiles, "test.java"))
-		outJava, err := runJava(content, pathUserfiles)
-		if err != nil {
-			log.Fatal(err)
-		}
-		w.Write([]byte(outJava))
-
-		content, _ = ioutil.ReadFile(filepath.Join(pathUserfiles, "test.js"))
-		outJs, err := runJs(content, pathUserfiles)
-		if err != nil {
-			log.Fatal(err)
-		}
-		w.Write([]byte(outJs))
-
-		content, _ = ioutil.ReadFile(filepath.Join(pathUserfiles, "test.py"))
-		outPy, err := runPy(content, pathUserfiles)
-		if err != nil {
-			log.Fatal(err)
-		}
-		w.Write([]byte(outPy))
-	*/
 }
 
 func Problemsets(w http.ResponseWriter, r *http.Request) {
@@ -161,17 +132,4 @@ func CheckProblem(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(string(body))
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
 	json.NewEncoder(w).Encode(body)
-
-	/*
-		pathUserfiles := filepath.Join(".", "userfiles")
-		out := fileGen(input.Lang, input.Code, pathUserfiles)
-
-		type outJson struct {
-			Output string `json:"output"`
-		}
-
-		res := outJson{Output: out}
-		w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
-		json.NewEncoder(w).Encode(res)
-	*/
 }
