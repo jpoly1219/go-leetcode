@@ -43,10 +43,18 @@ func WriteCodeToFile(filePath, code string, lines []string) error {
 	}
 	defer f.Close()
 
+	codeLines, err := FileToLines(code)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	writer := bufio.NewWriter(f)
 	for _, line := range lines {
 		if line == "// insert Solution class here" {
-			_, _ = writer.WriteString(code + "\n")
+			for _, codeLine := range codeLines {
+				_, _ = writer.WriteString(codeLine + "\n")
+			}
 		}
 		_, _ = writer.WriteString(line + "\n")
 	}
@@ -237,10 +245,6 @@ type resultFile struct {
 	Input    string `json:"input"`
 	Expected string `json:"expected"`
 	Output   string `json:"output"`
-}
-
-func toOneLine(code string) (string, error) {
-	return "one liner", nil
 }
 
 func HandleLangs(code, lang string) (*resultFile, error) {
