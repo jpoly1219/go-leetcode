@@ -5,7 +5,7 @@ from typing import List
 # insert Solution class here
 
 
-with open("testcase.json", "r") as read_file:
+with open("../testcase.json", "r") as read_file:
     data = json.load(read_file)
 
 sol = Solution()
