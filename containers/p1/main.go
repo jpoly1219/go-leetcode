@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"strings"
 
 	"github.com/gorilla/mux"
 )
@@ -43,15 +44,11 @@ func WriteCodeToFile(filePath, code string, lines []string) error {
 	}
 	defer f.Close()
 
-	codeLines, err := FileToLines(code)
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
+	codeLines := strings.Split(code, "\n")
 
 	writer := bufio.NewWriter(f)
 	for _, line := range lines {
-		if line == "// insert Solution class here" {
+		if line == "# insert Solution class here" {
 			for _, codeLine := range codeLines {
 				_, _ = writer.WriteString(codeLine + "\n")
 			}
@@ -209,7 +206,6 @@ type Py struct {
 }
 
 func (py Py) GenerateFile(templatePath, sourcePath string) error {
-	fmt.Println(templatePath, sourcePath, py.Code)
 	lines, err := FileToLines(templatePath)
 	if err != nil {
 		fmt.Println("FileToLines failed")
