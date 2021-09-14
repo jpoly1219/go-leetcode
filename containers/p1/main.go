@@ -48,7 +48,7 @@ func WriteCodeToFile(filePath, code string, lines []string) error {
 
 	writer := bufio.NewWriter(f)
 	for _, line := range lines {
-		if line == "# insert Solution class here" {
+		if strings.Contains(line, "insert Solution class here") {
 			for _, codeLine := range codeLines {
 				_, _ = writer.WriteString(codeLine + "\n")
 			}
