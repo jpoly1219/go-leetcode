@@ -249,6 +249,18 @@ func HandleLangs(code, lang string) (*resultFile, error) {
 
 	switch lang {
 	case "C++":
+		cwd, err := os.Getwd()
+		if err != nil {
+			fmt.Println(err)
+			return nil, err
+		}
+		if filepath.Base(cwd) == "cpp" {
+			err := os.Chdir("..")
+			if err != nil {
+				fmt.Println("cd failed")
+			}
+		}
+
 		cppCode := Cpp{Code: code}
 		userCodeErr, resultJson, err := GetOutput(cppCode, "cpp/template.cpp", "cpp/file.cpp")
 		if err != nil {
@@ -262,6 +274,18 @@ func HandleLangs(code, lang string) (*resultFile, error) {
 
 		json.Unmarshal(resultJson, &result)
 	case "Java":
+		cwd, err := os.Getwd()
+		if err != nil {
+			fmt.Println(err)
+			return nil, err
+		}
+		if filepath.Base(cwd) == "java" {
+			err := os.Chdir("..")
+			if err != nil {
+				fmt.Println("cd failed")
+			}
+		}
+
 		javaCode := Java{Code: code}
 		userCodeErr, resultJson, err := GetOutput(javaCode, "java/template.java", "java/file.java")
 		if err != nil {
@@ -275,6 +299,18 @@ func HandleLangs(code, lang string) (*resultFile, error) {
 
 		json.Unmarshal(resultJson, &result)
 	case "Javascript":
+		cwd, err := os.Getwd()
+		if err != nil {
+			fmt.Println(err)
+			return nil, err
+		}
+		if filepath.Base(cwd) == "js" {
+			err := os.Chdir("..")
+			if err != nil {
+				fmt.Println("cd failed")
+			}
+		}
+
 		jsCode := Js{Code: code}
 		userCodeErr, resultJson, err := GetOutput(jsCode, "js/template.js", "js/file.js")
 		if err != nil {
@@ -289,7 +325,6 @@ func HandleLangs(code, lang string) (*resultFile, error) {
 		json.Unmarshal(resultJson, &result)
 	case "Python":
 		fmt.Println("python detected")
-		pyCode := Py{Code: code}
 
 		cwd, err := os.Getwd()
 		if err != nil {
@@ -302,6 +337,8 @@ func HandleLangs(code, lang string) (*resultFile, error) {
 				fmt.Println("cd failed")
 			}
 		}
+
+		pyCode := Py{Code: code}
 		userCodeErr, resultJson, err := GetOutput(pyCode, "py/template.py", "py/file.py")
 		if err != nil {
 			fmt.Println(err)
