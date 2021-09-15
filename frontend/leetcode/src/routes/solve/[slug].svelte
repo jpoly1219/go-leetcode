@@ -35,7 +35,7 @@
         }
         const res = await fetch(`http://jpoly1219devbox.xyz:8090/check/${problem.slug}`, options)
         const data = await res.json()
-        console.log(data.result)
+        console.log(data)
         alert("code submitted!")
     }
 </script>
