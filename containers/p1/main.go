@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 
 	"github.com/gorilla/mux"
@@ -289,6 +290,18 @@ func HandleLangs(code, lang string) (*resultFile, error) {
 	case "Python":
 		fmt.Println("python detected")
 		pyCode := Py{Code: code}
+
+		cwd, err := os.Getwd()
+		if err != nil {
+			fmt.Println(err)
+			return nil, err
+		}
+		if filepath.Base(cwd) == "py" {
+			err := os.Chdir("..")
+			if err != nil {
+				fmt.Println("cd failed")
+			}
+		}
 		userCodeErr, resultJson, err := GetOutput(pyCode, "py/template.py", "py/file.py")
 		if err != nil {
 			fmt.Println(err)
