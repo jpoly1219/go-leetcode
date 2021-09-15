@@ -131,5 +131,5 @@ func CheckProblem(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println(string(body))
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
-	json.NewEncoder(w).Encode(body)
+	json.NewEncoder(w).Encode(string(body))
 }
