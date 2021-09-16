@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"path/filepath"
@@ -124,12 +123,22 @@ func CheckProblem(w http.ResponseWriter, r *http.Request) {
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		fmt.Println(err)
-		return
+	/*
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Println(string(body))
+	*/
+	type result struct {
+		Result   string `json:"result"`
+		Input    string `json:"input"`
+		Expected string `json:"expected"`
+		Output   string `json:"output"`
 	}
-	fmt.Println(string(body))
+	var resFromContainer result
+	json.NewDecoder(resp.Body).Decode(&resFromContainer)
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
-	json.NewEncoder(w).Encode(string(body))
+	json.NewEncoder(w).Encode(resFromContainer)
 }
