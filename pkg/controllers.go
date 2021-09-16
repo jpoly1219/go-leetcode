@@ -123,14 +123,6 @@ func CheckProblem(w http.ResponseWriter, r *http.Request) {
 	}
 	defer resp.Body.Close()
 
-	/*
-		body, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		fmt.Println(string(body))
-	*/
 	type result struct {
 		Result   string `json:"result"`
 		Input    string `json:"input"`
