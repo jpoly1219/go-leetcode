@@ -123,12 +123,6 @@ func CheckProblem(w http.ResponseWriter, r *http.Request) {
 	}
 	defer resp.Body.Close()
 
-	type result struct {
-		Result   string `json:"result"`
-		Input    string `json:"input"`
-		Expected string `json:"expected"`
-		Output   string `json:"output"`
-	}
 	var resFromContainer result
 	json.NewDecoder(resp.Body).Decode(&resFromContainer)
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
