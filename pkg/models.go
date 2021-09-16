@@ -19,3 +19,10 @@ type userCode struct {
 	Lang string `json:"lang"`
 	Code string `json:"code"`
 }
+
+type result struct {
+	Result   string `json:"result"`
+	Input    string `json:"input"`
+	Expected string `json:"expected"`
+	Output   string `json:"output"`
+}
