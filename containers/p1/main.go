@@ -238,14 +238,23 @@ func (py Py) CompileAndRun(sourcePath string) (string, error) {
 }
 
 type resultFile struct {
+	Username string `json:"username"`
+	Pnum     int    `json:"pnum"`
+	Lang     string `json:"lang"`
+	Code     string `json:"code"`
 	Result   string `json:"result"`
 	Input    string `json:"input"`
 	Expected string `json:"expected"`
 	Output   string `json:"output"`
+	// Runtime string `json:"runtime"`
 }
 
 func HandleLangs(code, lang string) (*resultFile, error) {
 	var result resultFile
+	result.Username = "username"
+	result.Pnum = 1
+	result.Lang = lang
+	result.Code = code
 
 	switch lang {
 	case "C++":
@@ -268,7 +277,10 @@ func HandleLangs(code, lang string) (*resultFile, error) {
 			return nil, err
 		}
 		if userCodeErr != "" {
-			result := resultFile{Result: "wrong", Input: "", Expected: "", Output: userCodeErr}
+			result.Result = "wrong"
+			result.Input = ""
+			result.Expected = ""
+			result.Output = userCodeErr
 			return &result, nil
 		}
 
