@@ -37,6 +37,7 @@
         const data = await res.json()
         console.log(data)
         alert("code submitted!")
+        alert(`Result: ${data.result}:\nInput: ${data.input}\nExpected: ${data.expected}\nOutput: ${data.output}`)
     }
 </script>
 
