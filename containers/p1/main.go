@@ -305,7 +305,10 @@ func HandleLangs(code, lang string) (*resultFile, error) {
 			return nil, err
 		}
 		if userCodeErr != "" {
-			result := resultFile{Result: "wrong", Input: "", Expected: "", Output: userCodeErr}
+			result.Result = "wrong"
+			result.Input = ""
+			result.Expected = ""
+			result.Output = userCodeErr
 			return &result, nil
 		}
 
@@ -330,7 +333,10 @@ func HandleLangs(code, lang string) (*resultFile, error) {
 			return nil, err
 		}
 		if userCodeErr != "" {
-			result := resultFile{Result: "wrong", Input: "", Expected: "", Output: userCodeErr}
+			result.Result = "wrong"
+			result.Input = ""
+			result.Expected = ""
+			result.Output = userCodeErr
 			return &result, nil
 		}
 
@@ -357,7 +363,10 @@ func HandleLangs(code, lang string) (*resultFile, error) {
 			return nil, err
 		}
 		if userCodeErr != "" {
-			result := resultFile{Result: "wrong", Input: "", Expected: "", Output: userCodeErr}
+			result.Result = "wrong"
+			result.Input = ""
+			result.Expected = ""
+			result.Output = userCodeErr
 			return &result, nil
 		}
 
