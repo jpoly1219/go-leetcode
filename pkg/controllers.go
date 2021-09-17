@@ -11,6 +11,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// outdated and for testing purposes only!
 func fileGen(language string, userInput string, pathUserfiles string) string {
 	var out string
 	var err error
@@ -47,6 +48,7 @@ func fileGen(language string, userInput string, pathUserfiles string) string {
 	return out
 }
 
+// outdated and for testing purposes only!
 func Run(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("endpoint reached")
 
