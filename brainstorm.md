@@ -156,3 +156,22 @@
   - https://hasura.io/blog/best-practices-of-using-jwt-with-graphql/
   - https://hackernoon.com/creating-a-middleware-in-golang-for-jwt-based-authentication-cx3f32z8
   - https://medium.com/swlh/building-a-user-auth-system-with-jwt-using-golang-30892659cc0
+  - User sends requests to a protected route, with a bearer token.
+  - Middleware extracts the token from the HTTP header, then uses `jwt-go` library to check if the token is valid.
+  - If token is valid, the middleware creates a ctx variable with claims stored inside it, then hands over the request to the protected endpoint.
+    - `ctx := context.WithValue(r.Context(), <key>, claims)`, `next.ServeHTTP(w, r.WithContext(ctx))` from the middleware
+    - `r.Context().Value(<key>)` from the protected endpoint
+  
+  - Token has the following claims: `userid`, `username`, `expire`
+  - Tokens won't need uuids for now.
+
+  - Token generation:
+    - User submits credentials to the backend. The backend then generates tokens.
+    - Tokens will be signed by a secret key saved inside the server's environment variable.
+    - Access and refresh tokens will have different secret keys.
+    - Access token expires every 15min and refresh token expires every 24hrs.
+    - Access token and access token expiry time will be sent as JSON payload, and refresh token will be saved inside an HttpOnly cookie.
+  
+  - Frontend behavior:
+    - User submits credentials to the backend and receives access token and access token expiry time as JSON, and refresh token as an HttpOnly cookie.
+    - After the access token expiry time passes, the frontend will send a request for silent refresh, with the refresh token inside the HttpOnly cookie.
