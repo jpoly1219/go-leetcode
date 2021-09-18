@@ -160,7 +160,7 @@
   - Middleware extracts the token from the HTTP header, then uses `jwt-go` library to check if the token is valid.
   - If token is valid, the middleware creates a ctx variable with claims stored inside it, then hands over the request to the protected endpoint.
     - `ctx := context.WithValue(r.Context(), <key>, claims)`, `next.ServeHTTP(w, r.WithContext(ctx))` from the middleware
-    - `r.Context().Value(<key>)` from the protected endpoint
+    - `props, _ := r.Context().Value(<key>).(jwt.MapClaims)` from the protected endpoint
   
   - Token has the following claims: `userid`, `username`, `expire`
   - Tokens won't need uuids for now.
