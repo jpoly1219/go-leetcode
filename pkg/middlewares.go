@@ -11,9 +11,10 @@ import (
 )
 
 type key string
-authKey := key("authkey")
 
-func verifyToken(next http.Handler) http.Handler {
+var authKey key = "authkey"
+
+func VerifyToken(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		authHeader := strings.Split(r.Header.Get("Authorization"), "Bearer ")
 		if len(authHeader) != 2 {
@@ -30,7 +31,7 @@ func verifyToken(next http.Handler) http.Handler {
 			})
 
 			if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-				ctx := context.WithValue(r.Context(), authkey, claims)
+				ctx := context.WithValue(r.Context(), authKey, claims)
 				next.ServeHTTP(w, r.WithContext(ctx))
 			} else {
 				fmt.Println(err)
