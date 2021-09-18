@@ -372,6 +372,7 @@ func HandleLangs(code, lang string) (*resultFile, error) {
 
 		json.Unmarshal(resultJson, &result)
 	}
+	fmt.Println(result)
 	return &result, nil
 }
 
