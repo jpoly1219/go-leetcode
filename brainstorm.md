@@ -150,3 +150,9 @@
   - need A Better Way To Handle Different Language Because It Is Way Too Repetitive At The Moment.
   - For a successful insert, the code must be formatted into a single line. For some reason, multi-line inserts don't seem to work...
   - Or make it so that the insert function loops over each line of user code...
+
+- User authentication
+  - Token based authentication.
+  - https://hasura.io/blog/best-practices-of-using-jwt-with-graphql/
+  - https://hackernoon.com/creating-a-middleware-in-golang-for-jwt-based-authentication-cx3f32z8
+  - https://medium.com/swlh/building-a-user-auth-system-with-jwt-using-golang-30892659cc0
