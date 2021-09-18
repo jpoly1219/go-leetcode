@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/joho/godotenv"
 	"github.com/jpoly1219/go-leetcode/pkg"
 
 	"github.com/gorilla/mux"
@@ -12,7 +13,11 @@ import (
 )
 
 func main() {
-	var err error
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalln("Error loading .env file.")
+	}
+
 	pkg.Db, err = sql.Open("postgres", "postgres://postgres:postgres@localhost:5432/goleetcode")
 	if err != nil {
 		log.Fatal("failed to connect to db")
