@@ -31,3 +31,8 @@ type result struct {
 	Output   string `json:"output"`
 	// Runtime string `json:"runtime"`
 }
+
+type token struct {
+	AccessToken string `json:"accessToken"`
+	RefreshToken string `json:"refreshToken"`
+}
