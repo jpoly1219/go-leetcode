@@ -36,3 +36,11 @@ type token struct {
 	AccessToken string `json:"accessToken"`
 	RefreshToken string `json:"refreshToken"`
 }
+
+type user struct {
+	Userid string `json:"userid"`
+	Username string `json:"username"`
+	Fullname string `json:"fullname"`
+	Email string `json:"email"`
+	Password string `json:"password"`
+}
