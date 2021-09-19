@@ -1,14 +1,17 @@
 package pkg
 
 import (
+	"encoding/json"
 	"fmt"
+	"net/http"
 	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt"
+	"golang.org/x/crypto/bcrypt"
 )
 
-func GenerateToken(userid, username string) (*token, error) {
+func GenerateToken(userid int, username string) (*token, error) {
 	accessKey := os.Getenv("ACCESSSECRETKEY")
 	refreshKey := os.Getenv("REFRESHSECRETKEY")
 
@@ -39,19 +42,57 @@ func GenerateToken(userid, username string) (*token, error) {
 	return &tokenPair, nil
 }
 
-func Signup() {
+func Signup(w http.ResponseWriter, r *http.Request) {
 	// read form data and check if form is valid
+	var formData user
+	json.NewDecoder(r.Body).Decode(&formData)
+	fmt.Println(formData)
+
+	// hash password
+	passwordHash, err := bcrypt.GenerateFromPassword([]byte(formData.Password), 14)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
 	// insert user data to database
+	userid := 0
+	username := ""
+
+	err = Db.QueryRow(
+		"INSERT INTO users (username, fullname, email, password) VALUES (?, ?, ?, ?) RETURNING (userid, username);",
+		formData.Username, formData.Fullname, formData.Email, string(passwordHash),
+	).Scan(&userid, &username)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
 	// generate token pair and send it to user. Access token and exp as JSON, refresh token as HttpOnly cookie.
+	tokenPair, err := GenerateToken(userid, username)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	cookie := http.Cookie{
+		HttpOnly: true,
+		Name:     "refreshToken",
+		Value:    tokenPair.RefreshToken,
+		Domain:   "jpoly1219devbox.xyz",
+		Path:     "/auth/",
+	}
+	http.SetCookie(w, &cookie)
+	json.NewEncoder(w).Encode(tokenPair.AccessToken)
 }
 
-func Login() {
+func Login(w http.ResponseWriter, r *http.Request) {
 	// read form data and check if form is valid
 	// compare form data to database
 	// generate token pair and send it to user. Access token and exp as JSON, refresh token as HttpOnly cookie.
 }
 
-func SilentRefresh() {
+func SilentRefresh(w http.ResponseWriter, r *http.Request) {
 	// check if refresh token is valid
 	// if so then generate token pair and send it to user. Access token and exp as JSON, refresh token as HttpOnly cookie.
 }
