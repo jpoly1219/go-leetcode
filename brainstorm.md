@@ -175,3 +175,8 @@
   - Frontend behavior:
     - User submits credentials to the backend and receives access token and access token expiry time as JSON, and refresh token as an HttpOnly cookie.
     - After the access token expiry time passes, the frontend will send a request for silent refresh, with the refresh token inside the HttpOnly cookie.
+
+  - Database
+    - https://www.calhoun.io/inserting-records-into-a-postgresql-database-with-gos-database-sql-package/
+    - `users` table with five columns: `userid`, `username`, `fullname`, `email`, and `password`
+    - `password` will hold hashes instead of string
