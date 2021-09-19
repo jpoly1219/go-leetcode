@@ -34,5 +34,10 @@ func main() {
 	checkR := r.PathPrefix("/check").Subrouter()
 	checkR.HandleFunc("/{slug}", pkg.CheckProblem)
 
+	authR := r.PathPrefix("/auth").Subrouter()
+	authR.HandleFunc("/signup", pkg.Signup)
+	authR.HandleFunc("/login", pkg.Login)
+	authR.HandleFunc("/silentrefresh", pkg.SilentRefresh)
+
 	log.Fatal(http.ListenAndServe(":8090", r))
 }
