@@ -130,11 +130,3 @@ func CheckProblem(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
 	json.NewEncoder(w).Encode(resFromContainer)
 }
-
-func Signup() {
-
-}
-
-func Login() {
-
-}
