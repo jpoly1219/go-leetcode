@@ -8,4 +8,5 @@ require (
 	github.com/gorilla/mux v1.8.0
 	github.com/joho/godotenv v1.3.0
 	github.com/lib/pq v1.10.2
+	golang.org/x/crypto v0.0.0-20210915214749-c084706c2272
 )
