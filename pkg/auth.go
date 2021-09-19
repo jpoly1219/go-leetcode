@@ -26,7 +26,7 @@ func GenerateToken(userid, username string) (*token, error) {
 	refreshToken := jwt.NewWithClaims(jwt.SigningMethodES256, jwt.MapClaims{
 		"userid":   userid,
 		"username": username,
-		"exp":      time.Now().Add(time.Hour * 24 * 7).Unix(),
+		"exp":      time.Now().Add(time.Hour * 24).Unix(),
 	})
 	refreshTokenString, err := refreshToken.SignedString(refreshKey)
 	if err != nil {
@@ -37,4 +37,21 @@ func GenerateToken(userid, username string) (*token, error) {
 	tokenPair := token{AccessToken: accessTokenString, RefreshToken: refreshTokenString}
 	fmt.Println("generated token pair")
 	return &tokenPair, nil
+}
+
+func Signup() {
+	// read form data and check if form is valid
+	// insert user data to database
+	// generate token pair and send it to user. Access token and exp as JSON, refresh token as HttpOnly cookie.
+}
+
+func Login() {
+	// read form data and check if form is valid
+	// compare form data to database
+	// generate token pair and send it to user. Access token and exp as JSON, refresh token as HttpOnly cookie.
+}
+
+func SilentRefresh() {
+	// check if refresh token is valid
+	// if so then generate token pair and send it to user. Access token and exp as JSON, refresh token as HttpOnly cookie.
 }
