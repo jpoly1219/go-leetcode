@@ -128,6 +128,43 @@ func Login(w http.ResponseWriter, r *http.Request) {
 }
 
 func SilentRefresh(w http.ResponseWriter, r *http.Request) {
+	c, err := r.Cookie("refreshToken")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	refreshToken := c.Value
+
 	// check if refresh token is valid
-	// if so then generate token pair and send it to user. Access token and exp as JSON, refresh token as HttpOnly cookie.
+	token, err := jwt.Parse(refreshToken, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+		return []byte(os.Getenv("ACCESSSECRETKEY")), nil
+	})
+
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		// if so then generate token pair and send it to user. Access token and exp as JSON, refresh token as HttpOnly cookie.
+		userid := claims["userid"]
+		username := claims["username"]
+		useridStr := userid.(int)
+		usernameStr := username.(string)
+		tokenPair, err := GenerateToken(useridStr, usernameStr)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		cookie := http.Cookie{
+			HttpOnly: true,
+			Name:     "refreshToken",
+			Value:    tokenPair.RefreshToken,
+			Domain:   "jpoly1219devbox.xyz",
+			Path:     "/auth/",
+		}
+		http.SetCookie(w, &cookie)
+		json.NewEncoder(w).Encode(tokenPair.AccessToken)
+	} else {
+		fmt.Println(err)
+	}
 }
