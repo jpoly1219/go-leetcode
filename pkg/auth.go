@@ -88,8 +88,43 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 
 func Login(w http.ResponseWriter, r *http.Request) {
 	// read form data and check if form is valid
+	var formData user
+	json.NewDecoder(r.Body).Decode(&formData)
+	fmt.Println(formData)
+
 	// compare form data to database
-	// generate token pair and send it to user. Access token and exp as JSON, refresh token as HttpOnly cookie.
+	dbPasswordHash := ""
+	err := Db.QueryRow(
+		"SELECT password FROM users WHERE username = ?;",
+		formData.Username,
+	).Scan(&dbPasswordHash)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	pwMatchErr := bcrypt.CompareHashAndPassword([]byte(formData.Password), []byte(dbPasswordHash))
+	if pwMatchErr != nil {
+		fmt.Println(pwMatchErr)
+		return
+	} else {
+		// generate token pair and send it to user. Access token and exp as JSON, refresh token as HttpOnly cookie.
+		tokenPair, err := GenerateToken(formData.Userid, formData.Username)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		cookie := http.Cookie{
+			HttpOnly: true,
+			Name:     "refreshToken",
+			Value:    tokenPair.RefreshToken,
+			Domain:   "jpoly1219devbox.xyz",
+			Path:     "/auth/",
+		}
+		http.SetCookie(w, &cookie)
+		json.NewEncoder(w).Encode(tokenPair.AccessToken)
+	}
 }
 
 func SilentRefresh(w http.ResponseWriter, r *http.Request) {
