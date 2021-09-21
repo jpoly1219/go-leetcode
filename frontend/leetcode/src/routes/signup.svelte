@@ -22,8 +22,10 @@
         }
         const url = "http://jpoly1219devbox.xyz:8090/auth/signup"
         const res = await fetch(url, options)
-        const tokenPair = await res.json()
-        console.log(tokenPair)
+        const accessToken = await res.json()
+        console.log(accessToken)
+        const payloadB64 = accessToken.split(".")[1]
+        timeToExpire.set(JSON.parse(window.atob(payloadB64)).exp)
     }
 </script>
 
