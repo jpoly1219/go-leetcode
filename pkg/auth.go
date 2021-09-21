@@ -14,11 +14,13 @@ import (
 func GenerateToken(userid int, username string) (*token, error) {
 	accessKey := os.Getenv("ACCESSSECRETKEY")
 	refreshKey := os.Getenv("REFRESHSECRETKEY")
+	accessExp := time.Now().Add(time.Minute * 15).Unix()
+	refreshExp := time.Now().Add(time.Hour * 24).Unix()
 
 	accessToken := jwt.NewWithClaims(jwt.SigningMethodES256, jwt.MapClaims{
 		"userid":   userid,
 		"username": username,
-		"exp":      time.Now().Add(time.Minute * 15).Unix(),
+		"exp":      accessExp,
 	})
 	accessTokenString, err := accessToken.SignedString(accessKey)
 	if err != nil {
@@ -29,7 +31,7 @@ func GenerateToken(userid int, username string) (*token, error) {
 	refreshToken := jwt.NewWithClaims(jwt.SigningMethodES256, jwt.MapClaims{
 		"userid":   userid,
 		"username": username,
-		"exp":      time.Now().Add(time.Hour * 24).Unix(),
+		"exp":      refreshExp,
 	})
 	refreshTokenString, err := refreshToken.SignedString(refreshKey)
 	if err != nil {
