@@ -63,6 +63,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		"INSERT INTO users (username, fullname, email, password) VALUES (?, ?, ?, ?) RETURNING (userid, username);",
 		formData.Username, formData.Fullname, formData.Email, string(passwordHash),
 	).Scan(&userid, &username)
+	// check if user already exists
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -98,6 +99,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		"SELECT password FROM users WHERE username = ?;",
 		formData.Username,
 	).Scan(&dbPasswordHash)
+	// check if user does not exist
 	if err != nil {
 		fmt.Println(err)
 		return
