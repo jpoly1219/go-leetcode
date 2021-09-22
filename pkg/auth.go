@@ -11,6 +11,12 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+func HandleCors(w http.ResponseWriter, r *http.Request) {
+	(w).Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
+	(w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	(w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+}
+
 func GenerateToken(userid int, username string) (*token, error) {
 	accessKey := os.Getenv("ACCESSSECRETKEY")
 	refreshKey := os.Getenv("REFRESHSECRETKEY")
@@ -45,6 +51,12 @@ func GenerateToken(userid int, username string) (*token, error) {
 }
 
 func Signup(w http.ResponseWriter, r *http.Request) {
+	// handle preflight OPTIONS request
+	HandleCors(w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
 	// read form data and check if form is valid
 	var formData user
 	json.NewDecoder(r.Body).Decode(&formData)
@@ -86,10 +98,17 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		Path:     "/auth/",
 	}
 	http.SetCookie(w, &cookie)
+	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
 	json.NewEncoder(w).Encode(tokenPair.AccessToken)
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
+	// handle preflight OPTIONS request
+	HandleCors(w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
 	// read form data and check if form is valid
 	var formData user
 	json.NewDecoder(r.Body).Decode(&formData)
@@ -127,6 +146,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			Path:     "/auth/",
 		}
 		http.SetCookie(w, &cookie)
+		w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
 		json.NewEncoder(w).Encode(tokenPair.AccessToken)
 	}
 }
@@ -167,6 +187,7 @@ func SilentRefresh(w http.ResponseWriter, r *http.Request) {
 			Path:     "/auth/",
 		}
 		http.SetCookie(w, &cookie)
+		w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
 		json.NewEncoder(w).Encode(tokenPair.AccessToken)
 	} else {
 		fmt.Println(err)
