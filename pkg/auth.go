@@ -23,7 +23,7 @@ func GenerateToken(userid int, username string) (*token, error) {
 	accessExp := time.Now().Add(time.Minute * 15).Unix()
 	refreshExp := time.Now().Add(time.Hour * 24).Unix()
 
-	accessToken := jwt.NewWithClaims(jwt.SigningMethodES256, jwt.MapClaims{
+	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"userid":   userid,
 		"username": username,
 		"exp":      accessExp,
@@ -34,7 +34,7 @@ func GenerateToken(userid int, username string) (*token, error) {
 		return nil, err
 	}
 
-	refreshToken := jwt.NewWithClaims(jwt.SigningMethodES256, jwt.MapClaims{
+	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"userid":   userid,
 		"username": username,
 		"exp":      refreshExp,
