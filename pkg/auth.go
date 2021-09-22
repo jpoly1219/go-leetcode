@@ -28,7 +28,7 @@ func GenerateToken(userid int, username string) (*token, error) {
 		"username": username,
 		"exp":      accessExp,
 	})
-	accessTokenString, err := accessToken.SignedString(accessKey)
+	accessTokenString, err := accessToken.SignedString([]byte(accessKey))
 	if err != nil {
 		fmt.Println("failed to sign access token: ", err)
 		return nil, err
@@ -39,7 +39,7 @@ func GenerateToken(userid int, username string) (*token, error) {
 		"username": username,
 		"exp":      refreshExp,
 	})
-	refreshTokenString, err := refreshToken.SignedString(refreshKey)
+	refreshTokenString, err := refreshToken.SignedString([]byte(refreshKey))
 	if err != nil {
 		fmt.Println("failed to sign refresh token: ", err)
 		return nil, err
@@ -99,7 +99,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	}
 	http.SetCookie(w, &cookie)
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
-	json.NewEncoder(w).Encode(tokenPair.AccessToken)
+	json.NewEncoder(w).Encode(tokenPair)
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
@@ -117,16 +117,17 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	// compare form data to database
 	dbPasswordHash := ""
 	err := Db.QueryRow(
-		"SELECT password FROM users WHERE username = ?;",
+		"SELECT password FROM users WHERE username = $1;",
 		formData.Username,
 	).Scan(&dbPasswordHash)
+	fmt.Println(dbPasswordHash)
 	// check if user does not exist
 	if err != nil {
 		fmt.Println("login() query failed:", err)
 		return
 	}
 
-	pwMatchErr := bcrypt.CompareHashAndPassword([]byte(formData.Password), []byte(dbPasswordHash))
+	pwMatchErr := bcrypt.CompareHashAndPassword([]byte(dbPasswordHash), []byte(formData.Password))
 	if pwMatchErr != nil {
 		fmt.Println("password hashes don't match:", pwMatchErr)
 		return
@@ -147,7 +148,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		}
 		http.SetCookie(w, &cookie)
 		w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
-		json.NewEncoder(w).Encode(tokenPair.AccessToken)
+		json.NewEncoder(w).Encode(tokenPair)
 	}
 }
 
