@@ -74,7 +74,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	username := ""
 
 	err = Db.QueryRow(
-		"INSERT INTO users (username, fullname, email, password) VALUES (?, ?, ?, ?) RETURNING (userid, username);",
+		"INSERT INTO users (username, fullname, email, password) VALUES ($1, $2, $3, $4) RETURNING id, username;",
 		formData.Username, formData.Fullname, formData.Email, string(passwordHash),
 	).Scan(&userid, &username)
 	// check if user already exists
