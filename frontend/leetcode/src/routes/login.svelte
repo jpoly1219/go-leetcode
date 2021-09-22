@@ -16,7 +16,7 @@
             headers: {
                 "Content-Type": "application/json"
             },
-            credentials: "include"
+            // credentials: "include"
         }
         const url = "http://jpoly1219devbox.xyz:8090/auth/login"
         const res = await fetch(url, options)
