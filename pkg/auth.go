@@ -99,7 +99,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	}
 	http.SetCookie(w, &cookie)
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
-	json.NewEncoder(w).Encode(tokenPair)
+	json.NewEncoder(w).Encode(tokenPair.AccessToken)
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
@@ -148,7 +148,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		}
 		http.SetCookie(w, &cookie)
 		w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
-		json.NewEncoder(w).Encode(tokenPair)
+		json.NewEncoder(w).Encode(tokenPair.AccessToken)
 	}
 }
 
