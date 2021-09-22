@@ -34,7 +34,7 @@ func VerifyToken(next http.Handler) http.Handler {
 				ctx := context.WithValue(r.Context(), authKey, claims)
 				next.ServeHTTP(w, r.WithContext(ctx))
 			} else {
-				fmt.Println(err)
+				fmt.Println("invalid claims:", err)
 				w.WriteHeader(http.StatusUnauthorized)
 				w.Write([]byte("Unauthorized"))
 			}

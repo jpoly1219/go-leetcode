@@ -30,7 +30,7 @@ func GenerateToken(userid int, username string) (*token, error) {
 	})
 	accessTokenString, err := accessToken.SignedString(accessKey)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("failed to sign access token: ", err)
 		return nil, err
 	}
 
@@ -41,7 +41,7 @@ func GenerateToken(userid int, username string) (*token, error) {
 	})
 	refreshTokenString, err := refreshToken.SignedString(refreshKey)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("failed to sign refresh token: ", err)
 		return nil, err
 	}
 
@@ -65,7 +65,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	// hash password
 	passwordHash, err := bcrypt.GenerateFromPassword([]byte(formData.Password), 14)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("failed to generate password hash", err)
 		return
 	}
 
@@ -79,14 +79,14 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	).Scan(&userid, &username)
 	// check if user already exists
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("signup() query failed:", err)
 		return
 	}
 
 	// generate token pair and send it to user. Access token and exp as JSON, refresh token as HttpOnly cookie.
 	tokenPair, err := GenerateToken(userid, username)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("failed to generate token pair:", err)
 		return
 	}
 
@@ -122,19 +122,19 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	).Scan(&dbPasswordHash)
 	// check if user does not exist
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("login() query failed:", err)
 		return
 	}
 
 	pwMatchErr := bcrypt.CompareHashAndPassword([]byte(formData.Password), []byte(dbPasswordHash))
 	if pwMatchErr != nil {
-		fmt.Println(pwMatchErr)
+		fmt.Println("password hashes don't match:", pwMatchErr)
 		return
 	} else {
 		// generate token pair and send it to user. Access token and exp as JSON, refresh token as HttpOnly cookie.
 		tokenPair, err := GenerateToken(formData.Userid, formData.Username)
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("failed to generate token pair:", err)
 			return
 		}
 
