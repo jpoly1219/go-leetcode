@@ -180,3 +180,6 @@
     - https://www.calhoun.io/inserting-records-into-a-postgresql-database-with-gos-database-sql-package/
     - `users` table with five columns: `userid`, `username`, `fullname`, `email`, and `password`
     - `password` will hold hashes instead of string
+  
+  - CORS
+    - https://flaviocopes.com/golang-enable-cors/
