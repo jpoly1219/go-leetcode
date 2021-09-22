@@ -1,5 +1,5 @@
 <script>
-    import timeToExpire from "../stores/timer"
+    import { timeToExpire } from "../stores/timer"
     
     let username = ""
     let password = ""
@@ -15,8 +15,7 @@
             body: JSON.stringify(loginDetails),
             headers: {
                 "Content-Type": "application/json"
-            },
-            // credentials: "include"
+            }
         }
         const url = "http://jpoly1219devbox.xyz:8090/auth/login"
         const res = await fetch(url, options)

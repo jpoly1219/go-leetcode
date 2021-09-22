@@ -18,12 +18,10 @@
             body: JSON.stringify(signupDetails),
             headers: {
                 "Content-Type": "application/json"
-            },
-            // credentials: "include"
+            }
         }
         const url = "http://jpoly1219devbox.xyz:8090/auth/signup"
         const res = await fetch(url, options)
-        console.log("accesstoken: " + res)
         const accessToken = await res.json()
         console.log(accessToken)
         const payloadB64 = accessToken.split(".")[1]
