@@ -1,6 +1,6 @@
 <script>
     import Nav from "../components/nav.svelte"
-    import timeToExpire from "../stores/timer"
+    import { timeToExpire } from "../stores/timer"
 
     async function refresh() {
 		const options = {
@@ -22,12 +22,12 @@
 		if ($timeToExpire != "") {
 			var i = Date.now()/1000;
 			var timer = setInterval(() => {
-				console.log($timeToExpire)
+				//console.log($timeToExpire)
 				if (i >= Number($timeToExpire)) {
                     refresh()
                     clearInterval(timer)
 				}	
-				console.log(Date.now()/1000)
+				//console.log(Date.now()/1000)
 				i++
 			}, 1000)
 		}

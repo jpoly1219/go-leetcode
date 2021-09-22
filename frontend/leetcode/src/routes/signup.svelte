@@ -1,4 +1,5 @@
 <script>
+    import { timeToExpire } from "../stores/timer"
     let username = ""
     let fullname = ""
     let email = ""
@@ -22,6 +23,7 @@
         }
         const url = "http://jpoly1219devbox.xyz:8090/auth/signup"
         const res = await fetch(url, options)
+        console.log("accesstoken: " + accessToken)
         const accessToken = await res.json()
         console.log(accessToken)
         const payloadB64 = accessToken.split(".")[1]
