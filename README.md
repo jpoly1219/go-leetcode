@@ -10,4 +10,4 @@ A clone of Leetcode written in Go and Svelte.
 
 ## Frontend written in Svelte and TailwindCSS
 - Svelte is an ideal option for a frontend because it allows me to create blazing fast frontend with a small footprint.
-- TailwindCSS is awesome for quickly scaffolding good looking apps. While it does make the HTML elements a bit verbose, it is still the most intuitive way, in my opinion, to design each element and component.
+- TailwindCSS is awesome for quickly scaffolding good looking apps. While it does make the HTML elements a bit verbose, it is still the most intuitive way, in my opinion, to design each element and component. 
