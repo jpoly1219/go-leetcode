@@ -1,8 +1,18 @@
 <script context="module">
+    import { get } from "svelte/store"
+    import { accessToken } from "../../stores/stores"
     export async function load({page}) {
         const slug = page.params.slug
         const url = `http://jpoly1219devbox.xyz:8090/solve/${slug}`
-        const res = await fetch(url)
+        const options = {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + get(accessToken).value,
+            },
+            credentials: "include"
+        }
+        console.log(`now fetching:\n ${"Authorization: Bearer " + get(accessToken).value}`)
+        const res = await fetch(url, options)
         const problem = await res.json()
         return {props: {problem}}
     }
