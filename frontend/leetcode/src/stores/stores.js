@@ -1,4 +1,4 @@
 import { writable } from "svelte/store"
 
-export const timeToExpire = writable("")
-export const accessToken = writable("")
+export const timeToExpireStore = writable("")
+export const accessTokenStore = writable("")
