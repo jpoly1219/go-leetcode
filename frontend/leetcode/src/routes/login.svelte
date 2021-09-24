@@ -1,5 +1,5 @@
 <script>
-    import { timeToExpire } from "../stores/timer"
+    import { timeToExpire } from "../stores/stores"
     
     let username = ""
     let password = ""
