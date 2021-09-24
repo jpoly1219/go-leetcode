@@ -1,6 +1,6 @@
 <script>
     import Nav from "../components/nav.svelte"
-    import { timeToExpire } from "../stores/stores"
+    import { timeToExpireStore } from "../stores/stores"
 
     async function refresh() {
 		const options = {
@@ -12,18 +12,18 @@
 			const res = await fetch("http://jpoly1219devbox.xyz:8090/auth/silentrefresh", options)
 			const accessToken = await res.json()
 			const payloadB64 = accessToken.split(".")[1]
-			timeToExpire.set(JSON.parse(window.atob(payloadB64)).exp)
+			timeToExpireStore.set(JSON.parse(window.atob(payloadB64)).exp)
 		} catch(err) {
 			alert(err)
 		}
 	}
 
     function refreshTimer() {
-		if ($timeToExpire != "") {
+		if ($timeToExpireStore != "") {
 			var i = Date.now()/1000;
 			var timer = setInterval(() => {
-				console.log($timeToExpire)
-				if (i >= Number($timeToExpire)) {
+				console.log($timeToExpireStore)
+				if (i >= Number($timeToExpireStore)) {
                     refresh()
                     clearInterval(timer)
 				}	
@@ -33,7 +33,7 @@
 		}
 	}
 
-	$: $timeToExpire, refreshTimer()
+	$: $timeToExpireStore, refreshTimer()
 </script>
 
 <div class="p-8 h-screen">
