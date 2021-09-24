@@ -1,5 +1,5 @@
 <script>
-    import { timeToExpire } from "../stores/stores"
+    import { timeToExpireStore, accessTokenStore } from "../stores/stores"
     
     let username = ""
     let password = ""
@@ -21,8 +21,9 @@
         const res = await fetch(url, options)
         const accessToken = await res.json()
         console.log(accessToken)
+        accessTokenStore.set(accessToken)
         const payloadB64 = accessToken.split(".")[1]
-        timeToExpire.set(JSON.parse(window.atob(payloadB64)).exp)
+        timeToExpireStore.set(JSON.parse(window.atob(payloadB64)).exp)
     }
 </script>
 
