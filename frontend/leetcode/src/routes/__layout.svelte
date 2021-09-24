@@ -1,6 +1,6 @@
 <script>
     import Nav from "../components/nav.svelte"
-    import { timeToExpire } from "../stores/timer"
+    import { timeToExpire } from "../stores/stores"
 
     async function refresh() {
 		const options = {
