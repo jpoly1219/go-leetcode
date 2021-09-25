@@ -183,3 +183,9 @@
   
   - CORS
     - https://flaviocopes.com/golang-enable-cors/
+
+  - SvelteKit and Reactivity, Stores
+    - https://github.com/sveltejs/svelte/issues/4306
+  
+  - Current Issues:
+    - Error loading 1-two-sum when switching tabs.
