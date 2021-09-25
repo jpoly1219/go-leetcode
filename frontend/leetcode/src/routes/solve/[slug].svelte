@@ -18,7 +18,7 @@
             const problem = await res.json()
             return {props: {problem}}
         } catch(err) {
-            alert(err)
+            console.log(err)
         }
     }
 </script>
