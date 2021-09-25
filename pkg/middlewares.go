@@ -16,8 +16,13 @@ var authKey key = "authkey"
 
 func VerifyToken(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		authHeader := strings.Split(r.Header.Get("Authorization"), "Bearer ")
-		fmt.Println(authHeader)
+		HandleCors(w, r)
+		if r.Method == "OPTIONS" {
+			return
+		}
+		fmt.Println(r.Header.Get("Authorization"))
+		authHeader := strings.Split(r.Header.Get("Authorization"), " ")
+		// fmt.Println("0: ", authHeader[0], "1:", authHeader[1])
 		if len(authHeader) != 2 {
 			fmt.Println("bad request: no token")
 			w.WriteHeader(http.StatusUnauthorized)
