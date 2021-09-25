@@ -4,17 +4,22 @@
     export async function load({page}) {
         const slug = page.params.slug
         const url = `http://jpoly1219devbox.xyz:8090/solve/${slug}`
+        let accessToken = get(accessTokenStore)
         const options = {
             method: "GET",
             headers: {
-                "Authorization": "Bearer " + get(accessTokenStore),
+                "Authorization": "Bearer " + accessToken,
             },
             credentials: "include"
         }
         console.log(`now fetching:\n ${"Authorization: Bearer " + get(accessTokenStore)}`)
-        const res = await fetch(url, options)
-        const problem = await res.json()
-        return {props: {problem}}
+        try {
+            const res = await fetch(url, options)
+            const problem = await res.json()
+            return {props: {problem}}
+        } catch(err) {
+            alert(err)
+        }
     }
 </script>
 
