@@ -86,6 +86,11 @@ func Problemsets(w http.ResponseWriter, r *http.Request) {
 }
 
 func ReturnProblem(w http.ResponseWriter, r *http.Request) {
+	HandleCors(w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
 	vars := mux.Vars(r)
 	keys := vars["slug"]
 
