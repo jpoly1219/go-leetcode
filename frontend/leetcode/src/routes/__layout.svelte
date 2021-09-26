@@ -1,6 +1,6 @@
 <script>
     import Nav from "../components/nav.svelte"
-    import { timeToExpireStore } from "../stores/stores"
+    import { accessTokenStore, timeToExpireStore } from "../stores/stores"
 
     async function refresh() {
 		const options = {
@@ -34,6 +34,7 @@
 	}
 
 	$: $timeToExpireStore, refreshTimer()
+	$: $accessTokenStore, console.log($accessTokenStore)
 </script>
 
 <div class="p-8 h-screen">
