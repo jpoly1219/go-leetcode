@@ -12,7 +12,7 @@
             },
             credentials: "include"
         }
-        console.log(`now fetching:\n ${options.headers.Authorization}`)
+        // console.log(`now fetching:\n ${options.headers.Authorization}`)
         try {
             const res = await fetch(url, options)
             const problem = await res.json()
