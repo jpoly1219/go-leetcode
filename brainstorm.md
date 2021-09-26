@@ -189,3 +189,6 @@
   
   - Current Issues:
     - Error loading 1-two-sum when switching tabs.
+    - For some reason, SvelteKit is reloading itself every 5 seconds without me asking.
+    - This is throwing off a lot of functionality.
+    - https://github.com/sveltejs/kit/issues/1134
