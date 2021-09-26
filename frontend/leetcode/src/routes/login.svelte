@@ -41,7 +41,7 @@
             </div>
             <div class="flex flex-col items-center my-10">
                 <button type="submit" class="border border-gray-500 rounded-lg p-3">
-                    <span class="mx-3 my-2">Log in</span>
+                    <a href="/" class="mx-3 my-2">Log in</a>
                 </button>
             </div>
             <p class="text-sm font-extralight">
