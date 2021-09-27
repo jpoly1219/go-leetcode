@@ -198,3 +198,7 @@
     - Popular problems may have issues with being overly used and thus hogging server resources.
     - Also, having a per user container would be better for security as users cannot access other users' data.
     - Even if we need to manage a lot of containers as our userbase grows, they won't be running calculations 24/7.
+    - Templates for each problems should be stored elsewhere, such as inside a database.
+    - Testcases should also be stored inside a database.
+    - `main.go` inside the container will receive a struct of username, problem number, usercode, language.
+      - Then `main.go` will pull the required data from the database by executing a query such as `SELECT template, testcase FROM problems WHERE problemNumber = 1 AND langauge = cpp"`
