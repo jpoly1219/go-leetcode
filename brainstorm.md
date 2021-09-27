@@ -192,3 +192,9 @@
     - For some reason, SvelteKit is reloading itself every 5 seconds without me asking.
     - This is throwing off a lot of functionality.
     - https://github.com/sveltejs/kit/issues/1134
+  
+  - Thoughts:
+    - Per-user containers might be a better idea than per-problem containers.
+    - Popular problems may have issues with being overly used and thus hogging server resources.
+    - Also, having a per user container would be better for security as users cannot access other users' data.
+    - Even if we need to manage a lot of containers as our userbase grows, they won't be running calculations 24/7.
