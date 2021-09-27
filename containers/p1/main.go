@@ -378,14 +378,17 @@ func HandleLangs(code, lang string) (*resultFile, error) {
 
 func RunTest(w http.ResponseWriter, r *http.Request) {
 	type userCode struct {
-		// Pnum int    `json:"pnum"`
-		Lang string `json:"lang"`
-		Code string `json:"code"`
+		Username string `json:"username"`
+		Pnum     int    `json:"pnum"`
+		Lang     string `json:"lang"`
+		Code     string `json:"code"`
 	}
 
 	var code userCode
 	json.NewDecoder(r.Body).Decode(&code)
-	fmt.Println(code.Lang, code.Code)
+	fmt.Println("RunTest() on: ", code.Lang, code.Code)
+
+	// db.exec("SELECT template, testcase FROM testData WHERE language = 'cpp' AND problemNumber = '1'")
 
 	result, err := HandleLangs(code.Code, code.Lang)
 	if err != nil {
