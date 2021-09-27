@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -14,6 +15,8 @@ import (
 
 	"github.com/gorilla/mux"
 )
+
+var db *sql.DB
 
 func FileToLines(filePath string) ([]string, error) {
 	f, err := os.Open(filePath)
@@ -387,8 +390,13 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 	var code userCode
 	json.NewDecoder(r.Body).Decode(&code)
 	fmt.Println("RunTest() on: ", code.Lang, code.Code)
-
-	// db.exec("SELECT template, testcase FROM testData WHERE language = 'cpp' AND problemNumber = '1'")
+	/*
+		result, err := db.Exec("SELECT template, testcase FROM testData WHERE language = 'cpp' AND problemNumber = '1'")
+		if err != nil {
+			fmt.Println("failed to execute query: ", err)
+			return
+		}
+	*/
 
 	result, err := HandleLangs(code.Code, code.Lang)
 	if err != nil {
@@ -402,6 +410,13 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	// establish database connection
+	db, err := sql.Open("postgres", "postgres://postgres:postgres@localhost:5432/goleetcode")
+	if err != nil {
+		log.Fatal("failed to connect to db")
+	}
+	defer db.Close()
+
 	r := mux.NewRouter()
 	r.HandleFunc("/run", RunTest)
 
