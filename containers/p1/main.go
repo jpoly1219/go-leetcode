@@ -252,7 +252,7 @@ type resultFile struct {
 	// Runtime string `json:"runtime"`
 }
 
-func HandleLangs(code, lang string) (*resultFile, error) {
+func HandleLangs(code, lang, template string) (*resultFile, error) {
 	var result resultFile
 	result.Username = "username"
 	result.Pnum = 1
@@ -391,7 +391,7 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&code)
 	fmt.Println("RunTest() reached: ", code.Username, code.Pnum, code.Lang, code.Code)
 
-	queryResult, err := db.Exec(
+	queryResult, err := db.Query(
 		"SELECT template, testcase FROM tests WHERE lang = ? AND problem_id = ?",
 		code.Lang, code.Pnum,
 	)
@@ -399,8 +399,15 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("failed to execute query: ", err)
 		return
 	}
+	var template, testcase string
+	for queryResult.Next() {
+		err = queryResult.Scan(&template, &testcase)
+		if err != nil {
+			log.Fatal("failed to scan")
+		}
+	}
 
-	result, err := HandleLangs(code.Code, code.Lang)
+	result, err := HandleLangs(code.Code, code.Lang, template)
 	if err != nil {
 		fmt.Println(err)
 		return
