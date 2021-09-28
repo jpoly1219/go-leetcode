@@ -114,13 +114,15 @@ func CheckProblem(w http.ResponseWriter, r *http.Request) {
 	var input userCode
 	json.NewDecoder(r.Body).Decode(&input)
 
-	fmt.Println(input.Lang, input.Code)
+	fmt.Println("CheckProblem() reached: ", input.Username, input.Pnum, input.Lang, input.Code)
 
 	// use Docker SDK to run a container to run user code safely inside a sandbox
 	// then send a POST request which contains several fields to the container
-	postBody, _ := json.Marshal(map[string]string{
-		"lang": input.Lang,
-		"code": input.Code,
+	postBody, _ := json.Marshal(map[string]interface{}{
+		"username": input.Username,
+		"pnum":     input.Pnum,
+		"lang":     input.Lang,
+		"code":     input.Code,
 	})
 	responseBody := bytes.NewBuffer(postBody)
 	resp, err := http.Post("http://jpoly1219devbox.xyz:8091/run", "application/json", responseBody)
