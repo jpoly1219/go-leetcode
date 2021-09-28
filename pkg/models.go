@@ -16,8 +16,10 @@ type problem struct {
 }
 
 type userCode struct {
-	Lang string `json:"lang"`
-	Code string `json:"code"`
+	Username string `json:"username"`
+	Pnum     int    `json:"pnum"`
+	Lang     string `json:"lang"`
+	Code     string `json:"code"`
 }
 
 type result struct {
