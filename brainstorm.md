@@ -180,6 +180,10 @@
     - https://www.calhoun.io/inserting-records-into-a-postgresql-database-with-gos-database-sql-package/
     - `users` table with five columns: `userid`, `username`, `fullname`, `email`, and `password`
     - `password` will hold hashes instead of string
+    - Table relationships:
+      - `users`, `problems`, `tests`, `attempts`
+      - `tests` has a foreign key that references the primary key of `problems`
+      - `attempts` has two foreign keys that references the primary key of `users` and `problems`
   
   - CORS
     - https://flaviocopes.com/golang-enable-cors/
