@@ -208,3 +208,6 @@
     - Testcases should also be stored inside a database.
     - `main.go` inside the container will receive a struct of username, problem number, usercode, language.
       - Then `main.go` will pull the required data from the database by executing a query such as `SELECT template, testcase FROM problems WHERE problemNumber = 1 AND langauge = cpp"`
+    
+    - Does each user container have its own attempts database? Or is there going to be a separate, more central database for all user attempts?
+    - I'll start off with a central database, but this won't scale too well I think.
