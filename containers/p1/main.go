@@ -389,14 +389,16 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 
 	var code userCode
 	json.NewDecoder(r.Body).Decode(&code)
-	fmt.Println("RunTest() on: ", code.Lang, code.Code)
-	/*
-		result, err := db.Exec("SELECT template, testcase FROM testData WHERE language = 'cpp' AND problemNumber = '1'")
-		if err != nil {
-			fmt.Println("failed to execute query: ", err)
-			return
-		}
-	*/
+	fmt.Println("RunTest() reached: ", code.Username, code.Pnum, code.Lang, code.Code)
+
+	queryResult, err := db.Exec(
+		"SELECT template, testcase FROM tests WHERE lang = ? AND problem_id = ?",
+		code.Lang, code.Pnum,
+	)
+	if err != nil {
+		fmt.Println("failed to execute query: ", err)
+		return
+	}
 
 	result, err := HandleLangs(code.Code, code.Lang)
 	if err != nil {
