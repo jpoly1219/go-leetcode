@@ -150,6 +150,14 @@ type Java struct {
 }
 
 func (java Java) GenerateFile(templatePath, sourcePath string) error {
+	// generate template.java
+	templateLines := []byte(java.Template)
+	err := os.WriteFile(templatePath, templateLines, 0644)
+	if err != nil {
+		fmt.Println("failed to create template")
+	}
+
+	// generate file.java
 	lines, err := FileToLines(templatePath)
 	if err != nil {
 		fmt.Println("FileToLines failed")
@@ -186,6 +194,14 @@ type Js struct {
 }
 
 func (js Js) GenerateFile(templatePath, sourcePath string) error {
+	// generate template.js
+	templateLines := []byte(js.Template)
+	err := os.WriteFile(templatePath, templateLines, 0644)
+	if err != nil {
+		fmt.Println("failed to create template")
+	}
+
+	// generate file.js
 	lines, err := FileToLines(templatePath)
 	if err != nil {
 		fmt.Println("FileToLines failed")
@@ -222,6 +238,14 @@ type Py struct {
 }
 
 func (py Py) GenerateFile(templatePath, sourcePath string) error {
+	// generate template.py
+	templateLines := []byte(py.Template)
+	err := os.WriteFile(templatePath, templateLines, 0644)
+	if err != nil {
+		fmt.Println("failed to create template")
+	}
+
+	// generate file.py
 	lines, err := FileToLines(templatePath)
 	if err != nil {
 		fmt.Println("FileToLines failed")
@@ -285,7 +309,7 @@ func HandleLangs(pnum int, username, code, lang, template string) (*resultFile, 
 			}
 		}
 
-		cppCode := Cpp{Code: code}
+		cppCode := Cpp{Code: code, Template: template}
 		userCodeErr, resultJson, err := GetOutput(cppCode, "cpp/template.cpp", "cpp/file.cpp")
 		if err != nil {
 			fmt.Println(err)
@@ -313,7 +337,7 @@ func HandleLangs(pnum int, username, code, lang, template string) (*resultFile, 
 			}
 		}
 
-		javaCode := Java{Code: code}
+		javaCode := Java{Code: code, Template: template}
 		userCodeErr, resultJson, err := GetOutput(javaCode, "java/template.java", "java/file.java")
 		if err != nil {
 			fmt.Println(err)
@@ -341,7 +365,7 @@ func HandleLangs(pnum int, username, code, lang, template string) (*resultFile, 
 			}
 		}
 
-		jsCode := Js{Code: code}
+		jsCode := Js{Code: code, Template: template}
 		userCodeErr, resultJson, err := GetOutput(jsCode, "js/template.js", "js/file.js")
 		if err != nil {
 			fmt.Println(err)
@@ -371,7 +395,7 @@ func HandleLangs(pnum int, username, code, lang, template string) (*resultFile, 
 			}
 		}
 
-		pyCode := Py{Code: code}
+		pyCode := Py{Code: code, Template: template}
 		userCodeErr, resultJson, err := GetOutput(pyCode, "py/template.py", "py/file.py")
 		if err != nil {
 			fmt.Println(err)
