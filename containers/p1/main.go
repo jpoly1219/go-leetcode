@@ -56,11 +56,6 @@ func WriteCodeToFile(filePath, code string, lines []string) error {
 			for _, codeLine := range codeLines {
 				_, _ = writer.WriteString(codeLine + "\n")
 			}
-		} else if strings.Contains(line, "template file") {
-			for _, codeLine := range codeLines {
-				_, _ = writer.WriteString(codeLine + "\n")
-			}
-			line = ""
 		}
 		_, _ = writer.WriteString(line + "\n")
 	}
@@ -75,17 +70,26 @@ type Language interface {
 }
 
 type Cpp struct {
-	Code string
+	Code     string
+	Template string
 }
 
 func (cpp Cpp) GenerateFile(templatePath, sourcePath string) error {
-	lines, err := FileToLines(templatePath)
+	// generate template.cpp
+	templateLines := []byte(cpp.Template)
+	err := os.WriteFile(templatePath, templateLines, 0644)
+	if err != nil {
+		fmt.Println("failed to create template")
+	}
+
+	// generate file.cpp
+	codeLines, err := FileToLines(templatePath)
 	if err != nil {
 		fmt.Println("FileToLines failed")
 		return err
 	}
 
-	err = WriteCodeToFile(sourcePath, cpp.Code, lines)
+	err = WriteCodeToFile(sourcePath, cpp.Code, codeLines)
 	if err != nil {
 		fmt.Println("WriteCodeToFile failed")
 		return err
@@ -141,7 +145,8 @@ func GetOutput(lang Language, templatePath, sourcePath string) (string, []byte, 
 }
 
 type Java struct {
-	Code string
+	Code     string
+	Template string
 }
 
 func (java Java) GenerateFile(templatePath, sourcePath string) error {
@@ -176,7 +181,8 @@ func (java Java) CompileAndRun(sourcePath string) (string, error) {
 }
 
 type Js struct {
-	Code string
+	Code     string
+	Template string
 }
 
 func (js Js) GenerateFile(templatePath, sourcePath string) error {
@@ -211,7 +217,8 @@ func (js Js) CompileAndRun(sourcePath string) (string, error) {
 }
 
 type Py struct {
-	Code string
+	Code     string
+	Template string
 }
 
 func (py Py) GenerateFile(templatePath, sourcePath string) error {
