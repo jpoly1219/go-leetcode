@@ -252,10 +252,10 @@ type resultFile struct {
 	// Runtime string `json:"runtime"`
 }
 
-func HandleLangs(code, lang, template string) (*resultFile, error) {
+func HandleLangs(pnum int, username, code, lang, template string) (*resultFile, error) {
 	var result resultFile
-	result.Username = "username"
-	result.Pnum = 1
+	result.Username = username
+	result.Pnum = pnum
 	result.Lang = lang
 	result.Code = code
 
@@ -407,7 +407,7 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	result, err := HandleLangs(code.Code, code.Lang, template)
+	result, err := HandleLangs(code.Pnum, code.Username, code.Code, code.Lang, template)
 	if err != nil {
 		fmt.Println(err)
 		return
