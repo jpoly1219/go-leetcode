@@ -1,3 +1,4 @@
+// template file
 const fs = require("fs")
 const tc = require("../testcase.json")
 
