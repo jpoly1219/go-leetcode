@@ -18,17 +18,17 @@ import (
 
 var db *sql.DB
 
-func FileToLines(filePath string) ([]string, error) {
+func FileToLines(code, filePath string) ([]string, error) {
 	f, err := os.Open(filePath)
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
 	}
 	defer f.Close()
-	return LinesFromFile(f)
+	return LinesFromFile(f, code)
 }
 
-func LinesFromFile(r io.Reader) ([]string, error) {
+func LinesFromFile(r io.Reader, code string) ([]string, error) {
 	var lines []string
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
@@ -73,8 +73,8 @@ type Cpp struct {
 	Code string
 }
 
-func (cpp Cpp) GenerateFile(templatePath, sourcePath string) error {
-	lines, err := FileToLines(templatePath)
+func (cpp Cpp) GenerateFile(templateCode, templatePath, sourcePath string) error {
+	lines, err := FileToLines(templateCode, templatePath)
 	if err != nil {
 		fmt.Println("FileToLines failed")
 		return err
