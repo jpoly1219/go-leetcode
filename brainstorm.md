@@ -213,3 +213,4 @@
     - I'll start off with a central database, but this won't scale too well I think.
 
     - HandleLang > GenerateFile > FileToLines
+    - There needs to be a way to write template code to a file before inserting user code into that file.
