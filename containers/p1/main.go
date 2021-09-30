@@ -120,30 +120,6 @@ func (cpp Cpp) CompileAndRun(sourcePath string) (string, error) {
 	return string(out), nil
 }
 
-func GetOutput(lang Language, templatePath, sourcePath string) (string, []byte, error) {
-	err := lang.GenerateFile(templatePath, sourcePath)
-	if err != nil {
-		fmt.Println("GenerateFile failed")
-		return "", nil, err
-	}
-	output, err := lang.CompileAndRun(sourcePath)
-	if err != nil {
-		fmt.Println("CompileAndRun failed")
-		return "", nil, err
-	}
-
-	if string(output) != "done\n" {
-		return output, nil, nil
-	}
-
-	result, err := os.ReadFile("result.json")
-	if err != nil {
-		fmt.Println(err)
-		return "", nil, err
-	}
-	return "", result, nil
-}
-
 type Java struct {
 	Code     string
 	Template string
@@ -274,6 +250,30 @@ func (py Py) CompileAndRun(sourcePath string) (string, error) {
 	}
 	fmt.Println(string(out))
 	return string(out), nil
+}
+
+func GetOutput(lang Language, templatePath, sourcePath string) (string, []byte, error) {
+	err := lang.GenerateFile(templatePath, sourcePath)
+	if err != nil {
+		fmt.Println("GenerateFile failed")
+		return "", nil, err
+	}
+	output, err := lang.CompileAndRun(sourcePath)
+	if err != nil {
+		fmt.Println("CompileAndRun failed")
+		return "", nil, err
+	}
+
+	if string(output) != "done\n" {
+		return output, nil, nil
+	}
+
+	result, err := os.ReadFile("result.json")
+	if err != nil {
+		fmt.Println(err)
+		return "", nil, err
+	}
+	return "", result, nil
 }
 
 type resultFile struct {
