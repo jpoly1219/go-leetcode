@@ -301,7 +301,7 @@ func GetOutput(lang Language, templatePath, sourcePath string) (string, []byte, 
 
 type resultFile struct {
 	Username string `json:"username"`
-	Pnum     int    `json:"pnum"`
+	Slug     string `json:"Slug"`
 	Lang     string `json:"lang"`
 	Code     string `json:"code"`
 	Result   string `json:"result"`
@@ -311,10 +311,10 @@ type resultFile struct {
 	// Runtime string `json:"runtime"`
 }
 
-func HandleLangs(pnum int, username, code, lang, template string) (*resultFile, error) {
+func HandleLangs(username, slug, code, lang, template string) (*resultFile, error) {
 	var result resultFile
 	result.Username = username
-	result.Pnum = pnum
+	result.Slug = slug
 	result.Lang = lang
 	result.Code = code
 
@@ -359,18 +359,18 @@ func HandleLangs(pnum int, username, code, lang, template string) (*resultFile, 
 func RunTest(w http.ResponseWriter, r *http.Request) {
 	type userCode struct {
 		Username string `json:"username"`
-		Pnum     int    `json:"pnum"`
+		Slug     string `json:"slug"`
 		Lang     string `json:"lang"`
 		Code     string `json:"code"`
 	}
 
 	var code userCode
 	json.NewDecoder(r.Body).Decode(&code)
-	fmt.Println("RunTest() reached: ", code.Username, code.Pnum, code.Lang, code.Code)
+	fmt.Println("RunTest() reached: ", code.Username, code.Slug, code.Lang, code.Code)
 
 	queryResult, err := db.Query(
-		"SELECT template, testcase FROM tests WHERE lang = ? AND problem_id = ?",
-		code.Lang, code.Pnum,
+		"SELECT template, testcase FROM tests WHERE lang = ? AND slug = ?",
+		code.Lang, code.Slug,
 	)
 	if err != nil {
 		fmt.Println("failed to execute query: ", err)
@@ -384,15 +384,32 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	result, err := HandleLangs(code.Pnum, code.Username, code.Code, code.Lang, template)
+	result, err := HandleLangs(code.Username, code.Slug, code.Code, code.Lang, template)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	fmt.Println(*result)
-	json.NewEncoder(w).Encode(*result)
 
-	// save to submissions database. (columns = username, question number, language, code, runtime, result, output)
+	/*
+		CREATE TABLE attempts (
+			id SERIAL PRIMARY KEY, username VARCHAR (50) NOT NULL,
+			slug VARCHAR (100) NOT NULL, lang VARCHAR (10) NOT NULL,
+			code TEXT NOT NULL, result VARCHAR (50) NOT NULL,
+			output TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW(),
+			FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE,
+			FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)
+		save to attempts database
+	*/
+	_, err = db.Exec(
+		"INSERT INTO attempts (username, slug, lang, code, result, output) VALUES ($1, $2, $3, $4, $5, $6);",
+		result.Username, result.Slug, result.Lang, result.Code, result.Result, result.Output,
+	)
+	if err != nil {
+		fmt.Println("failed to insert attempt: ", err)
+		return
+	}
+	json.NewEncoder(w).Encode(*result)
 }
 
 func main() {
