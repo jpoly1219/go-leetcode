@@ -301,36 +301,13 @@ func HandleLangs(pnum int, username, code, lang, template string) (*resultFile, 
 	result.Lang = lang
 	result.Code = code
 
+	var userCode Language
+	var templatePath, sourcePath string
 	switch lang {
 	case "C++":
-		/*
-			cwd, err := os.Getwd()
-			if err != nil {
-				fmt.Println(err)
-				return nil, err
-			}
-			if filepath.Base(cwd) == "cpp" {
-				err := os.Chdir("..")
-				if err != nil {
-					fmt.Println("cd failed")
-				}
-			}
-		*/
-		cppCode := Cpp{Code: code, Template: template}
-		userCodeErr, resultJson, err := GetOutput(cppCode, "cpp/template.cpp", "cpp/file.cpp")
-		if err != nil {
-			fmt.Println(err)
-			return nil, err
-		}
-		if userCodeErr != "" {
-			result.Result = "wrong"
-			result.Input = ""
-			result.Expected = ""
-			result.Output = userCodeErr
-			return &result, nil
-		}
-
-		json.Unmarshal(resultJson, &result)
+		userCode = Cpp{Code: code, Template: template}
+		templatePath = "cpp/template.cpp"
+		sourcePath = "cpp/file.cpp"
 	case "Java":
 		cwd, err := os.Getwd()
 		if err != nil {
@@ -418,6 +395,20 @@ func HandleLangs(pnum int, username, code, lang, template string) (*resultFile, 
 
 		json.Unmarshal(resultJson, &result)
 	}
+	userCodeErr, resultJson, err := GetOutput(userCode, templatePath, sourcePath)
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+	if userCodeErr != "" {
+		result.Result = "wrong"
+		result.Input = ""
+		result.Expected = ""
+		result.Output = userCodeErr
+		return &result, nil
+	}
+
+	json.Unmarshal(resultJson, &result)
 	fmt.Println(result)
 	return &result, nil
 }
