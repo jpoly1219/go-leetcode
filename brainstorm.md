@@ -184,8 +184,8 @@
       - `users`, `problems`, `tests`, `attempts`
       - `tests` has a foreign key that references the primary key of `problems`
       - `attempts` has two foreign keys that references the primary key of `users` and `problems`
-      - `CREATE TABLE tests (id SERIAL PRIMARY KEY, problem_id INT NOT NULL, lang VARCHAR (10) NOT NULL, template TEXT NOT NULL, testcase TEXT NOT NULL, FOREIGN KEY (problem_id) REFERNCES problems (id) ON DELETE CASCADE)`
-      - `CREATE TABLE attempts (id SERIAL PRIMARY KEY, user_id INT NOT NULL, problem_id INT NOT NULL, lang VARCHAR (10) NOT NULL, code TEXT NOT NULL, result VARCHAR (10) NOT NULL, output TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW(), FOREIGN KEY (user_id) REFERENCES users (id), FOREIGN KEY (problem_id) REFERENCES problems (id)`
+      - `CREATE TABLE tests (id SERIAL PRIMARY KEY, problem_id INT NOT NULL, lang VARCHAR (10) NOT NULL, template TEXT NOT NULL, testcase TEXT NOT NULL, FOREIGN KEY (problem_id) REFERNCES problems (id) ON DELETE CASCADE))`
+      - `CREATE TABLE attempts (id SERIAL PRIMARY KEY, username VARCHAR (50) NOT NULL, slug VARCHAR (100) NOT NULL, lang VARCHAR (10) NOT NULL, code TEXT NOT NULL, result VARCHAR (50) NOT NULL, output TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW(), FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
   
   - CORS
     - https://flaviocopes.com/golang-enable-cors/
