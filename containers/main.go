@@ -391,16 +391,7 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println(*result)
 
-	/*
-		CREATE TABLE attempts (
-			id SERIAL PRIMARY KEY, username VARCHAR (50) NOT NULL,
-			slug VARCHAR (100) NOT NULL, lang VARCHAR (10) NOT NULL,
-			code TEXT NOT NULL, result VARCHAR (50) NOT NULL,
-			output TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW(),
-			FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE,
-			FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)
-		save to attempts database
-	*/
+	// save attempt to database
 	_, err = db.Exec(
 		"INSERT INTO attempts (username, slug, lang, code, result, output) VALUES ($1, $2, $3, $4, $5, $6);",
 		result.Username, result.Slug, result.Lang, result.Code, result.Result, result.Output,
