@@ -116,6 +116,12 @@ func (cpp Cpp) CompileAndRun(sourcePath string) (string, error) {
 		fmt.Println("run failed")
 		return "", err
 	}
+
+	err = os.Chdir("..")
+	if err != nil {
+		fmt.Println("cd failed")
+	}
+
 	fmt.Println(string(out))
 	return string(out), nil
 }
@@ -297,18 +303,19 @@ func HandleLangs(pnum int, username, code, lang, template string) (*resultFile, 
 
 	switch lang {
 	case "C++":
-		cwd, err := os.Getwd()
-		if err != nil {
-			fmt.Println(err)
-			return nil, err
-		}
-		if filepath.Base(cwd) == "cpp" {
-			err := os.Chdir("..")
+		/*
+			cwd, err := os.Getwd()
 			if err != nil {
-				fmt.Println("cd failed")
+				fmt.Println(err)
+				return nil, err
 			}
-		}
-
+			if filepath.Base(cwd) == "cpp" {
+				err := os.Chdir("..")
+				if err != nil {
+					fmt.Println("cd failed")
+				}
+			}
+		*/
 		cppCode := Cpp{Code: code, Template: template}
 		userCodeErr, resultJson, err := GetOutput(cppCode, "cpp/template.cpp", "cpp/file.cpp")
 		if err != nil {
