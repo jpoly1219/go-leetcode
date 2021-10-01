@@ -10,7 +10,6 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
-	"path/filepath"
 	"strings"
 
 	"github.com/gorilla/mux"
@@ -155,7 +154,7 @@ func (java Java) GenerateFile(templatePath, sourcePath string) error {
 }
 
 func (java Java) CompileAndRun(sourcePath string) (string, error) {
-	err := os.Chdir("js")
+	err := os.Chdir("java")
 	if err != nil {
 		fmt.Println("cd failed")
 		return "", err
@@ -166,6 +165,12 @@ func (java Java) CompileAndRun(sourcePath string) (string, error) {
 		fmt.Println("run failed")
 		return "", err
 	}
+
+	err = os.Chdir("..")
+	if err != nil {
+		fmt.Println("cd failed")
+	}
+
 	fmt.Println(string(out))
 	return string(out), nil
 }
@@ -210,6 +215,12 @@ func (js Js) CompileAndRun(sourcePath string) (string, error) {
 		fmt.Println("run failed")
 		return "", err
 	}
+
+	err = os.Chdir("..")
+	if err != nil {
+		fmt.Println("cd failed")
+	}
+
 	fmt.Println(string(out))
 	return string(out), nil
 }
@@ -254,6 +265,12 @@ func (py Py) CompileAndRun(sourcePath string) (string, error) {
 		fmt.Println("run failed")
 		return "", err
 	}
+
+	err = os.Chdir("..")
+	if err != nil {
+		fmt.Println("cd failed")
+	}
+
 	fmt.Println(string(out))
 	return string(out), nil
 }
@@ -309,91 +326,17 @@ func HandleLangs(pnum int, username, code, lang, template string) (*resultFile, 
 		templatePath = "cpp/template.cpp"
 		sourcePath = "cpp/file.cpp"
 	case "Java":
-		cwd, err := os.Getwd()
-		if err != nil {
-			fmt.Println(err)
-			return nil, err
-		}
-		if filepath.Base(cwd) == "java" {
-			err := os.Chdir("..")
-			if err != nil {
-				fmt.Println("cd failed")
-			}
-		}
-
-		javaCode := Java{Code: code, Template: template}
-		userCodeErr, resultJson, err := GetOutput(javaCode, "java/template.java", "java/file.java")
-		if err != nil {
-			fmt.Println(err)
-			return nil, err
-		}
-		if userCodeErr != "" {
-			result.Result = "wrong"
-			result.Input = ""
-			result.Expected = ""
-			result.Output = userCodeErr
-			return &result, nil
-		}
-
-		json.Unmarshal(resultJson, &result)
+		userCode = Java{Code: code, Template: template}
+		templatePath = "java/template.java"
+		sourcePath = "java/file.java"
 	case "Javascript":
-		cwd, err := os.Getwd()
-		if err != nil {
-			fmt.Println(err)
-			return nil, err
-		}
-		if filepath.Base(cwd) == "js" {
-			err := os.Chdir("..")
-			if err != nil {
-				fmt.Println("cd failed")
-			}
-		}
-
-		jsCode := Js{Code: code, Template: template}
-		userCodeErr, resultJson, err := GetOutput(jsCode, "js/template.js", "js/file.js")
-		if err != nil {
-			fmt.Println(err)
-			return nil, err
-		}
-		if userCodeErr != "" {
-			result.Result = "wrong"
-			result.Input = ""
-			result.Expected = ""
-			result.Output = userCodeErr
-			return &result, nil
-		}
-
-		json.Unmarshal(resultJson, &result)
+		userCode = Js{Code: code, Template: template}
+		templatePath = "js/template.js"
+		sourcePath = "js/file.js"
 	case "Python":
-		fmt.Println("python detected")
-
-		cwd, err := os.Getwd()
-		if err != nil {
-			fmt.Println(err)
-			return nil, err
-		}
-		if filepath.Base(cwd) == "py" {
-			err := os.Chdir("..")
-			if err != nil {
-				fmt.Println("cd failed")
-			}
-		}
-
-		pyCode := Py{Code: code, Template: template}
-		userCodeErr, resultJson, err := GetOutput(pyCode, "py/template.py", "py/file.py")
-		if err != nil {
-			fmt.Println(err)
-			return nil, err
-		}
-		if userCodeErr != "" {
-			result.Result = "wrong"
-			result.Input = ""
-			result.Expected = ""
-			result.Output = userCodeErr
-			return &result, nil
-		}
-
-		json.Unmarshal(resultJson, &result)
+		userCode = Py{Code: code, Template: template}
+		templatePath = "py/template.py"
+		sourcePath = "py/file.py"
 	}
 	userCodeErr, resultJson, err := GetOutput(userCode, templatePath, sourcePath)
 	if err != nil {
