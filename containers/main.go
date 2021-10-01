@@ -369,7 +369,7 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("RunTest() reached: ", code.Username, code.Slug, code.Lang, code.Code)
 
 	queryResult, err := db.Query(
-		"SELECT template, testcase FROM tests WHERE lang = ? AND slug = ?",
+		"SELECT template, testcase FROM tests WHERE lang = $1 AND slug = $2",
 		code.Lang, code.Slug,
 	)
 	if err != nil {
