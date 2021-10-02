@@ -24,7 +24,7 @@
 </script>
 
 <script>
-    import {onMount} from "svelte"
+    import { beforeUpdate, onMount } from "svelte"
     import snarkdown from "snarkdown"
     
     export let problem
@@ -38,8 +38,18 @@
     let languages = ["cpp", "java", "js", "py"]
     let selected
 
+    let username
+    beforeUpdate(() => {
+        if ($accessTokenStore != "") {
+            const payloadB64 = $accessTokenStore.split(".")[1]
+            username = JSON.parse(window.atob(payloadB64)).username
+        }
+    })
+
     async function submit() {
         const userInput = {
+            username: username,
+            slug: problem.slug,
             lang: selected,
             code: value
         }
