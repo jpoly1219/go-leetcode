@@ -208,6 +208,10 @@
     - Testcases should also be stored inside a database.
     - `main.go` inside the container will receive a struct of username, problem number, usercode, language.
       - Then `main.go` will pull the required data from the database by executing a query such as `SELECT template, testcase FROM problems WHERE problemNumber = 1 AND langauge = cpp"`
+    - NEW TOUGHT: just have a single container for running programs and spawn goroutines within the container to handle concurrent runs of programs.
+      - Load balancing will be handled via goroutines and container orchestration tools.
+      - Create a docker compose with four containers: frontend, backend (API gateway), backend (running code), database
+      - 
     
     - Does each user container have its own attempts database? Or is there going to be a separate, more central database for all user attempts?
     - I'll start off with a central database, but this won't scale too well I think.
