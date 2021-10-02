@@ -312,7 +312,7 @@ type resultFile struct {
 	// Runtime string `json:"runtime"`
 }
 
-func HandleLangs(username, slug, code, lang, template string) (*resultFile, error) {
+func HandleLangs(username, slug, lang, code, template string) (*resultFile, error) {
 	var result resultFile
 	result.Username = username
 	result.Slug = slug
