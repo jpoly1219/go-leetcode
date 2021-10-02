@@ -12,10 +12,6 @@ using json = nlohmann::json;
 int main() {
     Solution sol;
 
-    // add testcases from the backend using Go's file write functions
-    // tc.vecNums = ...
-    // tc.vecTarget = ...
-    // tc.vecExpected = ...
     ifstream i("../testcase.json");
     json j;
     i >> j;
