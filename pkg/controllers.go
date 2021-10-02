@@ -111,6 +111,11 @@ func ReturnProblem(w http.ResponseWriter, r *http.Request) {
 }
 
 func CheckProblem(w http.ResponseWriter, r *http.Request) {
+	HandleCors(w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
 	var input userCode
 	json.NewDecoder(r.Body).Decode(&input)
 
