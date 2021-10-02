@@ -181,11 +181,16 @@
     - `users` table with five columns: `userid`, `username`, `fullname`, `email`, and `password`
     - `password` will hold hashes instead of string
     - Table relationships:
-      - `users`, `problems`, `tests`, `attempts`
-      - `tests` has a foreign key that references the primary key of `problems`
+      - `users`, `problems`, `templates`, `testcases`, `attempts`
+      - `templates` has a foreign key that references the primary key of `problems`
+      - `testcases` has a foreign key that references the primary key of `problems`
       - `attempts` has two foreign keys that references the primary key of `users` and `problems`
-      - `CREATE TABLE tests (id SERIAL PRIMARY KEY, problem_id INT NOT NULL, lang VARCHAR (10) NOT NULL, template TEXT NOT NULL, testcase TEXT NOT NULL, FOREIGN KEY (problem_id) REFERNCES problems (id) ON DELETE CASCADE))`
+      - `CREATE TABLE templates (id SERIAL PRIMARY KEY, slug VARCHAR (100) NOT NULL, lang VARCHAR (10) NOT NULL, template TEXT NOT NULL, FOREIGN KEY (slug) REFERNCES problems (slug) ON DELETE CASCADE)`
+      - `CREATE TABLE testcases (id SERIAL PRIMARY KEY, slug VARCHAR (100) NOT NULL, testcase TEXT NOT NULL UNIQUE, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE`
       - `CREATE TABLE attempts (id SERIAL PRIMARY KEY, username VARCHAR (50) NOT NULL, slug VARCHAR (100) NOT NULL, lang VARCHAR (10) NOT NULL, code TEXT NOT NULL, result VARCHAR (50) NOT NULL, output TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW(), FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
+
+      - `INSERT INTO templates (slug, lang, template) VALUES ('1-two-sum', 'cpp', *paste template.cpp*)`
+      - `INSERT INTO testcases (slug, testcase) VALUES ('1-two-sum', *paste template.json*)`
   
   - CORS
     - https://flaviocopes.com/golang-enable-cors/
@@ -211,10 +216,9 @@
     - NEW TOUGHT: just have a single container for running programs and spawn goroutines within the container to handle concurrent runs of programs.
       - Load balancing will be handled via goroutines and container orchestration tools.
       - Create a docker compose with four containers: frontend, backend (API gateway), backend (running code), database
-      - 
-    
+
     - Does each user container have its own attempts database? Or is there going to be a separate, more central database for all user attempts?
     - I'll start off with a central database, but this won't scale too well I think.
 
-    - HandleLang > GenerateFile > FileToLines
-    - There needs to be a way to write template code to a file before inserting user code into that file.
+    - Feature idea: group submissions by their steps taken
+      - go-leetcode can tell you how other people have attempted the problem, and how many people have used similar steps as you.
