@@ -35,7 +35,7 @@
     });
     export let value = `console.log("Hello World!");`
 
-    let languages = ["C++", "Java", "Javascript", "Python"]
+    let languages = ["cpp", "java", "js", "py"]
     let selected
 
     async function submit() {
@@ -93,9 +93,10 @@
                 <button class="border border-gray-300 rounded-lg px-3 py-2">Console</button>
             </div>
             <select bind:value={selected} class="border border-gray-300 rounded-lg px-3 py-2 mx-2">
-                {#each languages as language}
-                <option value={language}>{language}</option>
-                {/each}
+                <option value={languages[0]}>C++</option>
+                <option value={languages[1]}>Java</option>
+                <option value={languages[2]}>Javascript</option>
+                <option value={languages[3]}>Python</option>
             </select>
             <button class="border border-gray-300 rounded-lg px-3 py-2 mx-2">Run Code</button>
             <button on:click={submit} class="border border-gray-300 rounded-lg px-3 py-2 ml-2">Submit</button>
