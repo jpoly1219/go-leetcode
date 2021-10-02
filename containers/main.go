@@ -13,6 +13,7 @@ import (
 	"strings"
 
 	"github.com/gorilla/mux"
+	_ "github.com/lib/pq"
 )
 
 var db *sql.DB
