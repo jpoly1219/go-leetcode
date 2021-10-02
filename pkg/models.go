@@ -17,7 +17,7 @@ type problem struct {
 
 type userCode struct {
 	Username string `json:"username"`
-	Pnum     int    `json:"pnum"`
+	Slug     string `json:"slug"`
 	Lang     string `json:"lang"`
 	Code     string `json:"code"`
 }
