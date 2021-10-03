@@ -382,20 +382,14 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&code)
 	fmt.Println("RunTest() reached: ", code.Username, code.Slug, code.Lang, code.Code)
 
-	queryResult, err := db.Query(
+	var testcase string
+	err := db.QueryRow(
 		"SELECT testcase FROM testcases WHERE slug = $1;",
 		code.Slug,
-	)
+	).Scan(&testcase)
 	if err != nil {
-		fmt.Println("failed to execute query: ", err)
+		fmt.Println("failed to query and scan to testcase: ", err)
 		return
-	}
-	var testcase string
-	for queryResult.Next() {
-		err = queryResult.Scan(&testcase)
-		if err != nil {
-			log.Fatal("failed to scan testcase")
-		}
 	}
 
 	err = os.WriteFile("./testcase.json", []byte(testcase), 0644)
@@ -403,20 +397,14 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("failed to create testcase.json")
 	}
 
-	queryResult, err = db.Query(
+	var template string
+	err = db.QueryRow(
 		"SELECT template FROM templates WHERE slug = $1 AND lang = $2;",
 		code.Slug, code.Lang,
-	)
+	).Scan(&template)
 	if err != nil {
-		fmt.Println("failed to execute query: ", err)
+		fmt.Println("failed to query and scan to template: ", err)
 		return
-	}
-	var template string
-	for queryResult.Next() {
-		err = queryResult.Scan(&template)
-		if err != nil {
-			log.Fatal("failed to scan template")
-		}
 	}
 
 	result, err := HandleLangs(code.Username, code.Slug, code.Code, code.Lang, template)
@@ -440,7 +428,8 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	// establish database connection
-	db, err := sql.Open("postgres", "postgres://postgres:postgres@localhost:5432/goleetcode")
+	var err error
+	db, err = sql.Open("postgres", "postgres://postgres:postgres@localhost:5432/goleetcode")
 	if err != nil {
 		log.Fatal("failed to connect to db")
 	}
