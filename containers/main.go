@@ -370,22 +370,6 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("RunTest() reached: ", code.Username, code.Slug, code.Lang, code.Code)
 
 	queryResult, err := db.Query(
-		"SELECT template FROM templates WHERE slug = $1 AND lang = $2;",
-		code.Slug, code.Lang,
-	)
-	if err != nil {
-		fmt.Println("failed to execute query: ", err)
-		return
-	}
-	var template string
-	for queryResult.Next() {
-		err = queryResult.Scan(&template)
-		if err != nil {
-			log.Fatal("failed to scan template")
-		}
-	}
-
-	queryResult, err = db.Query(
 		"SELECT testcase FROM testcases WHERE slug = $1;",
 		code.Slug,
 	)
@@ -398,6 +382,27 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 		err = queryResult.Scan(&testcase)
 		if err != nil {
 			log.Fatal("failed to scan testcase")
+		}
+	}
+
+	err = os.WriteFile("./testcase.json", []byte(testcase), 0644)
+	if err != nil {
+		fmt.Println("failed to create testcase.json")
+	}
+
+	queryResult, err = db.Query(
+		"SELECT template FROM templates WHERE slug = $1 AND lang = $2;",
+		code.Slug, code.Lang,
+	)
+	if err != nil {
+		fmt.Println("failed to execute query: ", err)
+		return
+	}
+	var template string
+	for queryResult.Next() {
+		err = queryResult.Scan(&template)
+		if err != nil {
+			log.Fatal("failed to scan template")
 		}
 	}
 
