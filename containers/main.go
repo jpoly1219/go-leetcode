@@ -370,18 +370,34 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("RunTest() reached: ", code.Username, code.Slug, code.Lang, code.Code)
 
 	queryResult, err := db.Query(
-		"SELECT template, testcase FROM tests WHERE lang = $1 AND slug = $2",
-		code.Lang, code.Slug,
+		"SELECT template FROM templates WHERE slug = $1 AND lang = $2;",
+		code.Slug, code.Lang,
 	)
 	if err != nil {
 		fmt.Println("failed to execute query: ", err)
 		return
 	}
-	var template, testcase string
+	var template string
 	for queryResult.Next() {
-		err = queryResult.Scan(&template, &testcase)
+		err = queryResult.Scan(&template)
 		if err != nil {
-			log.Fatal("failed to scan")
+			log.Fatal("failed to scan template")
+		}
+	}
+
+	queryResult, err = db.Query(
+		"SELECT testcase FROM testcases WHERE slug = $1;",
+		code.Slug,
+	)
+	if err != nil {
+		fmt.Println("failed to execute query: ", err)
+		return
+	}
+	var testcase string
+	for queryResult.Next() {
+		err = queryResult.Scan(&testcase)
+		if err != nil {
+			log.Fatal("failed to scan testcase")
 		}
 	}
 
