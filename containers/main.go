@@ -365,6 +365,7 @@ func HandleLangs(username, slug, lang, code, template string) (*resultFile, erro
 }
 
 func RunTest(w http.ResponseWriter, r *http.Request) {
+	// may be unnecessary when deploying the app using docker compose
 	HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
