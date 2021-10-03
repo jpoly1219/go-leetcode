@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 
 	"github.com/gorilla/mux"
@@ -124,11 +125,6 @@ func (cpp Cpp) CompileAndRun(sourcePath string) (string, error) {
 		return "", err
 	}
 
-	err = os.Chdir("..")
-	if err != nil {
-		fmt.Println("cd failed")
-	}
-
 	fmt.Println(string(out))
 	return string(out), nil
 }
@@ -172,11 +168,6 @@ func (java Java) CompileAndRun(sourcePath string) (string, error) {
 	if err != nil {
 		fmt.Println("run failed")
 		return "", err
-	}
-
-	err = os.Chdir("..")
-	if err != nil {
-		fmt.Println("cd failed")
 	}
 
 	fmt.Println(string(out))
@@ -224,11 +215,6 @@ func (js Js) CompileAndRun(sourcePath string) (string, error) {
 		return "", err
 	}
 
-	err = os.Chdir("..")
-	if err != nil {
-		fmt.Println("cd failed")
-	}
-
 	fmt.Println(string(out))
 	return string(out), nil
 }
@@ -274,17 +260,25 @@ func (py Py) CompileAndRun(sourcePath string) (string, error) {
 		return "", err
 	}
 
-	err = os.Chdir("..")
-	if err != nil {
-		fmt.Println("cd failed")
-	}
-
 	fmt.Println(string(out))
 	return string(out), nil
 }
 
 func GetOutput(lang Language, templatePath, sourcePath string) (string, []byte, error) {
-	err := lang.GenerateFile(templatePath, sourcePath)
+	cwd, err := os.Getwd()
+	if err != nil {
+		fmt.Println(err)
+		return "", nil, err
+	}
+	if filepath.Base(cwd) != "containers" {
+		err = os.Chdir("..")
+		if err != nil {
+			fmt.Println("cd failed")
+			fmt.Println(err)
+			return "", nil, err
+		}
+	}
+	err = lang.GenerateFile(templatePath, sourcePath)
 	if err != nil {
 		fmt.Println("GenerateFile failed")
 		return "", nil, err
@@ -328,24 +322,27 @@ func HandleLangs(username, slug, lang, code, template string) (*resultFile, erro
 
 	var userCode Language
 	var templatePath, sourcePath string
+	fmt.Println(lang)
 	switch lang {
-	case "C++":
+	case "cpp":
 		userCode = Cpp{Code: code, Template: template}
 		templatePath = "cpp/template.cpp"
 		sourcePath = "cpp/file.cpp"
-	case "Java":
+	case "java":
 		userCode = Java{Code: code, Template: template}
 		templatePath = "java/template.java"
 		sourcePath = "java/file.java"
-	case "Javascript":
+	case "js":
 		userCode = Js{Code: code, Template: template}
 		templatePath = "js/template.js"
 		sourcePath = "js/file.js"
-	case "Python":
+	case "py":
 		userCode = Py{Code: code, Template: template}
 		templatePath = "py/template.py"
 		sourcePath = "py/file.py"
 	}
+
+	fmt.Println("now running GetOutput: userCode: ", userCode, ", templatePath: ", templatePath, ", sourcePath: ", sourcePath)
 	userCodeErr, resultJson, err := GetOutput(userCode, templatePath, sourcePath)
 	if err != nil {
 		fmt.Println(err)
@@ -407,7 +404,7 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	result, err := HandleLangs(code.Username, code.Slug, code.Code, code.Lang, template)
+	result, err := HandleLangs(code.Username, code.Slug, code.Lang, code.Code, template)
 	if err != nil {
 		fmt.Println(err)
 		return
