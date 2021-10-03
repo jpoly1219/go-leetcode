@@ -40,10 +40,14 @@
   - Suggested fix:
     - Check backend code to see if JSON is properly parsed, or if the frontend is feeding the backend with enough information.
 
-- Panic after RunTest() is reached
+- Panic after RunTest() is reached (**FIXED 21.10.03 16:33**)
   - Tested
   - Output:
     ```
+    ./main.go output:
+    Error making POST request:  Post "http://jpoly1219devbox.xyz:8091/run": EOF
+
+    ./containers/main.go output:
     2021/10/02 06:32:20 http: panic serving 141.164.41.239:55438: runtime error: invalid memory address or nil pointer dereference
     goroutine 20 [running]:
     net/http.(*conn).serve.func1(0xc0000b2c80)
@@ -73,5 +77,10 @@
     ```
   - Possible reasons:
     - Query statement may have a typo.
+    - Scan() parameter may be dereferencing a wrong variable.
+    - **main.go has a global declaration `var db *sql.Db`, but `main()` re-declares `db`, `err` using `:=`**
+      - Using `:=` inside `main()` effectively shadows the global `db` variable, which makes the value of `db` nil since this makes a new `db` local to `main()`.
+
   - Suggested fix:
     - Check the db query statement for any typos.
+    - **Fix `db` declaration by declaring `err` prior to using `db, err = sql.Open()`**
