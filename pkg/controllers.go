@@ -131,16 +131,9 @@ func CheckProblem(w http.ResponseWriter, r *http.Request) {
 	})
 	responseBody := bytes.NewBuffer(postBody)
 
-	client := &http.Client{}
-	req, err := http.NewRequest("POST", "http://jpoly1219devbox.xyz:8091/run", responseBody)
+	resp, err := http.Post("http://jpoly1219devbox.xyz:8091/run", "application/json", responseBody)
 	if err != nil {
-		fmt.Println("Error creating the POST request body")
-	}
-	req.Close = true
-	req.Header.Set("Content-Type", "applciation/json")
-	resp, err := client.Do(req)
-	if err != nil {
-		fmt.Println("Error making POST request: ", err)
+		fmt.Println("POST request failed: ", err)
 		return
 	}
 	defer resp.Body.Close()
