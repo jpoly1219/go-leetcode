@@ -18,6 +18,13 @@ import (
 
 var db *sql.DB
 
+func HandleCors(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:8090")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
+}
+
 func FileToLines(filePath string) ([]string, error) {
 	f, err := os.Open(filePath)
 	if err != nil {
@@ -358,6 +365,11 @@ func HandleLangs(username, slug, lang, code, template string) (*resultFile, erro
 }
 
 func RunTest(w http.ResponseWriter, r *http.Request) {
+	HandleCors(w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
 	type userCode struct {
 		Username string `json:"username"`
 		Slug     string `json:"slug"`
