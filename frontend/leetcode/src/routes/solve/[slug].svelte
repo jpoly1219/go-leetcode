@@ -33,7 +33,7 @@
     onMount(async () => {
         ({CodeJar} = await import("svelte-codejar"));
     });
-    export let value = `console.log("Hello World!");`
+    export let value = ""
 
     let languages = ["cpp", "java", "js", "py"]
     let selected
