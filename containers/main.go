@@ -75,7 +75,7 @@ func WriteCodeToFile(filePath, code string, lines []string) error {
 // interface and structs/methods definition
 type Language interface {
 	GenerateFile() error
-	CompileAndRun() (string, error)
+	CompileAndRun() (string, string, error)
 }
 
 type Cpp struct {
@@ -110,7 +110,8 @@ func (cpp Cpp) GenerateFile() (string, string, error) {
 	return templatePath, sourcePath, nil
 }
 
-func (cpp Cpp) CompileAndRun(sourcePath string) (string, error) {
+func (cpp Cpp) CompileAndRun() (string, error) {
+	sourcePath := filepath.Join(cpp.RootDir, cpp.Id+"-source.cpp")
 	binaryPath := filepath.Join(cpp.RootDir, cpp.Id+"-binary.out")
 	cmd := exec.Command("g++", sourcePath, "-o", binaryPath)
 	err := cmd.Run()
@@ -145,6 +146,7 @@ type Java struct {
 
 func (java Java) GenerateFile() error {
 	// generate template.java
+	templatePath := filepath.Join(java.RootDir, java.Id+"-template.java")
 	templateLines := []byte(java.Template)
 	err := os.WriteFile(templatePath, templateLines, 0644)
 	if err != nil {
@@ -158,6 +160,7 @@ func (java Java) GenerateFile() error {
 		return err
 	}
 
+	sourcePath := filepath.Join(java.RootDir, java.Id+"-source.java")
 	err = WriteCodeToFile(sourcePath, java.Code, lines)
 	if err != nil {
 		fmt.Println("WriteCodeToFile failed")
@@ -192,6 +195,7 @@ type Js struct {
 
 func (js Js) GenerateFile() error {
 	// generate template.js
+	templatePath := filepath.Join(js.RootDir, js.Id+"-template.js")
 	templateLines := []byte(js.Template)
 	err := os.WriteFile(templatePath, templateLines, 0644)
 	if err != nil {
@@ -205,6 +209,7 @@ func (js Js) GenerateFile() error {
 		return err
 	}
 
+	sourcePath := filepath.Join(js.RootDir, js.Id+"-source.js")
 	err = WriteCodeToFile(sourcePath, js.Code, lines)
 	if err != nil {
 		fmt.Println("WriteCodeToFile failed")
@@ -239,6 +244,7 @@ type Py struct {
 
 func (py Py) GenerateFile() error {
 	// generate template.py
+	templatePath := filepath.Join(py.RootDir, py.Id+"-template.py")
 	templateLines := []byte(py.Template)
 	err := os.WriteFile(templatePath, templateLines, 0644)
 	if err != nil {
@@ -252,6 +258,7 @@ func (py Py) GenerateFile() error {
 		return err
 	}
 
+	sourcePath := filepath.Join(py.RootDir, py.Id+"-source.py")
 	err = WriteCodeToFile(sourcePath, py.Code, lines)
 	if err != nil {
 		fmt.Println("WriteCodeToFile failed")
