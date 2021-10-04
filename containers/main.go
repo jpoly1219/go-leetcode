@@ -74,8 +74,8 @@ func WriteCodeToFile(filePath, code string, lines []string) error {
 
 // interface and structs/methods definition
 type Language interface {
-	GenerateFile(templatePath, sourcePath string) error
-	CompileAndRun(sourcePath string) (string, error)
+	GenerateFile() error
+	CompileAndRun() (string, error)
 }
 
 type Cpp struct {
@@ -85,8 +85,9 @@ type Cpp struct {
 	RootDir  string
 }
 
-func (cpp Cpp) GenerateFile(templatePath, sourcePath string) error {
+func (cpp Cpp) GenerateFile() (string, string, error) {
 	// generate template.cpp
+	templatePath := filepath.Join(cpp.RootDir, cpp.Id+"-template.cpp")
 	templateLines := []byte(cpp.Template)
 	err := os.WriteFile(templatePath, templateLines, 0644)
 	if err != nil {
@@ -97,19 +98,21 @@ func (cpp Cpp) GenerateFile(templatePath, sourcePath string) error {
 	codeLines, err := FileToLines(templatePath)
 	if err != nil {
 		fmt.Println("FileToLines failed")
-		return err
+		return "", "", err
 	}
 
+	sourcePath := filepath.Join(cpp.RootDir, cpp.Id+"-source.cpp")
 	err = WriteCodeToFile(sourcePath, cpp.Code, codeLines)
 	if err != nil {
 		fmt.Println("WriteCodeToFile failed")
-		return err
+		return "", "", err
 	}
-	return nil
+	return templatePath, sourcePath, nil
 }
 
 func (cpp Cpp) CompileAndRun(sourcePath string) (string, error) {
-	cmd := exec.Command("g++", "cpp/file.cpp", "-o", "cpp/file.out")
+	binaryPath := filepath.Join(cpp.RootDir, cpp.Id+"-binary.out")
+	cmd := exec.Command("g++", sourcePath, "-o", binaryPath)
 	err := cmd.Run()
 	if err != nil {
 		fmt.Println("compile failed")
@@ -122,7 +125,8 @@ func (cpp Cpp) CompileAndRun(sourcePath string) (string, error) {
 		return "", err
 	}
 
-	out, err := exec.Command("./file.out").Output()
+	runBinaryCommand := "./" + cpp.Id + "-binary.out"
+	out, err := exec.Command(runBinaryCommand).Output()
 	if err != nil {
 		fmt.Println("run failed")
 		return "", err
@@ -139,7 +143,7 @@ type Java struct {
 	RootDir  string
 }
 
-func (java Java) GenerateFile(templatePath, sourcePath string) error {
+func (java Java) GenerateFile() error {
 	// generate template.java
 	templateLines := []byte(java.Template)
 	err := os.WriteFile(templatePath, templateLines, 0644)
@@ -162,7 +166,7 @@ func (java Java) GenerateFile(templatePath, sourcePath string) error {
 	return nil
 }
 
-func (java Java) CompileAndRun(sourcePath string) (string, error) {
+func (java Java) CompileAndRun() (string, error) {
 	err := os.Chdir("java")
 	if err != nil {
 		fmt.Println("cd failed")
@@ -186,7 +190,7 @@ type Js struct {
 	RootDir  string
 }
 
-func (js Js) GenerateFile(templatePath, sourcePath string) error {
+func (js Js) GenerateFile() error {
 	// generate template.js
 	templateLines := []byte(js.Template)
 	err := os.WriteFile(templatePath, templateLines, 0644)
@@ -209,7 +213,7 @@ func (js Js) GenerateFile(templatePath, sourcePath string) error {
 	return nil
 }
 
-func (js Js) CompileAndRun(sourcePath string) (string, error) {
+func (js Js) CompileAndRun() (string, error) {
 	err := os.Chdir("js")
 	if err != nil {
 		fmt.Println("cd failed")
@@ -233,7 +237,7 @@ type Py struct {
 	RootDir  string
 }
 
-func (py Py) GenerateFile(templatePath, sourcePath string) error {
+func (py Py) GenerateFile() error {
 	// generate template.py
 	templateLines := []byte(py.Template)
 	err := os.WriteFile(templatePath, templateLines, 0644)
@@ -256,7 +260,7 @@ func (py Py) GenerateFile(templatePath, sourcePath string) error {
 	return nil
 }
 
-func (py Py) CompileAndRun(sourcePath string) (string, error) {
+func (py Py) CompileAndRun() (string, error) {
 	err := os.Chdir("py")
 	if err != nil {
 		fmt.Println("cd failed")
@@ -287,12 +291,12 @@ func GetOutput(lang Language) (string, []byte, error) {
 			return "", nil, err
 		}
 	}
-	err = lang.GenerateFile(templatePath, sourcePath)
+	err = lang.GenerateFile()
 	if err != nil {
 		fmt.Println("GenerateFile failed")
 		return "", nil, err
 	}
-	output, err := lang.CompileAndRun(sourcePath)
+	output, err := lang.CompileAndRun()
 	if err != nil {
 		fmt.Println("CompileAndRun failed")
 		return "", nil, err
