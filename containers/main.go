@@ -13,6 +13,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
 )
@@ -78,8 +79,10 @@ type Language interface {
 }
 
 type Cpp struct {
+	Id       string
 	Code     string
 	Template string
+	RootDir  string
 }
 
 func (cpp Cpp) GenerateFile(templatePath, sourcePath string) error {
@@ -130,8 +133,10 @@ func (cpp Cpp) CompileAndRun(sourcePath string) (string, error) {
 }
 
 type Java struct {
+	Id       string
 	Code     string
 	Template string
+	RootDir  string
 }
 
 func (java Java) GenerateFile(templatePath, sourcePath string) error {
@@ -175,8 +180,10 @@ func (java Java) CompileAndRun(sourcePath string) (string, error) {
 }
 
 type Js struct {
+	Id       string
 	Code     string
 	Template string
+	RootDir  string
 }
 
 func (js Js) GenerateFile(templatePath, sourcePath string) error {
@@ -220,8 +227,10 @@ func (js Js) CompileAndRun(sourcePath string) (string, error) {
 }
 
 type Py struct {
+	Id       string
 	Code     string
 	Template string
+	RootDir  string
 }
 
 func (py Py) GenerateFile(templatePath, sourcePath string) error {
@@ -264,7 +273,7 @@ func (py Py) CompileAndRun(sourcePath string) (string, error) {
 	return string(out), nil
 }
 
-func GetOutput(lang Language, templatePath, sourcePath string) (string, []byte, error) {
+func GetOutput(lang Language) (string, []byte, error) {
 	cwd, err := os.Getwd()
 	if err != nil {
 		fmt.Println(err)
@@ -321,29 +330,20 @@ func HandleLangs(username, slug, lang, code, template string) (*resultFile, erro
 	result.Code = code
 
 	var userCode Language
-	var templatePath, sourcePath string
 	fmt.Println(lang)
 	switch lang {
 	case "cpp":
-		userCode = Cpp{Code: code, Template: template}
-		templatePath = "cpp/template.cpp"
-		sourcePath = "cpp/file.cpp"
+		userCode = Cpp{Id: uuid.NewString(), Code: code, Template: template, RootDir: "cpp/"}
 	case "java":
-		userCode = Java{Code: code, Template: template}
-		templatePath = "java/template.java"
-		sourcePath = "java/file.java"
+		userCode = Java{Id: uuid.NewString(), Code: code, Template: template, RootDir: "java/"}
 	case "js":
-		userCode = Js{Code: code, Template: template}
-		templatePath = "js/template.js"
-		sourcePath = "js/file.js"
+		userCode = Js{Id: uuid.NewString(), Code: code, Template: template, RootDir: "js/"}
 	case "py":
-		userCode = Py{Code: code, Template: template}
-		templatePath = "py/template.py"
-		sourcePath = "py/file.py"
+		userCode = Py{Id: uuid.NewString(), Code: code, Template: template, RootDir: "py/"}
 	}
 
-	fmt.Println("now running GetOutput: userCode: ", userCode, ", templatePath: ", templatePath, ", sourcePath: ", sourcePath)
-	userCodeErr, resultJson, err := GetOutput(userCode, templatePath, sourcePath)
+	fmt.Println("now running GetOutput: userCode: ", userCode)
+	userCodeErr, resultJson, err := GetOutput(userCode)
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
