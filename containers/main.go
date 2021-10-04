@@ -75,7 +75,7 @@ func WriteCodeToFile(filePath, code string, lines []string) error {
 // interface and structs/methods definition
 type Language interface {
 	GenerateFile() error
-	CompileAndRun() (string, string, error)
+	CompileAndRun() (string, error)
 }
 
 type Cpp struct {
@@ -85,7 +85,7 @@ type Cpp struct {
 	RootDir  string
 }
 
-func (cpp Cpp) GenerateFile() (string, string, error) {
+func (cpp Cpp) GenerateFile() error {
 	// generate template.cpp
 	templatePath := filepath.Join(cpp.RootDir, cpp.Id+"-template.cpp")
 	templateLines := []byte(cpp.Template)
@@ -98,16 +98,16 @@ func (cpp Cpp) GenerateFile() (string, string, error) {
 	codeLines, err := FileToLines(templatePath)
 	if err != nil {
 		fmt.Println("FileToLines failed")
-		return "", "", err
+		return err
 	}
 
 	sourcePath := filepath.Join(cpp.RootDir, cpp.Id+"-source.cpp")
 	err = WriteCodeToFile(sourcePath, cpp.Code, codeLines)
 	if err != nil {
 		fmt.Println("WriteCodeToFile failed")
-		return "", "", err
+		return err
 	}
-	return templatePath, sourcePath, nil
+	return nil
 }
 
 func (cpp Cpp) CompileAndRun() (string, error) {
