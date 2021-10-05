@@ -219,6 +219,8 @@
     - Because there is only going to be one container at the moment, the container needs to be able to handle concurrent requests.
       - This can be an issue because all codes that the user submits will yield a `file.*` format, making it very difficult for the program to distinguish between the two. The program may even overwrite the file with new code input.
       - One way to solve this is to generate UUIDs for each file.
+      - The resulting JSON file should also follow this scheme... how?
+        - Create `uuid.json` first, then open that file
 
     - Does each user container have its own attempts database? Or is there going to be a separate, more central database for all user attempts?
     - I'll start off with a central database, but this won't scale too well I think.
