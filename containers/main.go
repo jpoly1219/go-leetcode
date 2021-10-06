@@ -309,7 +309,7 @@ func GetOutput(lang Language) (string, []byte, error) {
 		return "", nil, err
 	}
 
-	if string(output) != "done\n" {
+	if !strings.Contains(string(output), "test completed\n") {
 		return output, nil, nil
 	}
 
