@@ -45,4 +45,4 @@ if (isOk) {
     })
 }
 
-console.log("done")
+console.log("test completed")

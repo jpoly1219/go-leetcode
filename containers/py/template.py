@@ -38,4 +38,4 @@ if isOk:
     with open("result.json", "w") as outfile:
         outfile.write(json_object)
 
-print("done")
+print("test completed")

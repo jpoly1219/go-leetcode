@@ -44,7 +44,7 @@ int main() {
         };
         o << output << endl;
     }
-    cout << "done" << endl;
+    cout << "test completed" << endl;
     i.close();
     o.close();
 }
