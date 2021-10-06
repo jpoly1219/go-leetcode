@@ -23,8 +23,7 @@ for i in range(len(data["input"]["nums"])):
             "output": answer
         }
         json_object = json.dumps(output, indent=4)
-        with open("result.json", "w") as outfile:
-            outfile.write(json_object)
+        print(json_object)
         
         isOk = False
         break
@@ -35,7 +34,6 @@ if isOk:
         "result": "OK"
     }
     json_object = json.dumps(output, indent=4)
-    with open("result.json", "w") as outfile:
-        outfile.write(json_object)
+    print(json_object)
 
 print("test completed")

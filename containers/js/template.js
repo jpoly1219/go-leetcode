@@ -1,16 +1,7 @@
 // template file
-const fs = require("fs")
 const tc = require("../testcase.json")
 
 // insert Solution class here
-var twoSum = function(nums, target) {
-    const output = []
-    nums.forEach(num => {
-        output.push(num + target)
-    });
-
-    return output
-};
 
 let isOk = true
 for (let i = 0; i < tc.input.nums.length; i++) {
@@ -23,11 +14,7 @@ for (let i = 0; i < tc.input.nums.length; i++) {
             "output": answer
         }
         const data = JSON.stringify(output)
-        fs.writeFile("result.json", data, (err) => {
-            if (err) {
-                throw err
-            }
-        })
+        console.log(data)
         isOk = false
         break
     }
@@ -38,11 +25,7 @@ if (isOk) {
         "result": "OK"
     }
     const data = JSON.stringify(output)
-    fs.writeFile("result.json", data, (err) => {
-        if (err) {
-            throw err
-        }
-    })
+    console.log(data)
 }
 
 console.log("test completed")

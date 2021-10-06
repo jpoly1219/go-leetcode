@@ -16,8 +16,6 @@ int main() {
     json j;
     i >> j;
 
-    ofstream o("result.json", ios::trunc);
-
     vector<vector<int>> vecNums = j["input"]["nums"];
     vector<int> vecTargets = j["input"]["target"];
     vector<vector<int>> vecExpected = j["expected"];
@@ -33,7 +31,7 @@ int main() {
                 {"expected", vecExpected.at(i)},
                 {"output", vecSolution}
             };
-            o << output << endl;
+            cout << output.dump(4) << endl;
             isOk = false;
             break;
         }
@@ -42,9 +40,8 @@ int main() {
         json output = {
             {"result", "OK"}
         };
-        o << output << endl;
+        cout << output.dump(4) << endl;
     }
     cout << "test completed" << endl;
     i.close();
-    o.close();
 }
