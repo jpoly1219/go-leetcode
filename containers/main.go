@@ -133,7 +133,7 @@ func (cpp Cpp) CompileAndRun() (string, error) {
 		return "", err
 	}
 
-	fmt.Println(string(out))
+	// fmt.Println(string(out))
 	return string(out), nil
 }
 
@@ -182,7 +182,7 @@ func (java Java) CompileAndRun() (string, error) {
 		return "", err
 	}
 
-	fmt.Println(string(out))
+	// fmt.Println(string(out))
 	return string(out), nil
 }
 
@@ -231,7 +231,7 @@ func (js Js) CompileAndRun() (string, error) {
 		return "", err
 	}
 
-	fmt.Println(string(out))
+	// fmt.Println(string(out))
 	return string(out), nil
 }
 
@@ -280,7 +280,7 @@ func (py Py) CompileAndRun() (string, error) {
 		return "", err
 	}
 
-	fmt.Println(string(out))
+	// fmt.Println(string(out))
 	return string(out), nil
 }
 
@@ -309,10 +309,11 @@ func GetOutput(lang Language) (string, []byte, error) {
 		return "", nil, err
 	}
 
-	if !strings.Contains(string(output), "test completed\n") {
+	if !strings.Contains(output, "test completed\n") {
 		return output, nil, nil
 	} else {
-		return "", []byte(output), nil
+		resultJson := strings.ReplaceAll(output, "test completed\n", "")
+		return "", []byte(resultJson), nil
 	}
 }
 
@@ -336,7 +337,7 @@ func HandleLangs(username, slug, lang, code, template string) (*resultFile, erro
 	result.Code = code
 
 	var userCode Language
-	fmt.Println(lang)
+	// fmt.Println(lang)
 	switch lang {
 	case "cpp":
 		userCode = Cpp{Id: uuid.NewString(), Code: code, Template: template, RootDir: "cpp/"}
@@ -348,11 +349,15 @@ func HandleLangs(username, slug, lang, code, template string) (*resultFile, erro
 		userCode = Py{Id: uuid.NewString(), Code: code, Template: template, RootDir: "py/"}
 	}
 
-	fmt.Println("now running GetOutput: userCode: ", userCode)
+	// fmt.Println("now running GetOutput: userCode: ", userCode)
 	userCodeErr, resultJson, err := GetOutput(userCode)
 	if err != nil {
 		fmt.Println(err)
-		return nil, err
+		result.Result = "wrong"
+		result.Input = ""
+		result.Expected = ""
+		result.Output = fmt.Sprintf("%s", err)
+		return &result, nil
 	}
 	if userCodeErr != "" {
 		result.Result = "wrong"
@@ -383,7 +388,7 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 
 	var code userCode
 	json.NewDecoder(r.Body).Decode(&code)
-	fmt.Println("RunTest() reached: ", code.Username, code.Slug, code.Lang, code.Code)
+	// fmt.Println("RunTest() reached: ", code.Username, code.Slug, code.Lang, code.Code)
 
 	var testcase string
 	err := db.QueryRow(
