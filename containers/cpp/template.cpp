@@ -12,7 +12,7 @@ using json = nlohmann::json;
 int main() {
     Solution sol;
 
-    ifstream i("../testcase.json");
+    ifstream i("../testcase-1-two-sum.json");
     json j;
     i >> j;
 
