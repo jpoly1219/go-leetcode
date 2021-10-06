@@ -400,7 +400,8 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = os.WriteFile("./testcase.json", []byte(testcase), 0644)
+	testcasePath := "./testcase-" + code.Slug + ".json"
+	err = os.WriteFile(testcasePath, []byte(testcase), 0644)
 	if err != nil {
 		fmt.Println("failed to create testcase.json")
 	}
