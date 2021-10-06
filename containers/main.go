@@ -311,14 +311,9 @@ func GetOutput(lang Language) (string, []byte, error) {
 
 	if !strings.Contains(string(output), "test completed\n") {
 		return output, nil, nil
+	} else {
+		return "", []byte(output), nil
 	}
-
-	result, err := os.ReadFile("result.json")
-	if err != nil {
-		fmt.Println(err)
-		return "", nil, err
-	}
-	return "", result, nil
 }
 
 type resultFile struct {
