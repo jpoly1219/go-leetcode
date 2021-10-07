@@ -222,6 +222,7 @@
       - The resulting JSON file should also follow this scheme... how?
         - Create `uuid-result.json` first. Then the template code should just print out resulting JSON as a string into stdout. `main.go` inside the container will catch that output and just insert it into `uuid-result.json`.
         - OR, just have each goroutine have its own channel that waits for its own result.
+        - So because each request is handled as a goroutine, I don't need to create goroutines within a http handler, so the use of channels is not very attractive. However, what I can do is to just return the output of `exec.Command()`.
 
     - Does each user container have its own attempts database? Or is there going to be a separate, more central database for all user attempts?
     - I'll start off with a central database, but this won't scale too well I think.
