@@ -225,7 +225,7 @@ func (js Js) CompileAndRun() (string, error) {
 		return "", err
 	}
 
-	out, err := exec.Command("node", "file.js").Output()
+	out, err := exec.Command("node", js.Id+"-source.js").Output()
 	if err != nil {
 		fmt.Println("run failed")
 		return "", err
