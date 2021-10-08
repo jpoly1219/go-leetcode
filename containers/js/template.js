@@ -1,5 +1,5 @@
 // template file
-const tc = require("../testcase.json")
+const tc = require("../testcase-1-two-sum.json")
 
 // insert Solution class here
 
