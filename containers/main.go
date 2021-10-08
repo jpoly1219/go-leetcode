@@ -176,7 +176,7 @@ func (java Java) CompileAndRun() (string, error) {
 		return "", err
 	}
 
-	out, err := exec.Command("java", "file.java").Output()
+	out, err := exec.Command("java", java.Id+"-source.java").Output()
 	if err != nil {
 		fmt.Println("run failed")
 		return "", err
