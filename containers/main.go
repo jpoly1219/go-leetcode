@@ -274,7 +274,7 @@ func (py Py) CompileAndRun() (string, error) {
 		return "", err
 	}
 
-	out, err := exec.Command("python3", "file.py").Output()
+	out, err := exec.Command("python3", py.Id+"-source.py").Output()
 	if err != nil {
 		fmt.Println("run failed")
 		return "", err
