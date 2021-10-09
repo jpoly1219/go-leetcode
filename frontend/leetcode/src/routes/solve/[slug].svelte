@@ -86,8 +86,8 @@
             <pre><code>{value}</code></pre>
             {/if}
             {#if data}
-            <div>
-                <textarea bind:value={data}></textarea>
+            <div class="w-full">
+                <textarea bind:value={data.output}></textarea>
             </div>
             {/if}
         </div>
