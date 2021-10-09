@@ -46,6 +46,7 @@
         }
     })
 
+    let data
     async function submit() {
         const userInput = {
             username: username,
@@ -59,7 +60,7 @@
             body: JSON.stringify(userInput)
         }
         const res = await fetch(`http://jpoly1219devbox.xyz:8090/check/${problem.slug}`, options)
-        const data = await res.json()
+        data = await res.json()
         console.log(data)
         alert("code submitted!")
         alert(`Result: ${data.result}:\nInput: ${data.input}\nExpected: ${data.expected}\nOutput: ${data.output}`)
@@ -83,6 +84,11 @@
             <CodeJar addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} withLineNumbers={true} bind:value/>
             {:else}
             <pre><code>{value}</code></pre>
+            {/if}
+            {#if data}
+            <div>
+                <textarea bind:value={data}></textarea>
+            </div>
             {/if}
         </div>
     </div>
