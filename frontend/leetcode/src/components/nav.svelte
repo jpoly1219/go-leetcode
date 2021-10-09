@@ -1,12 +1,14 @@
 <script>
     import { accessTokenStore } from "../stores/stores";
     import { beforeUpdate } from "svelte";
+    import { goto } from "$app/navigation"
 
     let username = ""
     beforeUpdate(() => {
         if ($accessTokenStore != "") {
             const payloadB64 = $accessTokenStore.split(".")[1]
             username = JSON.parse(window.atob(payloadB64)).username
+            goto("/")
         }
     })
 </script>
