@@ -285,20 +285,7 @@ func (py Py) CompileAndRun() (string, error) {
 }
 
 func GetOutput(lang Language) (string, []byte, error) {
-	cwd, err := os.Getwd()
-	if err != nil {
-		fmt.Println(err)
-		return "", nil, err
-	}
-	if filepath.Base(cwd) != "containers" {
-		err = os.Chdir("..")
-		if err != nil {
-			fmt.Println("cd failed")
-			fmt.Println(err)
-			return "", nil, err
-		}
-	}
-	err = lang.GenerateFile()
+	err := lang.GenerateFile()
 	if err != nil {
 		fmt.Println("GenerateFile failed")
 		return "", nil, err
@@ -390,8 +377,22 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&code)
 	// fmt.Println("RunTest() reached: ", code.Username, code.Slug, code.Lang, code.Code)
 
+	cwd, err := os.Getwd()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	if filepath.Base(cwd) != "containers" {
+		err = os.Chdir("..")
+		if err != nil {
+			fmt.Println("cd failed")
+			fmt.Println(err)
+			return
+		}
+	}
+
 	var testcase string
-	err := db.QueryRow(
+	err = db.QueryRow(
 		"SELECT testcase FROM testcases WHERE slug = $1;",
 		code.Slug,
 	).Scan(&testcase)
