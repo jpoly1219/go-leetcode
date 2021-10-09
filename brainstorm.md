@@ -227,5 +227,8 @@
     - Does each user container have its own attempts database? Or is there going to be a separate, more central database for all user attempts?
     - I'll start off with a central database, but this won't scale too well I think.
 
+    - Frontend is very bare-bones at the moment. It needs to render output inside console window that will toggle on and off when the user click on the console button.
+    - Run code should run tests on three most lenient testcases, and not count towards your attempts.
+
     - Feature idea: group submissions by their steps taken
       - go-leetcode can tell you how other people have attempted the problem, and how many people have used similar steps as you.
