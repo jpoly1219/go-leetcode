@@ -29,7 +29,8 @@ func main() {
 	r.HandleFunc("/problemsets", pkg.Problemsets)
 
 	solveR := r.PathPrefix("/solve").Subrouter()
-	solveR.Handle("/{slug}", pkg.VerifyToken(http.HandlerFunc(pkg.ReturnProblem)))
+	// solveR.Handle("/{slug}", pkg.VerifyToken(http.HandlerFunc(pkg.ReturnProblem)))
+	solveR.HandleFunc("/{slug}", pkg.ReturnProblem)
 
 	checkR := r.PathPrefix("/check").Subrouter()
 	checkR.HandleFunc("/{slug}", pkg.CheckProblem)
