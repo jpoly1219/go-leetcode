@@ -81,12 +81,19 @@
 <div class="grid grid-rows-16 h-full">
     <div class="row-span-15 grid grid-cols-2 gap-4">
         <div class="overflow-auto border border-gray-300 p-4">
-            <!--tabs.svelte (description, solution, discussion, submissions)-->
             <Tabs {tabs} {activeTab} on:tabChange={tabChange} />
+            {#if activeTab === "Description"}
             <p class="font-bold">{problem.title}</p>
             <p class="text-sm text-green-600 font-light mt-2">{problem.difficulty}</p>
             <hr class="my-4">
             <p class="prose max-w-max">{@html snarkdown(problem.description)}</p>
+            {:else if activeTab === "Solution"}
+            <p class="font-bold">Solution</p>
+            {:else if activeTab === "Discussion"}
+            <p class="font-bold">Discussion</p>
+            {:else if activeTab === "Submissions"}
+            <p class="font-bold">Submissions</p>
+            {/if}
         </div>
         <div class="flex flex-col border border-gray-300 overflow-hidden">
             {#if data}
