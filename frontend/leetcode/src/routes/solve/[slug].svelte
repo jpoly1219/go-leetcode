@@ -79,17 +79,19 @@
             <hr class="my-4">
             <p class="prose max-w-max">{@html snarkdown(problem.description)}</p>
         </div>
-        <div class="border border-gray-300 overflow-auto">
-            {#if CodeJar}
-            <CodeJar addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} withLineNumbers={true} bind:value/>
-            {:else}
-            <pre><code>{value}</code></pre>
-            {/if}
-            {#if data}
-            <div class="w-full">
-                <textarea bind:value={data.output}></textarea>
+        <div class="flex flex-col border border-gray-300 overflow-hidden">
+            <div class="h-4/5 overflow-auto">
+                {#if CodeJar}
+                <CodeJar addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} withLineNumbers={true} bind:value/>
+                {:else}
+                <pre><code>{value}</code></pre>
+                {/if}
             </div>
-            {/if}
+            <div class="h-1/5">
+                {#if data}
+                <textarea bind:value={data.output} class=""></textarea>
+                {/if}
+            </div>
         </div>
     </div>
     <div class="row-span-1 grid grid-cols-2 gap-4 content-center">
