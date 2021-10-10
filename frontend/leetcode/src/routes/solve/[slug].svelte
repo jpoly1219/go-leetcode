@@ -26,7 +26,7 @@
 <script>
     import { beforeUpdate, onMount } from "svelte"
     import snarkdown from "snarkdown"
-    import Tabs from "src/components/tabs.svelte";
+    import Tabs from "../../components/tabs.svelte";
     
     export let problem
     
@@ -69,6 +69,9 @@
 
     let tabs = ["Description", "Solution", "Discussion", "Submissions"]
     let activeTab = "Description"
+    const tabChange = (e) => {
+        activeTab = e.detail
+    }
 </script>
 
 <svelte:head>
@@ -79,7 +82,7 @@
     <div class="row-span-15 grid grid-cols-2 gap-4">
         <div class="overflow-auto border border-gray-300 p-4">
             <!--tabs.svelte (description, solution, discussion, submissions)-->
-            <Tabs {tabs} {activeTab} />
+            <Tabs {tabs} {activeTab} on:tabChange={tabChange} />
             <p class="font-bold">{problem.title}</p>
             <p class="text-sm text-green-600 font-light mt-2">{problem.difficulty}</p>
             <hr class="my-4">
