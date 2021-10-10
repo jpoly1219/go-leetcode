@@ -26,6 +26,7 @@
 <script>
     import { beforeUpdate, onMount } from "svelte"
     import snarkdown from "snarkdown"
+    import Tabs from "src/components/tabs.svelte";
     
     export let problem
     
@@ -65,6 +66,9 @@
         alert("code submitted!")
         alert(`Result: ${data.result}:\nInput: ${data.input}\nExpected: ${data.expected}\nOutput: ${data.output}`)
     }
+
+    let tabs = ["Description", "Solution", "Discussion", "Submissions"]
+    let activeTab = "Description"
 </script>
 
 <svelte:head>
@@ -74,6 +78,8 @@
 <div class="grid grid-rows-16 h-full">
     <div class="row-span-15 grid grid-cols-2 gap-4">
         <div class="overflow-auto border border-gray-300 p-4">
+            <!--tabs.svelte (description, solution, discussion, submissions)-->
+            <Tabs {tabs} {activeTab} />
             <p class="font-bold">{problem.title}</p>
             <p class="text-sm text-green-600 font-light mt-2">{problem.difficulty}</p>
             <hr class="my-4">
