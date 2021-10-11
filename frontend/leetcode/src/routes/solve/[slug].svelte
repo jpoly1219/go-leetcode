@@ -87,6 +87,9 @@
     let activeTab = "Description"
     const tabChange = (e) => {
         activeTab = e.detail
+        if (activeTab === "Submissions") {
+            loadSubmissions()
+        }
     }
 </script>
 
