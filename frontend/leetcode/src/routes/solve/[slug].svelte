@@ -96,18 +96,6 @@
             {/if}
         </div>
         <div class="flex flex-col border border-gray-300 overflow-hidden">
-            {#if data}
-            <div class="h-4/5 overflow-auto">
-                {#if CodeJar}
-                <CodeJar addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} withLineNumbers={true} bind:value/>
-                {:else}
-                <pre><code>{value}</code></pre>
-                {/if}
-            </div>
-            <div class="h-1/5">
-                <textarea bind:value={data.output} class="w-full"></textarea>
-            </div>
-            {:else}
             <div class="overflow-auto">
                 {#if CodeJar}
                 <CodeJar addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} withLineNumbers={true} bind:value/>
@@ -115,7 +103,6 @@
                 <pre><code>{value}</code></pre>
                 {/if}
             </div>
-            {/if}
         </div>
     </div>
     <div class="row-span-1 grid grid-cols-2 gap-4 content-center">
