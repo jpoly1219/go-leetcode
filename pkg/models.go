@@ -24,14 +24,13 @@ type userCode struct {
 
 type result struct {
 	Username string `json:"username"`
-	Pnum     int    `json:"pnum"`
+	Slug     string `json:"Slug"`
 	Lang     string `json:"lang"`
 	Code     string `json:"code"`
 	Result   string `json:"result"`
 	Input    string `json:"input"`
 	Expected string `json:"expected"`
 	Output   string `json:"output"`
-	// Runtime string `json:"runtime"`
 }
 
 type token struct {
@@ -45,4 +44,9 @@ type user struct {
 	Fullname string `json:"fullname"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
+}
+
+type submission struct {
+	Username string `json:"username"`
+	Slug     string `json:"slug"`
 }
