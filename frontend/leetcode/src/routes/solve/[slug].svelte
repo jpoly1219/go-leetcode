@@ -47,7 +47,7 @@
         }
     })
 
-    let data
+    let resultData
     async function submit() {
         const userInput = {
             username: username,
@@ -61,10 +61,26 @@
             body: JSON.stringify(userInput)
         }
         const res = await fetch(`http://jpoly1219devbox.xyz:8090/check/${problem.slug}`, options)
-        data = await res.json()
-        console.log(data)
+        resultData = await res.json()
+        console.log(resultData)
         alert("code submitted!")
         alert(`Result: ${data.result}:\nInput: ${data.input}\nExpected: ${data.expected}\nOutput: ${data.output}`)
+    }
+
+    let submissionsData
+    async function loadSubmissions() {
+        const userInput = {
+            username: username,
+            slug: problem.slug
+        }
+
+        const options = {
+            method: "POST",
+            body: JSON.stringify(userInput)
+        }
+        const res = await fetch(`http://jpoly1219devbox.xyz:8090/submissions`, options)
+        submissionsData = await res.json()
+        console.log(submissionsData)
     }
 
     let tabs = ["Description", "Solution", "Discussion", "Submissions"]
@@ -101,9 +117,9 @@
                     <th>Output</th>
                 </tr>
                 <tr>
-                    <td>{data.result}</td>
-                    <td>{data.expected}</td>
-                    <td>{data.output}</td>
+                    <td>{resultData.result}</td>
+                    <td>{resultData.expected}</td>
+                    <td>{resultData.output}</td>
                 </tr>
             </table>
             {/if}
