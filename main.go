@@ -27,6 +27,7 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/run", pkg.Run)
 	r.HandleFunc("/problemsets", pkg.Problemsets)
+	r.HandleFunc("/submissions", pkg.Submissions)
 
 	solveR := r.PathPrefix("/solve").Subrouter()
 	// solveR.Handle("/{slug}", pkg.VerifyToken(http.HandlerFunc(pkg.ReturnProblem)))
