@@ -112,18 +112,20 @@
             <p class="font-bold">Discussion</p>
             {:else if activeTab === "Submissions"}
             <p class="font-bold">Submissions</p>
-            {#if data}
+            {#if submissionsData}
             <table>
                 <tr>
                     <th>Result</th>
                     <th>Expected</th>
                     <th>Output</th>
                 </tr>
+                {#each submissionsData as submissionsDatum}
                 <tr>
-                    <td>{resultData.result}</td>
-                    <td>{resultData.expected}</td>
-                    <td>{resultData.output}</td>
+                    <td>{submissionsDatum.result}</td>
+                    <td>{submissionsDatum.expected}</td>
+                    <td>{submissionsDatum.output}</td>
                 </tr>
+                {/each}
             </table>
             {/if}
             {/if}
