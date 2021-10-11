@@ -143,3 +143,31 @@ func CheckProblem(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
 	json.NewEncoder(w).Encode(resFromContainer)
 }
+
+func Submissions(w http.ResponseWriter, r *http.Request) {
+	HandleCors(w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	var userSubmission submission
+	json.NewDecoder(r.Body).Decode(&userSubmission)
+
+	var prevSubmission result
+	results, err := Db.Query("SELECT * FROM attempts WHERE username = $1 AND slug = $2;", userSubmission.Username, userSubmission.Slug)
+	if err != nil {
+		log.Fatal("failed to query attempts")
+	}
+	for results.Next() {
+		err = results.Scan(
+			&prevSubmission.Username, &prevSubmission.Slug, &prevSubmission.Lang,
+			&prevSubmission.Code, &prevSubmission.Result, &prevSubmission.Output,
+		)
+		if err != nil {
+			log.Fatal("failed to scan")
+		}
+	}
+
+	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
+	json.NewEncoder(w).Encode(prevSubmission)
+}
