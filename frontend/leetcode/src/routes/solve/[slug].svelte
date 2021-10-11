@@ -93,6 +93,20 @@
             <p class="font-bold">Discussion</p>
             {:else if activeTab === "Submissions"}
             <p class="font-bold">Submissions</p>
+            {#if data}
+            <table>
+                <tr>
+                    <th>Result</th>
+                    <th>Expected</th>
+                    <th>Output</th>
+                </tr>
+                <tr>
+                    <td>{data.result}</td>
+                    <td>{data.expected}</td>
+                    <td>{data.output}</td>
+                </tr>
+            </table>
+            {/if}
             {/if}
         </div>
         <div class="flex flex-col border border-gray-300 overflow-hidden">
