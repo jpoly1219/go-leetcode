@@ -49,6 +49,7 @@
 
     let resultData
     async function submit() {
+        activeTab = "Submissions"
         const userInput = {
             username: username,
             slug: problem.slug,
@@ -64,7 +65,6 @@
         resultData = await res.json()
         console.log(resultData)
         alert("code submitted!")
-        alert(`Result: ${data.result}:\nInput: ${data.input}\nExpected: ${data.expected}\nOutput: ${data.output}`)
     }
 
     let submissionsData
@@ -112,6 +112,11 @@
             <p class="font-bold">Discussion</p>
             {:else if activeTab === "Submissions"}
             <p class="font-bold">Submissions</p>
+            {#if resultData}
+            <p>{resultData.result}</p>
+            <p>{resultData.expected}</p>
+            <p>{resultData.output}</p>
+            {/if}
             {#if submissionsData}
             <table>
                 <tr>
