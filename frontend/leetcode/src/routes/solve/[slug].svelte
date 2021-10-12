@@ -45,6 +45,7 @@
             const payloadB64 = $accessTokenStore.split(".")[1]
             username = JSON.parse(window.atob(payloadB64)).username
         }
+        loadSubmissions()
     })
 
     let resultData
@@ -87,9 +88,7 @@
     let activeTab = "Description"
     const tabChange = (e) => {
         activeTab = e.detail
-        if (activeTab === "Submissions") {
-            loadSubmissions()
-        }
+        
     }
 </script>
 
@@ -126,9 +125,7 @@
                 </tr>
                 {#each submissionsData as submissionsDatum}
                 <tr>
-                    <td>{submissionsDatum.result}</td>
-                    <td>{submissionsDatum.expected}</td>
-                    <td>{submissionsDatum.output}</td>
+                    <td>{submissionsDatum}</td>
                 </tr>
                 {/each}
             </table>
