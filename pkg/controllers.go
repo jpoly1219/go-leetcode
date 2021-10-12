@@ -154,7 +154,10 @@ func Submissions(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&userSubmission)
 
 	var prevSubmission result
-	results, err := Db.Query("SELECT * FROM attempts WHERE username = $1 AND slug = $2;", userSubmission.Username, userSubmission.Slug)
+	results, err := Db.Query(
+		"SELECT username, slug, lang, code, result, output FROM attempts WHERE username = $1 AND slug = $2;",
+		userSubmission.Username, userSubmission.Slug,
+	)
 	if err != nil {
 		log.Fatal("failed to query attempts")
 	}
