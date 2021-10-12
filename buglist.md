@@ -84,3 +84,12 @@
   - Suggested fix:
     - Check the db query statement for any typos.
     - **Fix `db` declaration by declaring `err` prior to using `db, err = sql.Open()`**
+
+- Cannot insert into `attempts` table
+  - Tested
+  - Output:
+  ```
+  failed to insert attempt:  pq: insert or update on table "attempts" violates foreign key constraint "attempts_username_fkey"
+  ```
+  - Possible reasons
+    - 
