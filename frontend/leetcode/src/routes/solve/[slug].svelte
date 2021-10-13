@@ -33,6 +33,7 @@
     let CodeJar;
     onMount(async () => {
         ({CodeJar} = await import("svelte-codejar"));
+        loadSubmissions()
     });
     export let value = ""
 
@@ -45,7 +46,6 @@
             const payloadB64 = $accessTokenStore.split(".")[1]
             username = JSON.parse(window.atob(payloadB64)).username
         }
-        loadSubmissions()
     })
 
     let resultData
