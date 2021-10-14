@@ -92,4 +92,15 @@
   failed to insert attempt:  pq: insert or update on table "attempts" violates foreign key constraint "attempts_username_fkey"
   ```
   - Possible reasons
-    - 
+    - Bad query statement
+
+  - Suggested fix:
+    - Check the db query fields
+
+- loadSubmissions() loads infinitely
+  - Tested
+  - Possible reasons:
+   - beforeUpdate vs onMount
+   - Lifecycle
+   - nested async?
+  - 
