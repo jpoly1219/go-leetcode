@@ -103,4 +103,3 @@
    - beforeUpdate vs onMount
    - Lifecycle
    - nested async?
-  - 
