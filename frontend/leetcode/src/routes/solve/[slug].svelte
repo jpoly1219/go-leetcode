@@ -30,7 +30,8 @@
     
     export let problem
     
-    let CodeJar;
+    let CodeJar
+    let submissionsData
     onMount(async () => {
         ({CodeJar} = await import("svelte-codejar"));
         loadSubmissions()
@@ -68,7 +69,6 @@
         alert("code submitted!")
     }
 
-    let submissionsData
     async function loadSubmissions() {
         const userInput = {
             username: username,
@@ -80,8 +80,19 @@
             body: JSON.stringify(userInput)
         }
         const res = await fetch(`http://jpoly1219devbox.xyz:8090/submissions`, options)
-        submissionsData = await res.json()
-        console.log(submissionsData)
+        data = await res.json()
+        console.log(JSON.stringify(data))
+        submissionsData = data.map((data) => {
+            return {
+                username: data.username,
+                slug: data.slug,
+                lang: data.lang,
+                code: data.code,
+                result: data.result,
+                output: data.output
+            }
+        })
+        console.log("submissionsData:", submissionsData)
     }
 
     let tabs = ["Description", "Solution", "Discussion", "Submissions"]
