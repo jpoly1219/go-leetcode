@@ -103,3 +103,67 @@
    - beforeUpdate vs onMount
    - Lifecycle
    - nested async?
+
+Uncaught (in promise) Error: {#each} only iterates over array-like objects.
+    validate_each_argument index.mjs:1970
+    create_if_block_5 [slug].svelte:433
+    create_if_block_4 [slug].svelte:119
+    update [slug].svelte:1119
+    update index.mjs:1050
+    flush index.mjs:1018
+    promise callback*schedule_update index.mjs:993
+    make_dirty index.mjs:1752
+    ctx index.mjs:1790
+    tabChange [slug].svelte:1283
+    createEventDispatcher index.mjs:955
+    createEventDispatcher index.mjs:954
+    click_handler tabs.svelte:13
+    click_handler tabs.svelte:47
+    listen index.mjs:412
+    listen_dev index.mjs:1936
+    mount tabs.svelte:81
+    mount tabs.svelte:154
+    m svelte-hooks.js:197
+    mount_component index.mjs:1720
+    mount [slug].svelte:1047
+    m svelte-hooks.js:197
+    mount_component index.mjs:1720
+    update root.svelte:107
+    update root.svelte:331
+    update_slot_base index.mjs:98
+    update __layout.svelte:82
+    update index.mjs:1050
+    flush index.mjs:1018
+    promise callback*schedule_update index.mjs:993
+    make_dirty index.mjs:1752
+    ctx index.mjs:1790
+    $$set root.svelte:639
+    get proxy.js:83
+    $set index.mjs:1885
+    key proxy.js:46
+    update start.js:627
+    _navigate start.js:270
+    init_listeners start.js:153
+    init_listeners start.js:110
+    start start.js:1145
+    async* login:1016
+
+Uncaught (in promise) ReferenceError: assignment to undeclared variable data
+    loadSubmissions [slug].svelte:83
+    instance [slug].svelte:36
+    run index.mjs:18
+    mount_component index.mjs:1724
+    flush index.mjs:1032
+    promise callback*schedule_update index.mjs:993
+    make_dirty index.mjs:1752
+    ctx index.mjs:1790
+    $$set root.svelte:639
+    get proxy.js:83
+    $set index.mjs:1885
+    key proxy.js:46
+    update start.js:627
+    _navigate start.js:270
+    init_listeners start.js:153
+    init_listeners start.js:110
+    start start.js:1145
+    async* login:1016
