@@ -232,4 +232,7 @@
 
     - Feature idea: group submissions by their steps taken
       - go-leetcode can tell you how other people have attempted the problem, and how many people have used similar steps as you.
-      - Docker Compose 
+      - Docker Compose
+    
+    - Dockerize the apps first before developing them!
+      - Because this is a multi-container app, it is better if I can separate these into their own directory,
