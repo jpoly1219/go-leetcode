@@ -10,8 +10,8 @@ RUN go mod download
 
 COPY . ./
 
-RUN go build -o /coderunnerBackend
+RUN go build -o /binCoderunner
 
 EXPOSE 8091
 
-CMD ["/coderunnerBackend"]
+CMD ["/binCoderunner"]
