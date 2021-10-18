@@ -8,7 +8,7 @@ services:
     build: ./coderunner
   
   frontend:
-    build: ./frontend
+    build: ./frontend/leetcode
   
   database:
     image: postgres:14
