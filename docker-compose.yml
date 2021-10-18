@@ -11,4 +11,10 @@ services:
     build: ./frontend
   
   database:
-    image: ""
+    image: postgres:14
+    volume:
+      - ./database:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
