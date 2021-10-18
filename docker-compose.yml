@@ -12,7 +12,7 @@ services:
   
   database:
     image: postgres:14
-    volume:
+    volumes:
       - ./database:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=postgres
