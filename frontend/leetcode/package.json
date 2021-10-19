@@ -10,12 +10,19 @@
   },
   "devDependencies": {
     "@sveltejs/kit": "next",
+    "autoprefixer": "^10.3.7",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-svelte3": "^3.2.1",
+    "postcss": "^8.3.9",
     "prettier": "^2.4.1",
     "prettier-plugin-svelte": "^2.4.0",
-    "svelte": "^3.42.6"
+    "svelte": "^3.42.6",
+    "tailwindcss": "^2.2.17"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "@novacbn/svelte-codejar": "^0.1.1",
+    "snarkdown": "^2.0.0"
+  }
 }

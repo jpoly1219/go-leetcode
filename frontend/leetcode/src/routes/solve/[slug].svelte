@@ -33,7 +33,7 @@
     let CodeJar
     let submissionsData
     onMount(async () => {
-        ({CodeJar} = await import("svelte-codejar"));
+        ({CodeJar} = await import("@novacbn/svelte-codejar"));
         loadSubmissions()
     });
     export let value = ""
