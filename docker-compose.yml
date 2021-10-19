@@ -3,12 +3,19 @@ version: "3.7"
 services:
   backend:
     build: ./backend
+    ports:
+      - "8090:8090"
   
   coderunner:
     build: ./coderunner
+    ports:
+      - "8091:8091"
   
   frontend:
     build: ./frontend/leetcode
+    ports:
+      - "5000:3000"
+      - "5001:15000"
   
   database:
     image: postgres:14
