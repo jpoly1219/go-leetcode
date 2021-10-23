@@ -185,8 +185,10 @@
       - `templates` has a foreign key that references the primary key of `problems`
       - `testcases` has a foreign key that references the primary key of `problems`
       - `attempts` has two foreign keys that references the primary key of `users` and `problems`
-      - `CREATE TABLE templates (id SERIAL PRIMARY KEY, slug VARCHAR (100) NOT NULL, lang VARCHAR (10) NOT NULL, template TEXT NOT NULL, FOREIGN KEY (slug) REFERNCES problems (slug) ON DELETE CASCADE)`
-      - `CREATE TABLE testcases (id SERIAL PRIMARY KEY, slug VARCHAR (100) NOT NULL, testcase TEXT NOT NULL UNIQUE, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE`
+      - `CREATE TABLE users (id SERIAL PRIMARY KEY, username VARCHAR (50) UNIQUE NOT NULL, fullname VARCHAR (100) NOT NULL, email VARCHAR (255) UNIQUE NOT NULL, password VARCHAR(255) NOT NULL)`
+      - `CREATE TABLE problems (id SERIAL PRIMARY KEY, title VARCHAR (100) UNIQUE NOT NULL, slug VARCHAR (100) UNIQUE NOT NULL, difficulty VARCHAR (10) NOT NULL, description TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW())`
+      - `CREATE TABLE templates (id SERIAL PRIMARY KEY, slug VARCHAR (100) NOT NULL, lang VARCHAR (10) NOT NULL, template TEXT NOT NULL, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
+      - `CREATE TABLE testcases (id SERIAL PRIMARY KEY, slug VARCHAR (100) NOT NULL, testcase TEXT NOT NULL UNIQUE, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
       - `CREATE TABLE attempts (id SERIAL PRIMARY KEY, username VARCHAR (50) NOT NULL, slug VARCHAR (100) NOT NULL, lang VARCHAR (10) NOT NULL, code TEXT NOT NULL, result VARCHAR (50) NOT NULL, output TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW(), FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
 
       - `INSERT INTO templates (slug, lang, template) VALUES ('1-two-sum', 'cpp', *paste template.cpp*)`
