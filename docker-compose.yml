@@ -18,10 +18,12 @@ services:
       - "5001:15000"
   
   database:
-    image: postgres:14
+    image: postgres
+    ports:
+      - "5432:5432"
     volumes:
       - ./database:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=goleetcode
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
