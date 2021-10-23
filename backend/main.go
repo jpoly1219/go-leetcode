@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -18,7 +19,16 @@ func main() {
 		log.Fatalln("Error loading .env file.")
 	}
 
-	pkg.Db, err = sql.Open("postgres", "postgres://postgres:postgres@localhost:5432/goleetcode")
+	const (
+		host     = "jpoly1219devbox.xyz"
+		port     = 5432
+		user     = "postgres"
+		password = "postgres"
+		dbname   = "goleetcode"
+	)
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
+
+	pkg.Db, err = sql.Open("postgres", psqlInfo)
 	if err != nil {
 		log.Fatal("failed to connect to db")
 	}
