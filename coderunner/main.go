@@ -439,7 +439,16 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 func main() {
 	// establish database connection
 	var err error
-	db, err = sql.Open("postgres", "postgres://postgres:postgres@localhost:5432/goleetcode")
+	const (
+		host     = "jpoly1219devbox.xyz"
+		port     = 5432
+		user     = "postgres"
+		password = "postgres"
+		dbname   = "goleetcode"
+	)
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
+
+	db, err = sql.Open("postgres", psqlInfo)
 	if err != nil {
 		log.Fatal("failed to connect to db")
 	}
