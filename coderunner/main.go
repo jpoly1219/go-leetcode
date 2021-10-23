@@ -382,7 +382,7 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-	if filepath.Base(cwd) != "containers" {
+	if filepath.Base(cwd) != "coderunner" {
 		err = os.Chdir("..")
 		if err != nil {
 			fmt.Println("cd failed")
