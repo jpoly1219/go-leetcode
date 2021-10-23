@@ -1,4 +1,6 @@
 # List of known bugs
+- Directory structure changes inside Docker container
+
 - RunTest() receives poorly formatted JSON from the frontend
   - Tested
   - Output:
