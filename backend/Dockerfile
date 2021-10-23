@@ -1,6 +1,6 @@
 FROM golang:1.17
 
-WORKDIR /app
+WORKDIR /backend
 
 COPY go.mod ./
 
