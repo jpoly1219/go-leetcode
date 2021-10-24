@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	"github.com/joho/godotenv"
-	"github.com/jpoly1219/go-leetcode/pkg"
+	"github.com/jpoly1219/go-leetcode/backend/pkg"
 
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
