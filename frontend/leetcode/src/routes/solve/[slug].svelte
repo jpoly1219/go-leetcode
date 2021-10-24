@@ -78,9 +78,9 @@
             method: "POST",
             body: JSON.stringify(userInput)
         }
-        const res = await fetch(`http://jpoly1219devbox.xyz:8090/submissions`, options)
+        const res = await fetch("http://jpoly1219devbox.xyz:8090/submissions", options)
         const data = await res.json()
-        console.log(JSON.stringify(data), typeof(data))
+        console.log(data, typeof(data))
         const submissionsData = data.map((data) => {
             return {
                 username: data.username,
