@@ -47,7 +47,6 @@ func GenerateToken(userid int, username string) (*token, error) {
 	}
 
 	tokenPair := token{AccessToken: accessTokenString, RefreshToken: refreshTokenString}
-	fmt.Println("generated token pair")
 	return &tokenPair, nil
 }
 
@@ -113,7 +112,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	// read form data and check if form is valid
 	var formData user
 	json.NewDecoder(r.Body).Decode(&formData)
-	fmt.Println(formData)
+	// fmt.Println(formData)
 
 	// compare form data to database
 	dbPasswordHash := ""
@@ -121,7 +120,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		"SELECT password FROM users WHERE username = $1;",
 		formData.Username,
 	).Scan(&dbPasswordHash)
-	fmt.Println(dbPasswordHash)
+	// fmt.Println(dbPasswordHash)
 	// check if user does not exist
 	if err != nil {
 		fmt.Println("login() query failed:", err)
