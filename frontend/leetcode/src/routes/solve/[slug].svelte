@@ -31,10 +31,8 @@
     export let problem
     
     let CodeJar
-    let submissionsData
     onMount(async () => {
         ({CodeJar} = await import("@novacbn/svelte-codejar"));
-        loadSubmissions()
     });
     export let value = ""
 
@@ -47,10 +45,12 @@
             const payloadB64 = $accessTokenStore.split(".")[1]
             username = JSON.parse(window.atob(payloadB64)).username
         }
+        loadSubmissions()
     })
 
     let resultData
     async function submit() {
+        alert("code submitted!")
         activeTab = "Submissions"
         const userInput = {
             username: username,
@@ -66,7 +66,6 @@
         const res = await fetch(`http://jpoly1219devbox.xyz:8090/check/${problem.slug}`, options)
         resultData = await res.json()
         console.log(resultData)
-        alert("code submitted!")
     }
 
     async function loadSubmissions() {
@@ -80,9 +79,9 @@
             body: JSON.stringify(userInput)
         }
         const res = await fetch(`http://jpoly1219devbox.xyz:8090/submissions`, options)
-        data = await res.json()
-        console.log(JSON.stringify(data))
-        submissionsData = data.map((data) => {
+        const data = await res.json()
+        console.log(JSON.stringify(data), typeof(data))
+        const submissionsData = data.map((data) => {
             return {
                 username: data.username,
                 slug: data.slug,
@@ -122,25 +121,25 @@
             <p class="font-bold">Discussion</p>
             {:else if activeTab === "Submissions"}
             <p class="font-bold">Submissions</p>
-            {#if resultData}
-            <p>{resultData.result}</p>
-            <p>{resultData.expected}</p>
-            <p>{resultData.output}</p>
-            {/if}
-            {#if submissionsData}
-            <table>
-                <tr>
-                    <th>Result</th>
-                    <th>Expected</th>
-                    <th>Output</th>
-                </tr>
-                {#each submissionsData as submissionsDatum}
-                <tr>
-                    <td>{submissionsDatum}</td>
-                </tr>
-                {/each}
-            </table>
-            {/if}
+                {#if resultData}
+                <p>{resultData.result}</p>
+                <p>{resultData.expected}</p>
+                <p>{resultData.output}</p>
+                {/if}
+                {#if submissionsData}
+                <table>
+                    <tr>
+                        <th>Result</th>
+                        <th>Expected</th>
+                        <th>Output</th>
+                    </tr>
+                    {#each submissionsData as submissionsDatum}
+                    <tr>
+                        <td>{submissionsDatum}</td>
+                    </tr>
+                    {/each}
+                </table>
+                {/if}
             {/if}
         </div>
         <div class="flex flex-col border border-gray-300 overflow-hidden">
