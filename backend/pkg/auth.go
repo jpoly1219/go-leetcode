@@ -154,6 +154,11 @@ func Login(w http.ResponseWriter, r *http.Request) {
 }
 
 func SilentRefresh(w http.ResponseWriter, r *http.Request) {
+	HandleCors(w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
 	c, err := r.Cookie("refreshToken")
 	if err != nil {
 		fmt.Println(err)
