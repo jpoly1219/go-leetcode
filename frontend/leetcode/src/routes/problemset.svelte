@@ -3,6 +3,7 @@
         const url = "http://jpoly1219devbox.xyz:8090/problemsets"
         const res = await fetch(url)
         const data = await res.json()
+        console.log(data, typeof(data))
         const loadedProblem = data.map((data, index) => {
             return {
                 num: index + 1,
