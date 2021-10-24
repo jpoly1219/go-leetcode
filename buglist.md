@@ -1,4 +1,6 @@
 # List of known bugs
+- Problemsets() returns an array data type, but Submissions() returns an object data type
+
 - Directory structure changes inside Docker container
 
 - RunTest() receives poorly formatted JSON from the frontend
