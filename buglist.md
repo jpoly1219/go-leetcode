@@ -1,23 +1,25 @@
 # List of known bugs
-- Docker Compose not reflecting code updates
+- Docker Compose not reflecting code updates (**FIXED 21.10.24 23:20**)
   - Tested
-  - Filesystem inside the container reflects the code updates, but running `docker logs` show no difference between before and after the update.
+    - Filesystem inside the container reflects the code updates, but running `docker logs` show no difference between before and after the update.
+    - Changes inside `main.go` are applied, but the ones inside `/pkg` are not.
   - Possible reasons:
     - `docker-compose` is using the cached layers instead of rebuilding.
-    - Go isn't building binaries correctly.
+    - *Go isn't building binaries correctly.*
+    - *Go isn't importing `pkg` properly.*
   - Suggested fix:
     - `docker-compose up --build`
     - `docker-compose build --no-cache` && `docker-compose up`
-    - Check for any typos in Go files, especially the ones inside `/backend` directory.
-    - Review how Go modules and packages work.
+    - *Check for any typos in Go files, especially the ones inside `/backend` directory.*
+    - *Review how Go modules and packages work.*
 
-- Problemsets() returns an array data type, but Submissions() returns an object data type
+- Problemsets() returns an array data type, but Submissions() returns an object data type (**FIXED 21.10.24 23:20**)
   - Tested
   - Possible reasons:
-    - API is sending over different data types.
+    - *API is sending over different data types.*
     - Frontend is parsing the data weirdly.
   - Suggested fix:
-    - Check the backend API to see if it is sending a JSON or an array of JSONs.
+    - *Check the backend API to see if it is sending a JSON or an array of JSONs.*
 
 - Directory structure changes inside Docker container
 
