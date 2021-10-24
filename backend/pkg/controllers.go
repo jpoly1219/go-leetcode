@@ -153,7 +153,7 @@ func Submissions(w http.ResponseWriter, r *http.Request) {
 	var userSubmission submission
 	json.NewDecoder(r.Body).Decode(&userSubmission)
 
-	var prevSubmission result
+	var prevSubmissions = make([]result, 0)
 	results, err := Db.Query(
 		"SELECT username, slug, lang, code, result, output FROM attempts WHERE username = $1 AND slug = $2;",
 		userSubmission.Username, userSubmission.Slug,
@@ -162,6 +162,7 @@ func Submissions(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("failed to query attempts")
 	}
 	for results.Next() {
+		var prevSubmission result
 		err = results.Scan(
 			&prevSubmission.Username, &prevSubmission.Slug, &prevSubmission.Lang,
 			&prevSubmission.Code, &prevSubmission.Result, &prevSubmission.Output,
@@ -169,8 +170,9 @@ func Submissions(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal("failed to scan")
 		}
+		prevSubmissions = append(prevSubmissions, prevSubmission)
 	}
 
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
-	json.NewEncoder(w).Encode(prevSubmission)
+	json.NewEncoder(w).Encode(prevSubmissions)
 }
