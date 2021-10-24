@@ -66,6 +66,7 @@ func Run(w http.ResponseWriter, r *http.Request) {
 }
 
 func Problemsets(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("reached Problemsets")
 	var problems = make([]problem, 0)
 
 	results, err := Db.Query("SELECT * FROM problems;")
@@ -145,6 +146,7 @@ func CheckProblem(w http.ResponseWriter, r *http.Request) {
 }
 
 func Submissions(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("reached submissions")
 	HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
@@ -152,6 +154,7 @@ func Submissions(w http.ResponseWriter, r *http.Request) {
 
 	var userSubmission submission
 	json.NewDecoder(r.Body).Decode(&userSubmission)
+	fmt.Println(userSubmission.Username, userSubmission.Slug)
 
 	var prevSubmissions = make([]result, 0)
 	results, err := Db.Query(
@@ -173,6 +176,7 @@ func Submissions(w http.ResponseWriter, r *http.Request) {
 		prevSubmissions = append(prevSubmissions, prevSubmission)
 	}
 
+	fmt.Println("hi", prevSubmissions)
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
 	json.NewEncoder(w).Encode(prevSubmissions)
 }
