@@ -24,7 +24,7 @@ type userCode struct {
 
 type result struct {
 	Username string `json:"username"`
-	Slug     string `json:"Slug"`
+	Slug     string `json:"slug"`
 	Lang     string `json:"lang"`
 	Code     string `json:"code"`
 	Result   string `json:"result"`
