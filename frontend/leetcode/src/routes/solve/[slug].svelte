@@ -68,6 +68,7 @@
         console.log(resultData)
     }
 
+    let submissionsData
     async function loadSubmissions() {
         const userInput = {
             username: username,
@@ -81,7 +82,7 @@
         const res = await fetch("http://jpoly1219devbox.xyz:8090/submissions", options)
         const data = await res.json()
         console.log(data, typeof(data))
-        const submissionsData = data.map((data) => {
+        submissionsData = data.map((data) => {
             return {
                 username: data.username,
                 slug: data.slug,
@@ -123,19 +124,18 @@
             <p class="font-bold">Submissions</p>
                 {#if resultData}
                 <p>{resultData.result}</p>
-                <p>{resultData.expected}</p>
                 <p>{resultData.output}</p>
                 {/if}
                 {#if submissionsData}
                 <table>
                     <tr>
                         <th>Result</th>
-                        <th>Expected</th>
                         <th>Output</th>
                     </tr>
                     {#each submissionsData as submissionsDatum}
                     <tr>
-                        <td>{submissionsDatum}</td>
+                        <td>{submissionsDatum.result}</td>
+                        <td>{submissionsDatum.output}</td>
                     </tr>
                     {/each}
                 </table>
