@@ -118,18 +118,6 @@
   - https://novacbn.github.io/svelte-codejar/
   - I will look into the code later to see how it is implemented...
 
-### Work Log:
-- Created /problems/number.md to store problems as markdown, which will be stored inside the database as `TEXT`.
-- Scaffolded five instances of a problem struct inside the backend controller function.
-- Frontend now loads problems.
-- Implemented TailwindCSS for styling.
-
-- 21.08.24
-  - Implemented code editor in the frontend.
-  - Submit button sends user's code to the backend.
-  - Backend handles this request via CheckProblem() handler.
-  - Additional functionalities are coming.
-
 ### TODO:
 - Load `problems` database with problem sets.
   - This is done in memory at the moment, will load database later.
@@ -238,3 +226,8 @@
     
     - Dockerize the apps first before developing them!
       - Because this is a multi-container app, it is better if I can separate these into their own directory,
+
+    - Frontend needs more polish, especially the submissions tab.
+      - Right now the tab renders extremely basic table without any styling. Also, the og Leetcode has a feature where one can click on a submission entry to view detailed results.
+      - This will need an update to the backend.
+      - Code run time and memory usage should be measured.
