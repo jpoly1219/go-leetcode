@@ -3,7 +3,8 @@
     import { accessTokenStore } from "../../stores/stores"
     export async function load({page}) {
         const slug = page.params.slug
-        const url = `http://jpoly1219devbox.xyz:8090/solve/${slug}`
+        const url1 = `http://jpoly1219devbox.xyz:8090/solve/${slug}`
+        const url2 = `http://jpoly1219devbox.xyz:8090/submissions`
         let accessToken = get(accessTokenStore)
         const options = {
             method: "GET",
@@ -14,9 +15,11 @@
         }
         // console.log(`now fetching:\n ${options.headers.Authorization}`)
         try {
-            const res = await fetch(url, options)
-            const problem = await res.json()
-            return {props: {problem}}
+            const res1 = await fetch(url1, options)
+            const res2 = await fetch(url2)
+            const problem = await res1.json()
+            const submissions = await res2.json()
+            return {props: {problem, submissions}}
         } catch(err) {
             console.log(err)
         }
@@ -29,6 +32,7 @@
     import Tabs from "../../components/tabs.svelte";
     
     export let problem
+    export let submissions
     
     let CodeJar
     onMount(async () => {
@@ -41,11 +45,15 @@
     let selected
 
     let username
+    let submissionsData = []
     beforeUpdate(() => {
         if ($accessTokenStore != "") {
             const payloadB64 = $accessTokenStore.split(".")[1]
             username = JSON.parse(window.atob(payloadB64)).username
         }
+        submissions.map((data) => {
+            submissionsData.push(data)
+        })
     })
 
     let resultData
@@ -66,8 +74,10 @@
         const res = await fetch(`http://jpoly1219devbox.xyz:8090/check/${problem.slug}`, options)
         resultData = await res.json()
         console.log(resultData)
+        submissionsData.push(resultData)
     }
 
+    /*
     let submissionsData
     async function loadSubmissions() {
         const userInput = {
@@ -94,6 +104,7 @@
         })
         console.log("submissionsData:", submissionsData)
     }
+    */
 
     let tabs = ["Description", "Solution", "Discussion", "Submissions"]
     let activeTab = "Description"
