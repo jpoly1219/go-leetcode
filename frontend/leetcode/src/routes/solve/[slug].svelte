@@ -23,13 +23,11 @@
             method: "POST",
             body: JSON.stringify({username: username, slug: slug})
         }
-        // console.log(`now fetching:\n ${options.headers.Authorization}`)
         try {
             const res1 = await fetch(url1, options1)
             const res2 = await fetch(url2, options2)
             const problem = await res1.json()
             const submissions = await res2.json()
-            console.log(problem, submissions)
             return {props: {problem, submissions, username}}
         } catch(err) {
             console.log(err)
@@ -38,7 +36,7 @@
 </script>
 
 <script>
-    import { beforeUpdate, onMount } from "svelte"
+    import { onMount } from "svelte"
     import snarkdown from "snarkdown"
     import Tabs from "../../components/tabs.svelte";
     
@@ -58,16 +56,6 @@
 
     let languages = ["cpp", "java", "js", "py"]
     let selected
-
-    /*
-    let username
-    beforeUpdate(() => {
-        if ($accessTokenStore != "") {
-            const payloadB64 = $accessTokenStore.split(".")[1]
-            username = JSON.parse(window.atob(payloadB64)).username
-        }
-    })
-    */
 
     let resultData
     async function submit() {
@@ -89,35 +77,6 @@
         console.log(resultData)
         submissionsData.push(resultData)
     }
-
-    /*
-    let submissionsData
-    async function loadSubmissions() {
-        const userInput = {
-            username: username,
-            slug: problem.slug
-        }
-
-        const options = {
-            method: "POST",
-            body: JSON.stringify(userInput)
-        }
-        const res = await fetch("http://jpoly1219devbox.xyz:8090/submissions", options)
-        const data = await res.json()
-        console.log(data, typeof(data))
-        submissionsData = data.map((data) => {
-            return {
-                username: data.username,
-                slug: data.slug,
-                lang: data.lang,
-                code: data.code,
-                result: data.result,
-                output: data.output
-            }
-        })
-        console.log("submissionsData:", submissionsData)
-    }
-    */
 
     let tabs = ["Description", "Solution", "Discussion", "Submissions"]
     let activeTab = "Description"
@@ -147,7 +106,7 @@
             {:else if activeTab === "Submissions"}
             <p class="font-bold">Submissions</p>
                 {#if submissionsData}
-                <table class="table-auto">
+                <table class="table-auto border border-black-500">
                     <tr>
                         <th>Result</th>
                         <th>Output</th>
