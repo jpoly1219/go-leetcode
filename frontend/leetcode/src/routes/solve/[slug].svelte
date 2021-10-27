@@ -5,21 +5,32 @@
         const slug = page.params.slug
         const url1 = `http://jpoly1219devbox.xyz:8090/solve/${slug}`
         const url2 = `http://jpoly1219devbox.xyz:8090/submissions`
+
         let accessToken = get(accessTokenStore)
-        const options = {
+        let username
+        if (accessToken != "") {
+            const payloadB64 = accessToken.split(".")[1]
+            username = JSON.parse(window.atob(payloadB64)).username
+        }
+        const options1 = {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + accessToken,
             },
             credentials: "include"
         }
+        const options2 = {
+            method: "POST",
+            body: JSON.stringify({username: username, slug: slug})
+        }
         // console.log(`now fetching:\n ${options.headers.Authorization}`)
         try {
-            const res1 = await fetch(url1, options)
-            const res2 = await fetch(url2)
+            const res1 = await fetch(url1, options1)
+            const res2 = await fetch(url2, options2)
             const problem = await res1.json()
             const submissions = await res2.json()
-            return {props: {problem, submissions}}
+            console.log(problem, submissions)
+            return {props: {problem, submissions, username}}
         } catch(err) {
             console.log(err)
         }
@@ -33,28 +44,30 @@
     
     export let problem
     export let submissions
+    export let username
     
     let CodeJar
+    let submissionsData = []
     onMount(async () => {
         ({CodeJar} = await import("@novacbn/svelte-codejar"));
-        loadSubmissions()
+        submissions.map((data) => {
+            submissionsData.push(data)
+        })
     });
     export let value = ""
 
     let languages = ["cpp", "java", "js", "py"]
     let selected
 
+    /*
     let username
-    let submissionsData = []
     beforeUpdate(() => {
         if ($accessTokenStore != "") {
             const payloadB64 = $accessTokenStore.split(".")[1]
             username = JSON.parse(window.atob(payloadB64)).username
         }
-        submissions.map((data) => {
-            submissionsData.push(data)
-        })
     })
+    */
 
     let resultData
     async function submit() {
@@ -134,7 +147,7 @@
             {:else if activeTab === "Submissions"}
             <p class="font-bold">Submissions</p>
                 {#if submissionsData}
-                <table>
+                <table class="table-auto">
                     <tr>
                         <th>Result</th>
                         <th>Output</th>
