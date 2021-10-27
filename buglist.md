@@ -1,4 +1,10 @@
 # List of known bugs
+- A lot of requests are being sent to the backend
+  - Tested
+  - Around 4 reqs per second back to the backend
+  - Possible reasons:
+    - The async call inside `beforeUpdate()` is being called way too often.
+
 - Docker Compose not reflecting code updates (**FIXED 21.10.24 23:20**)
   - Tested
     - Filesystem inside the container reflects the code updates, but running `docker logs` show no difference between before and after the update.
