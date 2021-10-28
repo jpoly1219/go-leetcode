@@ -117,7 +117,7 @@
                         {#each submissionsData as submissionsDatum}
                         <tbody>
                             <tr>
-                                <td class="px-4 py-2 text-xs text-red-600 text-left" class:text-green-600="{submissionsDatum.result === 'OK'}">
+                                <td class="px-4 py-2 text-sm text-left {submissionsDatum.result === 'OK' ? 'text-green-600' : 'text-red-600'}">
                                     {submissionsDatum.result}
                                 </td>
                                 <td class="break-words">{submissionsDatum.output}</td>
