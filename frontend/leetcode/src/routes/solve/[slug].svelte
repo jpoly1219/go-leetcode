@@ -110,14 +110,16 @@
                     <table class="items-center w-full border-collapse">
                         <thead>
                             <tr>
-                                <th class="px-4 py-2 bg-gray-300 border border-solid border-gray-400 border-r-0 text-sm text-gray-700">Result</th>
-                                <th class="px-4 py-2 bg-gray-300 border border-solid border-gray-400 border-l-0 text-sm text-gray-700">Output</th>
+                                <th class="px-4 py-2 bg-gray-300 border border-solid border-gray-400 border-r-0 text-sm text-gray-700 text-left">Result</th>
+                                <th class="px-4 py-2 bg-gray-300 border border-solid border-gray-400 border-l-0 text-sm text-gray-700 text-left">Output</th>
                             </tr>
                         </thead>
                         {#each submissionsData as submissionsDatum}
                         <tbody>
                             <tr>
-                                <td class="text-red-600" class:text-green-600="{submissionsDatum.result === 'OK'}">{submissionsDatum.result}</td>
+                                <td class="px-4 py-2 text-xs text-red-600 text-left" class:text-green-600="{submissionsDatum.result === 'OK'}">
+                                    {submissionsDatum.result}
+                                </td>
                                 <td class="break-words">{submissionsDatum.output}</td>
                             </tr>
                         </tbody>
