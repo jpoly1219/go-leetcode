@@ -106,11 +106,13 @@
             {:else if activeTab === "Submissions"}
             <p class="font-bold">Submissions</p>
                 {#if submissionsData}
-                <table class="table-auto border border-black-500">
-                    <tr>
-                        <th>Result</th>
-                        <th>Output</th>
-                    </tr>
+                <table class="items-center w-full border-collapse">
+                    <thead>
+                        <tr>
+                            <th class="px-6 py-3 bg-gray-300 border border-solid border-gray-400 text-sm text-gray-600">Result</th>
+                            <th class="px-6 py-3 bg-gray-300 border border-solid border-gray-400 text-sm text-gray-600">Output</th>
+                        </tr>
+                    </thead>
                     {#if resultData}
                     <tr>
                         <td>{resultData.result}</td>
@@ -120,7 +122,7 @@
                     {#each submissionsData as submissionsDatum}
                     <tr>
                         <td>{submissionsDatum.result}</td>
-                        <td>{submissionsDatum.output}</td>
+                        <td class="break-words">{submissionsDatum.output}</td>
                     </tr>
                     {/each}
                 </table>
