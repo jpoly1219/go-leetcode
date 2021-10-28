@@ -231,3 +231,4 @@
       - Right now the tab renders extremely basic table without any styling. Also, the og Leetcode has a feature where one can click on a submission entry to view detailed results.
       - This will need an update to the backend.
       - Code run time and memory usage should be measured.
+      - Table style: https://tailwindcomponents.com/component/table-visits
