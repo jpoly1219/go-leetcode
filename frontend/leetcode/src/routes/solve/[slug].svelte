@@ -95,37 +95,35 @@
         <div class="overflow-auto border border-gray-300 p-4">
             <Tabs {tabs} {activeTab} on:tabChange={tabChange} />
             {#if activeTab === "Description"}
-            <p class="font-bold">{problem.title}</p>
+            <p class="text-lg font-bold">{problem.title}</p>
             <p class="text-sm text-green-600 font-light mt-2">{problem.difficulty}</p>
             <hr class="my-4">
             <p class="prose max-w-max">{@html snarkdown(problem.description)}</p>
             {:else if activeTab === "Solution"}
-            <p class="font-bold">Solution</p>
+            <p class="text-lg font-bold">Solution</p>
             {:else if activeTab === "Discussion"}
-            <p class="font-bold">Discussion</p>
+            <p class="text-lg font-bold">Discussion</p>
             {:else if activeTab === "Submissions"}
-            <p class="font-bold">Submissions</p>
+            <p class="text-lg font-bold">Submissions</p>
                 {#if submissionsData}
-                <table class="items-center w-full border-collapse">
-                    <thead>
-                        <tr>
-                            <th class="px-6 py-3 bg-gray-300 border border-solid border-gray-400 text-sm text-gray-600">Result</th>
-                            <th class="px-6 py-3 bg-gray-300 border border-solid border-gray-400 text-sm text-gray-600">Output</th>
-                        </tr>
-                    </thead>
-                    {#if resultData}
-                    <tr>
-                        <td>{resultData.result}</td>
-                        <td>{resultData.output}</td>
-                    </tr>
-                    {/if}
-                    {#each submissionsData as submissionsDatum}
-                    <tr>
-                        <td>{submissionsDatum.result}</td>
-                        <td class="break-words">{submissionsDatum.output}</td>
-                    </tr>
-                    {/each}
-                </table>
+                <div class="w-full">
+                    <table class="items-center w-full border-collapse">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2 bg-gray-300 border border-solid border-gray-400 border-r-0 text-sm text-gray-700">Result</th>
+                                <th class="px-4 py-2 bg-gray-300 border border-solid border-gray-400 border-l-0 text-sm text-gray-700">Output</th>
+                            </tr>
+                        </thead>
+                        {#each submissionsData as submissionsDatum}
+                        <tbody>
+                            <tr>
+                                <td class="text-red-600" class:text-green-600="{submissionsDatum.result === 'OK'}">{submissionsDatum.result}</td>
+                                <td class="break-words">{submissionsDatum.output}</td>
+                            </tr>
+                        </tbody>
+                        {/each}
+                    </table>
+                </div>
                 {/if}
             {/if}
         </div>
