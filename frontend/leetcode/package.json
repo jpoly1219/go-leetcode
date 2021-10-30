@@ -21,6 +21,7 @@
     "postcss": "^8.3.9",
     "prettier": "^2.4.1",
     "prettier-plugin-svelte": "^2.4.0",
+    "prismjs": "^1.25.0",
     "snarkdown": "^2.0.0",
     "svelte": "^3.42.6",
     "tailwindcss": "^2.2.17"
