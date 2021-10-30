@@ -137,7 +137,7 @@
         <div class="flex flex-col border border-gray-300 overflow-hidden">
             <div class="overflow-auto">
                 {#if CodeJar}
-                <CodeJar addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} withLineNumbers={true} syntax="cpp" highlight={highlight} bind:value/>
+                <CodeJar addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} withLineNumbers={true} syntax={selected} highlight={highlight} bind:value/>
                 {:else}
                 <pre><code>{value}</code></pre>
                 {/if}
