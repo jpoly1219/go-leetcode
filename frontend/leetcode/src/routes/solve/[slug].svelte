@@ -1,7 +1,11 @@
 <script context="module">
     import { get } from "svelte/store"
     import { accessTokenStore } from "../../stores/stores"
+    import Prism from "prismjs"
+
     export async function load({page}) {
+        const highlight = (code, syntax) => Prism.highlight(code, Prism.languages[syntax], syntax)
+
         const slug = page.params.slug
         const url1 = `http://jpoly1219devbox.xyz:8090/solve/${slug}`
         const url2 = `http://jpoly1219devbox.xyz:8090/submissions`
@@ -28,7 +32,7 @@
             const res2 = await fetch(url2, options2)
             const problem = await res1.json()
             const submissions = await res2.json()
-            return {props: {problem, submissions, username}}
+            return {props: {problem, submissions, username, highlight}}
         } catch(err) {
             console.log(err)
         }
@@ -43,6 +47,7 @@
     export let problem
     export let submissions
     export let username
+    export let highlight
     
     let CodeJar
     let submissionsData = []
@@ -132,7 +137,7 @@
         <div class="flex flex-col border border-gray-300 overflow-hidden">
             <div class="overflow-auto">
                 {#if CodeJar}
-                <CodeJar addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} withLineNumbers={true} bind:value/>
+                <CodeJar addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} withLineNumbers={true} syntax="cpp" highlight={highlight} bind:value/>
                 {:else}
                 <pre><code>{value}</code></pre>
                 {/if}
