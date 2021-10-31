@@ -4,11 +4,14 @@ WORKDIR /frontend
 
 COPY package.json package-lock.json ./
 
+RUN rm -rf build
+
 RUN npm install
 
 COPY . .
 
-EXPOSE 3000
-EXPOSE 15000
+RUN npm run build
 
-CMD ["npx", "svelte-kit", "dev", "--host", "0.0.0.0"]
+EXPOSE 3000
+
+CMD ["node", "build/index.js"]
