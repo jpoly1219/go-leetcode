@@ -136,7 +136,7 @@
         <div class="flex flex-col border border-gray-300 overflow-hidden">
             <div class="overflow-auto">
                 {#if CodeJar}
-                <svelte:component this={CodeJar} addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} withLineNumbers={true} syntax="javascript" {highlight} bind:value/>
+                <svelte:component this={CodeJar} addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} withLineNumbers={true} syntax="javascript" {highlight} {value}/>
                 {:else}
                 <pre><code>{value}</code></pre>
                 {/if}
