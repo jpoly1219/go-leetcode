@@ -56,10 +56,10 @@
             submissionsData.push(data)
         })
     });
-    export let value = ""
+    export let value = "console.log('hello world')"
 
     let languages = ["cpp", "java", "js", "py"]
-    let selected = "cpp"
+    let selected = ""
 
     let resultData
     async function submit() {
@@ -136,7 +136,7 @@
         <div class="flex flex-col border border-gray-300 overflow-hidden">
             <div class="overflow-auto">
                 {#if CodeJar}
-                <CodeJar addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} withLineNumbers={true} syntax={selected} {highlight} bind:value/>
+                <svelte:component this={CodeJar} addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} withLineNumbers={true} syntax="javascript" {highlight} bind:value/>
                 {:else}
                 <pre><code>{value}</code></pre>
                 {/if}
