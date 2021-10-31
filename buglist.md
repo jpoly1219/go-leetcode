@@ -1,5 +1,57 @@
 # List of known bugs
-- A lot of requests are being sent to the backend
+- PrismJS won't highlight
+
+- CodeJar element won't load (**FIXED 21.10.31 18:28**)
+  - Tested
+  - Output:
+    ```
+    Uncaught (in promise) TypeError: grammar is undefined
+      tokenize prism.js:658
+      highlight prism.js:628
+      highlight [slug].svelte:6
+      create_if_block CodeJar.svelte:44
+      create_fragment CodeJar.svelte:125
+      init index.mjs:1806
+      CodeJar CodeJar.svelte:385
+      createProxiedComponent svelte-hooks.js:245
+      ProxyComponent proxy.js:239
+      Proxy<CodeJar> proxy.js:339
+      create_if_block [slug].svelte:600
+      update [slug].svelte:1058
+      update index.mjs:1057
+      flush index.mjs:1025
+      promise callback*schedule_update index.mjs:1000
+      make_dirty index.mjs:1759
+      ctx index.mjs:1797
+      instance [slug].svelte:1158
+      run index.mjs:18
+      mount_component index.mjs:1731
+      flush index.mjs:1039
+      promise callback*schedule_update index.mjs:1000
+      make_dirty index.mjs:1759
+      ctx index.mjs:1797
+      $$set root.svelte:639
+      get proxy.js:83
+      $set index.mjs:1892
+      key proxy.js:46
+      update start.js:652
+      handle_navigation start.js:607
+      _navigate start.js:284
+      init_listeners start.js:167
+      init_listeners start.js:122
+      start start.js:1186
+      async* 1
+    ```
+    - Possible reasons:
+      - Bad module provided by svelte-codejar
+      - *Not understanding PrismJS and svelte-codejar well enough*
+    - Suggested fix:
+      - *Read over the documentation.*
+      - Check if the props are being properly sent to the CodeJar component.
+      - Understand how CodeJar component handles syntax.
+      - *Check what languages are supported by PrismJS and see if it needs extra settings.*
+
+- A lot of requests are being sent to the backend (**FIXED 21.10.22 22:00**)
   - Tested
   - Around 4 reqs per second back to the backend
   - Possible reasons:
