@@ -1,9 +1,15 @@
 <script context="module">
     import { get } from "svelte/store"
     import { accessTokenStore } from "../../stores/stores"
-    import Prism from "prismjs"
+    import hljs from "highlight.js/lib/core"
+    import javascript from "highlight.js/lib/languages/javascript"
 
-    const highlight = (code, syntax) => Prism.highlight(code, Prism.languages[syntax], syntax)
+    hljs.registerLanguage("js", javascript)
+    const highlight = (code, syntax) =>
+        hljs.highlight(code, {
+            language: syntax,
+        }).value
+    
 
     export async function load({page}) {
         const slug = page.params.slug
@@ -59,7 +65,7 @@
     export let value = "console.log('hello world')"
 
     let languages = ["cpp", "java", "js", "py"]
-    let selected = ""
+    let selected = "cpp"
 
     let resultData
     async function submit() {
@@ -136,7 +142,7 @@
         <div class="flex flex-col border border-gray-300 overflow-hidden">
             <div class="overflow-auto">
                 {#if CodeJar}
-                <svelte:component this={CodeJar} addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} withLineNumbers={true} syntax="javascript" {highlight} {value}/>
+                <svelte:component this={CodeJar} class="hljs" addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} withLineNumbers={true} syntax="js" {highlight} {value}/>
                 {:else}
                 <pre><code>{value}</code></pre>
                 {/if}
