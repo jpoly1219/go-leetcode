@@ -10,7 +10,7 @@ const config = {
 		vite: {
 			server: {
 				hmr: {
-					host: 'localhost',
+					host: 'jpoly1219devbox.xyz',
 					port: 15000,
 					protocol: 'ws'
 				}
