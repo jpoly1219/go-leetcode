@@ -232,3 +232,4 @@
       - This will need an update to the backend.
       - Code run time and memory usage should be measured.
       - Table style: https://tailwindcomponents.com/component/table-visits
+      - Answers and discussion tabs need to be populated.
