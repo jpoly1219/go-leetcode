@@ -50,3 +50,8 @@ type submission struct {
 	Username string `json:"username"`
 	Slug     string `json:"slug"`
 }
+
+type solution struct {
+	Slug     string `json:"slug"`
+	Solution string `json:"solution"`
+}
