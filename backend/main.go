@@ -44,6 +44,9 @@ func main() {
 	solveR.Handle("/{slug}", pkg.VerifyToken(http.HandlerFunc(pkg.ReturnProblem)))
 	// solveR.HandleFunc("/{slug}", pkg.ReturnProblem)
 
+	solutionsR := r.PathPrefix("/solutions").Subrouter()
+	solutionsR.HandleFunc("/{slug}", pkg.Solutions)
+
 	checkR := r.PathPrefix("/check").Subrouter()
 	checkR.HandleFunc("/{slug}", pkg.CheckProblem)
 
