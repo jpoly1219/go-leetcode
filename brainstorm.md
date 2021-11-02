@@ -233,3 +233,7 @@
       - Code run time and memory usage should be measured.
       - Table style: https://tailwindcomponents.com/component/table-visits
       - Answers and discussion tabs need to be populated.
+    
+    - Discussions tab:
+      - The concept is very similar to a blog app. It will have posts, and each post will have a title, author, time created, and comments.
+      - This would be nice if it was a component. The logic is complicated, and the `[slug].svelte` file will be unreadable.
