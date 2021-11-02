@@ -15,6 +15,7 @@
         const slug = page.params.slug
         const url1 = `http://jpoly1219devbox.xyz:8090/solve/${slug}`
         const url2 = `http://jpoly1219devbox.xyz:8090/submissions`
+        const url3 = `http://jpoly1219devbox.xyz:8090/solutions/${slug}`
 
         let accessToken = get(accessTokenStore)
         let username
@@ -33,12 +34,17 @@
             method: "POST",
             body: JSON.stringify({username: username, slug: slug})
         }
+        const options3 = {
+            method: "GET"
+        }
         try {
             const res1 = await fetch(url1, options1)
             const res2 = await fetch(url2, options2)
+            const res3 = await fetch(url3, options3)
             const problem = await res1.json()
             const submissions = await res2.json()
-            return {props: {problem, submissions, username}}
+            const solutions = await res3.json()
+            return {props: {problem, submissions, solutions, username}}
         } catch(err) {
             console.log(err)
         }
@@ -52,6 +58,7 @@
     
     export let problem
     export let submissions
+    export let solutions
     export let username
     
     let CodeJar
@@ -111,6 +118,8 @@
             <p class="prose max-w-max">{@html snarkdown(problem.description)}</p>
             {:else if activeTab === "Solution"}
             <p class="text-lg font-bold mb-3">Solution</p>
+            <hr class="my-4">
+            <p class="prose max-w-max">{@html snarkdown(solutions)}</p>
             {:else if activeTab === "Discussion"}
             <p class="text-lg font-bold mb-3">Discussion</p>
             {:else if activeTab === "Submissions"}
