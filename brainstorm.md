@@ -237,3 +237,6 @@
     - Discussions tab:
       - The concept is very similar to a blog app. It will have posts, and each post will have a title, author, time created, and comments.
       - This would be nice if it was a component. The logic is complicated, and the `[slug].svelte` file will be unreadable.
+      - Since it is ideal if a component is reusable, the discussion board should take props such as `slug`.
+      - The data will be pulled from the `discussions` table in the database.
+      - `CREATE TABLE`
