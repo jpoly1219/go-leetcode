@@ -200,3 +200,23 @@ func Solutions(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
 	json.NewEncoder(w).Encode(s)
 }
+
+func Discussions(w http.ResponseWriter, r *http.Request) {
+	HandleCors(w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	vars := mux.Vars(r)
+	keys := vars["slug"]
+
+	var d discussion
+	err := Db.QueryRow("SELECT * FROM discussions WHERE slug = $1;", keys).Scan(&d)
+	if err != nil {
+		log.Fatal("failed to execute query", err)
+		return
+	}
+
+	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
+	json.NewEncoder(w).Encode(d)
+}
