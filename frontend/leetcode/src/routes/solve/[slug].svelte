@@ -9,13 +9,13 @@
         hljs.highlight(code, {
             language: syntax,
         }).value
-    
 
     export async function load({page}) {
         const slug = page.params.slug
         const url1 = `http://jpoly1219devbox.xyz:8090/solve/${slug}`
         const url2 = `http://jpoly1219devbox.xyz:8090/submissions`
         const url3 = `http://jpoly1219devbox.xyz:8090/solutions/${slug}`
+        const url4 = `http://jpoly1219devbox.xyz:8090/discussions/${slug}`
 
         let accessToken = get(accessTokenStore)
         let username
@@ -23,6 +23,7 @@
             const payloadB64 = accessToken.split(".")[1]
             username = JSON.parse(window.atob(payloadB64)).username
         }
+
         const options1 = {
             method: "GET",
             headers: {
@@ -37,14 +38,20 @@
         const options3 = {
             method: "GET"
         }
+        const options4 = {
+            method: "GET"
+        }
+
         try {
             const res1 = await fetch(url1, options1)
             const res2 = await fetch(url2, options2)
             const res3 = await fetch(url3, options3)
+            const res4 = await fetch(url4, options4)
             const problem = await res1.json()
             const submissions = await res2.json()
             const solutions = await res3.json()
-            return {props: {problem, submissions, solutions, username}}
+            const discussions = await res4.json()
+            return {props: {problem, submissions, solutions, discussions, username}}
         } catch(err) {
             console.log(err)
         }
