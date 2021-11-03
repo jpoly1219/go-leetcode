@@ -47,6 +47,9 @@ func main() {
 	solutionsR := r.PathPrefix("/solutions").Subrouter()
 	solutionsR.HandleFunc("/{slug}", pkg.Solutions)
 
+	discussionsR := r.PathPrefix("/discussions").Subrouter()
+	discussionsR.HandleFunc("/{slug}", pkg.Discussions)
+
 	checkR := r.PathPrefix("/check").Subrouter()
 	checkR.HandleFunc("/{slug}", pkg.CheckProblem)
 
