@@ -1,4 +1,6 @@
 <script>
+    // props
+    let posts
 
 </script>
 
