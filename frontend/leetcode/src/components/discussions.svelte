@@ -1,7 +1,8 @@
 <script>
     // props
-    let posts
+    export let slug
 
 </script>
 
-<p>Discussion Board</p>
+<p class="text-lg font-bold mb-3">Discussion Board</p>
+<p class="text-lg font-bold mb-3">{slug}</p>
