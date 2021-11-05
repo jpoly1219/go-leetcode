@@ -55,3 +55,20 @@ type solution struct {
 	Slug     string `json:"slug"`
 	Solution string `json:"solution"`
 }
+
+type discussion struct {
+	Id          int    `json:"id"`
+	Author      string `json:"author"`
+	Slug        string `json:"slug"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Created     string `json:"created"`
+}
+
+type comment struct {
+	Id            int    `json:"id"`
+	Author        string `json:"author"`
+	Discussion_id string `json:"discussion_id"`
+	Description   string `json:"description"`
+	Created       string `json:"created"`
+}
