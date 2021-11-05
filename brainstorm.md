@@ -239,6 +239,6 @@
       - This would be nice if it was a component. The logic is complicated, and the `[slug].svelte` file will be unreadable.
       - Since it is ideal if a component is reusable, the discussion board should take props such as `slug`.
       - The data will be pulled from the `discussions` table in the database.
-      - Discussion is made from posts and each post has comments
-      - `discussions` table will hold the user posts. It will have columns `id`, `author`, `slug`, `title`, `description`, `created`
+      - A discussion board is made from discussion posts and each post has comments
+      - `discussions` table will hold the discussion posts. It will have columns `id`, `author`, `slug`, `title`, `description`, `created`
       - `comments` table will hold the comments to each post. It will have columns `id`, `author`, `discussion_id`, `description`, `created`
