@@ -220,3 +220,19 @@ func Discussions(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
 	json.NewEncoder(w).Encode(d)
 }
+
+func Comments(w http.ResponseWriter, r *http.Request) {
+	HandleCors(w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	vars := mux.Vars(r)
+	keys := vars["discussionId"]
+
+	var c comments
+	err := Db.Query("SELECT * FROM comments WHERE discussion_id = $1;", keys)
+	if err != nil {
+		log.Fatal("failed to execute query, err")
+	}
+}
