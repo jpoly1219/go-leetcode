@@ -178,6 +178,9 @@
       - `CREATE TABLE templates (id SERIAL PRIMARY KEY, slug VARCHAR (100) NOT NULL, lang VARCHAR (10) NOT NULL, template TEXT NOT NULL, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
       - `CREATE TABLE testcases (id SERIAL PRIMARY KEY, slug VARCHAR (100) NOT NULL, testcase TEXT NOT NULL UNIQUE, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
       - `CREATE TABLE attempts (id SERIAL PRIMARY KEY, username VARCHAR (50) NOT NULL, slug VARCHAR (100) NOT NULL, lang VARCHAR (10) NOT NULL, code TEXT NOT NULL, result VARCHAR (50) NOT NULL, output TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW(), FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
+      - `CREATE TABLE solutions (id SERIAL PRIMARY KEY, slug VARCHAR (100) NOT NULL, solution TEXT NOT NULL, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
+      - `CREATE TABLE discussions (id SERIAL PRIMARY KEY, author VARCHAR (50) NOT NULL, slug VARCHAR (100) NOT NULL, title VARCHAR (100) UNIQUE NOT NULL, description TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW(), FOREIGN KEY (author) REFERENCES users (username) ON DELETE CASCADE, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
+      - `CREATE TABLE comments (id SERIAL PRIMARY KEY, author VARCHAR (50) NOT NULL, discussionId INT NOT NULL, description TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW(), FOREIGN KEY (discussionId) REFERENCES discussions (id) ON DELETE CASCADE)`
 
       - `INSERT INTO templates (slug, lang, template) VALUES ('1-two-sum', 'cpp', *paste template.cpp*)`
       - `INSERT INTO testcases (slug, testcase) VALUES ('1-two-sum', *paste template.json*)`
