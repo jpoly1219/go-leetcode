@@ -237,7 +237,7 @@ func Comments(w http.ResponseWriter, r *http.Request) {
 	}
 	for results.Next() {
 		var c comment
-		err = results.Scan(&c.Id, &c.Author, &c.Discussion_id, &c.Description, &c.Created)
+		err = results.Scan(&c.Id, &c.Author, &c.DiscussionId, &c.Description, &c.Created)
 		if err != nil {
 			log.Fatal("failed to scan", err)
 		}
