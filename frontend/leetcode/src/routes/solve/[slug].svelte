@@ -62,7 +62,7 @@
     import { onMount } from "svelte"
     import snarkdown from "snarkdown"
     import Tabs from "../../components/tabs.svelte";
-    import Discussions from "src/components/discussions.svelte";
+    import Discussions from "../../components/discussions.svelte";
     
     export let problem
     export let submissions
@@ -129,7 +129,7 @@
             <hr class="my-4">
             <p class="prose max-w-max">{@html snarkdown(solutions)}</p>
             {:else if activeTab === "Discussion"}
-            <Discussions slug={slug}/>
+            <Discussions slug={problem.slug}/>
             {:else if activeTab === "Submissions"}
             <p class="text-lg font-bold mb-3">Submissions</p>
                 {#if submissionsData}
