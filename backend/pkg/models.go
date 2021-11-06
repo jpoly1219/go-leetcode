@@ -66,9 +66,9 @@ type discussion struct {
 }
 
 type comment struct {
-	Id            int    `json:"id"`
-	Author        string `json:"author"`
-	Discussion_id string `json:"discussion_id"`
-	Description   string `json:"description"`
-	Created       string `json:"created"`
+	Id           int    `json:"id"`
+	Author       string `json:"author"`
+	DiscussionId string `json:"discussionId"`
+	Description  string `json:"description"`
+	Created      string `json:"created"`
 }
