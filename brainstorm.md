@@ -192,6 +192,7 @@
       - `INSERT INTO templates (slug, lang, template) VALUES ('1-two-sum', 'cpp', *paste template.cpp*)`
       - `INSERT INTO testcases (slug, testcase) VALUES ('1-two-sum', *paste template.json*)`
       - `INSERT INTO solutions (slug, solution) VALUES ('1-two-sum', *paste solution*)`
+      - `INSERT INTO discussions (author, slug, title, description, created) VALUES ()`
   
   - CORS
     - https://flaviocopes.com/golang-enable-cors/
