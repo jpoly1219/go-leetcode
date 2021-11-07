@@ -174,16 +174,24 @@
       - `testcases` has a foreign key that references the primary key of `problems`
       - `attempts` has two foreign keys that references the primary key of `users` and `problems`
       - `CREATE TABLE users (id SERIAL PRIMARY KEY, username VARCHAR (50) UNIQUE NOT NULL, fullname VARCHAR (100) NOT NULL, email VARCHAR (255) UNIQUE NOT NULL, password VARCHAR(255) NOT NULL)`
+
       - `CREATE TABLE problems (id SERIAL PRIMARY KEY, title VARCHAR (100) UNIQUE NOT NULL, slug VARCHAR (100) UNIQUE NOT NULL, difficulty VARCHAR (10) NOT NULL, description TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW())`
+
       - `CREATE TABLE templates (id SERIAL PRIMARY KEY, slug VARCHAR (100) NOT NULL, lang VARCHAR (10) NOT NULL, template TEXT NOT NULL, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
+
       - `CREATE TABLE testcases (id SERIAL PRIMARY KEY, slug VARCHAR (100) NOT NULL, testcase TEXT NOT NULL UNIQUE, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
+
       - `CREATE TABLE attempts (id SERIAL PRIMARY KEY, username VARCHAR (50) NOT NULL, slug VARCHAR (100) NOT NULL, lang VARCHAR (10) NOT NULL, code TEXT NOT NULL, result VARCHAR (50) NOT NULL, output TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW(), FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
-      - `CREATE TABLE solutions (id SERIAL PRIMARY KEY, slug VARCHAR (100) NOT NULL, solution TEXT NOT NULL, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
+
+      - `CREATE TABLE solutions (id SERIAL PRIMARY KEY, slug VARCHAR (100) UNIQUE NOT NULL, solution TEXT NOT NULL, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
+
       - `CREATE TABLE discussions (id SERIAL PRIMARY KEY, author VARCHAR (50) NOT NULL, slug VARCHAR (100) NOT NULL, title VARCHAR (100) UNIQUE NOT NULL, description TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW(), FOREIGN KEY (author) REFERENCES users (username) ON DELETE CASCADE, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
-      - `CREATE TABLE comments (id SERIAL PRIMARY KEY, author VARCHAR (50) NOT NULL, discussionId INT NOT NULL, description TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW(), FOREIGN KEY (discussionId) REFERENCES discussions (id) ON DELETE CASCADE)`
+
+      - `CREATE TABLE comments (id SERIAL PRIMARY KEY, author VARCHAR (50) NOT NULL, discussion_id INT NOT NULL, description TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW(), FOREIGN KEY (discussionId) REFERENCES discussions (id) ON DELETE CASCADE)`
 
       - `INSERT INTO templates (slug, lang, template) VALUES ('1-two-sum', 'cpp', *paste template.cpp*)`
       - `INSERT INTO testcases (slug, testcase) VALUES ('1-two-sum', *paste template.json*)`
+      - `INSERT INTO solutions (slug, solution) VALUES ('1-two-sum', *paste solution*)`
   
   - CORS
     - https://flaviocopes.com/golang-enable-cors/
