@@ -210,15 +210,23 @@ func Discussions(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	keys := vars["slug"]
 
-	var d discussion
-	err := Db.QueryRow("SELECT * FROM discussions WHERE slug = $1;", keys).Scan(&d.Id, &d.Author, &d.Slug, &d.Title, &d.Description, &d.Created)
+	var discussions = make([]discussion, 0)
+	results, err := Db.Query("SELECT * FROM discussions WHERE slug = $1;", keys)
 	if err != nil {
 		log.Fatal("failed to execute query", err)
 		return
 	}
+	for results.Next() {
+		var d discussion
+		err = results.Scan(&d.Id, &d.Author, &d.Slug, &d.Title, &d.Description, &d.Created)
+		if err != nil {
+			log.Fatal("failed to scan", err)
+		}
+		discussions = append(discussions, d)
+	}
 
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
-	json.NewEncoder(w).Encode(d)
+	json.NewEncoder(w).Encode(discussions)
 }
 
 func Comments(w http.ResponseWriter, r *http.Request) {
