@@ -191,7 +191,7 @@ func Solutions(w http.ResponseWriter, r *http.Request) {
 	keys := vars["slug"]
 
 	var s solution
-	err := Db.QueryRow("SELECT slug, solution FROM solutions WHERE slug = $1;", keys).Scan(&s.Slug, &s.Solution)
+	err := Db.QueryRow("SELECT solution FROM solutions WHERE slug = $1;", keys).Scan(&s.Solution)
 	if err != nil {
 		log.Fatal("failed to execute query", err)
 		return
