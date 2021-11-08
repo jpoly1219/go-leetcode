@@ -1,4 +1,6 @@
 # List of known bugs
+- Silent refresh not working
+  - cookie Settings
 - PrismJS won't highlight
 
 - CodeJar element won't load (**FIXED 21.10.31 18:28**)
