@@ -129,7 +129,7 @@
             <hr class="my-4">
             <p class="prose max-w-max">{@html snarkdown(solutions.solution)}</p>
             {:else if activeTab === "Discussion"}
-            <Discussions slug={problem.slug}/>
+            <Discussions slug={problem.slug} discussions={discussions}/>
             {:else if activeTab === "Submissions"}
             <p class="text-lg font-bold mb-3">Submissions</p>
                 {#if submissionsData}
