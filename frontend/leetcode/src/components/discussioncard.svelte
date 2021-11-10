@@ -8,10 +8,7 @@
         dispatch('switch', {
             component: 'Singlediscussion',
             props: {
-                title: discussion.title,
-                author: discussion.author,
-                description: discussion.description,
-                created: discussion.created
+                discussion: discussion
             }
         })
     }
