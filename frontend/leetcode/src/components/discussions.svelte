@@ -20,7 +20,7 @@
 <p class="text-lg font-bold mb-3">Discussion Board for {slug}</p>
 
 {#if currentComponent === "Singlediscussion"}
-    <Singlediscussion {...props} on:switch={handleSwitch}/>
+    <Singlediscussion discussion={props.discussion} on:switch={handleSwitch}/>
 {:else}
     {#each discussions as discussion}
         <Discussioncard discussion={discussion} on:switch={handleSwitch}/>
