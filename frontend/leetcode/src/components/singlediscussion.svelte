@@ -12,3 +12,5 @@
 </script>
 
 <p on:click={switchComponent}>{discussion.title}</p>
+<p>{discussion.author}</p>
+<p>{discussion.description}</p>
