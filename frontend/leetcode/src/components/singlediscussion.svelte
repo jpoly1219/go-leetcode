@@ -11,4 +11,4 @@
     }
 </script>
 
-<p on:click={switchComponent}>Title</p>
+<p on:click={switchComponent}>{discussion.title}</p>
