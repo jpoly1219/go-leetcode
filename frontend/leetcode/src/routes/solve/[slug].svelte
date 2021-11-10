@@ -67,6 +67,7 @@
     export let problem
     export let submissions
     export let solutions
+    export let discussions
     export let username
     
     let CodeJar
