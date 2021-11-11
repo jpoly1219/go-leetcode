@@ -1,5 +1,6 @@
 <script>
     import { createEventDispatcher } from "svelte";
+    import snarkdown from "snarkdown"
 
     export let discussion
 
