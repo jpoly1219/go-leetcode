@@ -17,11 +17,10 @@
     }
 </script>
 
-<p class="text-lg font-bold mb-3">Discussion Board for {slug}</p>
-
 {#if currentComponent === "Singlediscussion"}
     <Singlediscussion discussion={props.discussion} on:switch={handleSwitch}/>
 {:else}
+    <p class="text-lg font-bold mb-3">Discussion Board for {slug}</p>
     {#each discussions as discussion}
         <Discussioncard discussion={discussion} on:switch={handleSwitch}/>
     {/each}
