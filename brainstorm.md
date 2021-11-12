@@ -254,3 +254,4 @@
       - A discussion board is made from discussion posts and each post has comments
       - `discussions` table will hold the discussion posts. It will have columns `id`, `author`, `slug`, `title`, `description`, `created`
       - `comments` table will hold the comments to each post. It will have columns `id`, `author`, `discussion_id`, `description`, `created`
+          - Need to load in comments
