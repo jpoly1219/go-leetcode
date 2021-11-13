@@ -10,12 +10,15 @@
             component: 'Discussioncard'
         })
     }
+
+    // call api to load comments
+
 </script>
 
 <div class="overflow-auto">
     <div class="flex flex-row divide-x divide-solid divide-gray-300">
         <p on:click={switchComponent} class="text-sm mx-3 my-2">&lt; Back</p>
-        <p class="font-bold text-lg mx-3 my-2">{discussion.title}</p>
+        <p class="font-bold text-lg px-3 my-2">{discussion.title}</p>
     </div>
     <div>
         <p class="text-sm mb-2">{discussion.author}</p>
@@ -23,6 +26,9 @@
     </div>
     <div class="my-5 border-t border-b border-gray-200">
         <p class="text-base my-2">Comments:</p>
+    </div>
+    <div class="mb-5 border border-gray-200 rounded">
+        <textarea class="w-full h-24" placeholder="Type comment here... (Markdown is supported)"></textarea>
     </div>
     <div class="">
         <div class="">
