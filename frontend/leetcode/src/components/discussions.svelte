@@ -21,7 +21,9 @@
     <Singlediscussion discussion={props.discussion} on:switch={handleSwitch}/>
 {:else}
     <p class="text-lg font-bold mb-3">Discussion Board for {slug}</p>
+    <div class="divide-y divide-solid divide-gray-300">
     {#each discussions as discussion}
         <Discussioncard discussion={discussion} on:switch={handleSwitch}/>
     {/each}
+    </div>
 {/if}
