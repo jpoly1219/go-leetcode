@@ -21,21 +21,21 @@
         <p class="text-sm mb-2">{discussion.author}</p>
         <p class="prose max-w-max">{@html snarkdown(discussion.description)}</p>
     </div>
-    <div class="my-2 border-t-2 border-b-2 border-gray-400">
-        <p class="text-base">Comments:</p>
+    <div class="my-5 border-t border-b border-gray-200">
+        <p class="text-base my-2">Comments:</p>
     </div>
     <div class="">
         <div class="">
-            <div class="flex flex-row">
+            <div class="flex flex-row items-center mb-2">
                 <img 
                     src="https://img.freepik.com/free-photo/pleasant-looking-serious-man-stands-profile-has-confident-expression-wears-casual-white-t-shirt_273609-16959.jpg?size=626&ext=jpg"
-                    class="rounded-full w-12 h-12 mr-2"
+                    class="rounded-full w-10 h-10 mr-2"
                 >
                 <p class="text-sm mr-2">username</p>
                 <p class="text-sm">time created</p>
             </div>
             <div class="flex flex-row">
-                <div class="w-12 mr-2"></div>
+                <div class="w-10 mr-2"></div>
                 <p>This is a comment.</p>
             </div>
         </div>
