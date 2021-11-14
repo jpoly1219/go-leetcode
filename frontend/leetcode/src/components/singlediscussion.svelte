@@ -1,5 +1,5 @@
 <script>
-    import { createEventDispatcher } from "svelte";
+    import { createEventDispatcher, onMount } from "svelte";
     import snarkdown from "snarkdown"
 
     export let discussion
@@ -11,8 +11,22 @@
         })
     }
 
-    // call api to load comments
+    let comments
+    const loadComments = async () => {
+        const url = `http://jpoly1219devbox.xyz:8090/${discussion.slug}/${discussion.id}`
+        const options = {
+            method: "GET"
+        }
 
+        const res = fetch(url, options)
+        comments = await res.json()
+    }
+
+    onMount(loadComments)
+
+    const postComment = () => {
+
+    }
 </script>
 
 <div class="overflow-auto">
@@ -29,21 +43,24 @@
     </div>
     <div class="mb-5 border border-gray-200 rounded">
         <textarea class="w-full h-24" placeholder="Type comment here... (Markdown is supported)"></textarea>
+        <span on:click={postComment}>Post</span>
     </div>
-    <div class="">
+    {#each comments as comment}
         <div class="">
-            <div class="flex flex-row items-center mb-2">
-                <img 
-                    src="https://img.freepik.com/free-photo/pleasant-looking-serious-man-stands-profile-has-confident-expression-wears-casual-white-t-shirt_273609-16959.jpg?size=626&ext=jpg"
-                    class="rounded-full w-10 h-10 mr-2"
-                >
-                <p class="text-sm mr-2">username</p>
-                <p class="text-sm">time created</p>
-            </div>
-            <div class="flex flex-row">
-                <div class="w-10 mr-2"></div>
-                <p>This is a comment.</p>
+            <div class="">
+                <div class="flex flex-row items-center mb-2">
+                    <img 
+                        src="https://img.freepik.com/free-photo/pleasant-looking-serious-man-stands-profile-has-confident-expression-wears-casual-white-t-shirt_273609-16959.jpg?size=626&ext=jpg"
+                        class="rounded-full w-10 h-10 mr-2"
+                    >
+                    <p class="text-sm mr-2">{comment.author}</p>
+                    <p class="text-sm">{comment.created}</p>
+                </div>
+                <div class="flex flex-row">
+                    <div class="w-10 mr-2"></div>
+                    <p>{comment.description}</p>
+                </div>
             </div>
         </div>
-    </div>
+    {/each}
 </div>
