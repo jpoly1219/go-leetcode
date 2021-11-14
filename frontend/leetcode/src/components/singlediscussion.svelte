@@ -11,21 +11,27 @@
         })
     }
 
-    let comments
-    const loadComments = async () => {
-        const url = `http://jpoly1219devbox.xyz:8090/${discussion.slug}/${discussion.id}`
+    let comments = []
+    onMount(async () => {
+        const url = `http://jpoly1219devbox.xyz:8090/discussions/${discussion.slug}/${discussion.id}`
         const options = {
             method: "GET"
         }
-
-        const res = fetch(url, options)
-        comments = await res.json()
-    }
-
-    onMount(loadComments)
+        const res = await fetch(url, options)
+        const data = await res.json()
+        comments = data.map((data) => {
+            return {
+                id: data.id,
+                author: data.author,
+                discussionId: data.discussionId,
+                description: data.description,
+                created: data.created
+            }
+        })
+    })
 
     const postComment = () => {
-
+        console.log("running postComment")
     }
 </script>
 
