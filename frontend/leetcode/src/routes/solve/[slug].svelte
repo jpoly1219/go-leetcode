@@ -121,48 +121,48 @@
         <div class="overflow-auto border border-gray-300 p-4">
             <Tabs {tabs} {activeTab} on:tabChange={tabChange} />
             {#if activeTab === "Description"}
-            <p class="text-lg font-bold mb-3">{problem.title}</p>
-            <p class="text-sm text-green-600 font-light">{problem.difficulty}</p>
-            <hr class="my-4">
-            <p class="prose max-w-max">{@html snarkdown(problem.description)}</p>
+                <p class="text-lg font-bold mb-3">{problem.title}</p>
+                <p class="text-sm text-green-600 font-light">{problem.difficulty}</p>
+                <hr class="my-4">
+                <p class="prose max-w-max">{@html snarkdown(problem.description)}</p>
             {:else if activeTab === "Solution"}
-            <p class="text-lg font-bold mb-3">Solution</p>
-            <hr class="my-4">
-            <p class="prose max-w-max">{@html snarkdown(solutions.solution)}</p>
+                <p class="text-lg font-bold mb-3">Solution</p>
+                <hr class="my-4">
+                <p class="prose max-w-max">{@html snarkdown(solutions.solution)}</p>
             {:else if activeTab === "Discussion"}
-            <Discussions slug={problem.slug} discussions={discussions}/>
+                <Discussions slug={problem.slug} discussions={discussions}/>
             {:else if activeTab === "Submissions"}
-            <p class="text-lg font-bold mb-3">Submissions</p>
+                <p class="text-lg font-bold mb-3">Submissions</p>
                 {#if submissionsData}
-                <div class="w-full">
-                    <table class="table-fixed items-center w-full border-collapse">
-                        <thead>
-                            <tr>
-                                <th class="w-1/5 px-4 py-2 bg-gray-200 border border-solid border-gray-100 border-r-0 text-sm text-gray-700 text-left">Result</th>
-                                <th class="w-4/5 px-4 py-2 bg-gray-200 border border-solid border-gray-100 border-l-0 text-sm text-gray-700 text-left">Output</th>
-                            </tr>
-                        </thead>
-                        {#each submissionsData as submissionsDatum}
-                        <tbody>
-                            <tr>
-                                <td class="px-4 py-2 text-sm text-left {submissionsDatum.result === 'OK' ? 'text-green-600' : 'text-red-600'}">
-                                    {submissionsDatum.result}
-                                </td>
-                                <td class="px-4 py-2 text-sm text-left break-words">{submissionsDatum.output}</td>
-                            </tr>
-                        </tbody>
-                        {/each}
-                    </table>
-                </div>
+                    <div class="w-full">
+                        <table class="table-fixed items-center w-full border-collapse">
+                            <thead>
+                                <tr>
+                                    <th class="w-1/5 px-4 py-2 bg-gray-200 border border-solid border-gray-100 border-r-0 text-sm text-gray-700 text-left">Result</th>
+                                    <th class="w-4/5 px-4 py-2 bg-gray-200 border border-solid border-gray-100 border-l-0 text-sm text-gray-700 text-left">Output</th>
+                                </tr>
+                            </thead>
+                            {#each submissionsData as submissionsDatum}
+                                <tbody>
+                                    <tr>
+                                        <td class="px-4 py-2 text-sm text-left {submissionsDatum.result === 'OK' ? 'text-green-600' : 'text-red-600'}">
+                                            {submissionsDatum.result}
+                                        </td>
+                                        <td class="px-4 py-2 text-sm text-left break-words">{submissionsDatum.output}</td>
+                                    </tr>
+                                </tbody>
+                            {/each}
+                        </table>
+                    </div>
                 {/if}
             {/if}
         </div>
         <div class="flex flex-col border border-gray-300 overflow-hidden">
             <div class="overflow-auto">
                 {#if CodeJar}
-                <svelte:component this={CodeJar} class="hljs" addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} withLineNumbers={true} syntax="js" {highlight} {value}/>
+                    <svelte:component this={CodeJar} class="hljs" addClosing={true} indentOn={/{$/} spellcheck={false} tab={"\t"} withLineNumbers={true} syntax="js" {highlight} {value}/>
                 {:else}
-                <pre><code>{value}</code></pre>
+                    <pre><code>{value}</code></pre>
                 {/if}
             </div>
         </div>
