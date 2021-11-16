@@ -30,8 +30,10 @@
         })
     })
 
-    const postComment = () => {
+    let newComment = ""
+    const postComment = async () => {
         console.log("running postComment")
+        const url = `http://jpoly1219devbox.xyz:8090/discussions/${discussion.slug}/${discussion.id}/newcomment`
     }
 </script>
 
@@ -48,8 +50,8 @@
         <p class="text-base my-2">Comments:</p>
     </div>
     <div class="mb-5 border border-gray-200 rounded">
-        <textarea class="w-full h-24" placeholder="Type comment here... (Markdown is supported)"></textarea>
-        <span on:click={postComment}>Post</span>
+        <textarea bind:value={newComment} class="w-full h-24" placeholder="Type comment here... (Markdown is supported)"></textarea>
+        <span on:click={postComment} class="cursor-pointer">Post</span>
     </div>
     {#each comments as comment}
         <div class="">
