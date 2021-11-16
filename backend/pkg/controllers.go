@@ -255,3 +255,28 @@ func Comments(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
 	json.NewEncoder(w).Encode(comments)
 }
+
+func NewComment(w http.ResponseWriter, r *http.Request) {
+	HandleCors(w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	vars := mux.Vars(r)
+	keys := vars["discussionId"]
+
+	var newComment comment
+	json.NewDecoder(r.Body).Decode(&newComment)
+	fmt.Println("new comment: ", newComment)
+
+	err := Db.QueryRow(
+		"INSERT INTO comments (author, discussion_id, description) VALUES ($1, $2, $3) RETURNING *;",
+		&newComment.Author, keys, &newComment.Description,
+	).Scan(&newComment.id, &newComment.author, &newComment.discussion_id, &newComment.description, &newComment.created)
+	if err != nil {
+		fmt.Println("failed to insert comment: ", err)
+		return
+	}
+
+	json.NewEncoder(w).Encode(*newComment)
+}
