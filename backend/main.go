@@ -50,6 +50,7 @@ func main() {
 	discussionsR := r.PathPrefix("/discussions").Subrouter()
 	discussionsR.HandleFunc("/{slug}", pkg.Discussions)
 	discussionsR.HandleFunc("/{slug}/{discussionId}", pkg.Comments)
+	discussionsR.HandleFunc("/{slug}/{discussionId}/newcomment", pkg.NewComment)
 
 	checkR := r.PathPrefix("/check").Subrouter()
 	checkR.HandleFunc("/{slug}", pkg.CheckProblem)
