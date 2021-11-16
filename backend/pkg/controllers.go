@@ -272,11 +272,11 @@ func NewComment(w http.ResponseWriter, r *http.Request) {
 	err := Db.QueryRow(
 		"INSERT INTO comments (author, discussion_id, description) VALUES ($1, $2, $3) RETURNING *;",
 		&newComment.Author, keys, &newComment.Description,
-	).Scan(&newComment.id, &newComment.author, &newComment.discussion_id, &newComment.description, &newComment.created)
+	).Scan(&newComment.Id, &newComment.Author, &newComment.DiscussionId, &newComment.Description, &newComment.Created)
 	if err != nil {
 		fmt.Println("failed to insert comment: ", err)
 		return
 	}
 
-	json.NewEncoder(w).Encode(*newComment)
+	json.NewEncoder(w).Encode(&newComment)
 }
