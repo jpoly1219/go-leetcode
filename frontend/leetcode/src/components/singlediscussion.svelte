@@ -1,6 +1,13 @@
 <script>
     import { createEventDispatcher, onMount } from "svelte";
+    import accessTokenStore from "../stores/stores"
     import snarkdown from "snarkdown"
+
+    let username
+    if ($accessTokenStore != "") {
+        const payloadB64 = $accessTokenStore.split(".")[1]
+        username = JSON.parse(window.atob(payloadB64)).username
+    }
 
     export let discussion
 
@@ -34,6 +41,17 @@
     const postComment = async () => {
         console.log("running postComment")
         const url = `http://jpoly1219devbox.xyz:8090/discussions/${discussion.slug}/${discussion.id}/newcomment`
+        const newCommentData = {
+            author: username,
+            description: newComment
+        }
+        const options = {
+            method: "POST",
+            body: JSON.stringify(newCommentData)
+        }
+        const res = await fetch(url, options)
+        const data = await res.json()
+        comments.push(data)
     }
 </script>
 
