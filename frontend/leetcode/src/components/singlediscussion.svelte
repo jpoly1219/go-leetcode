@@ -1,6 +1,6 @@
 <script>
     import { createEventDispatcher, onMount } from "svelte";
-    import accessTokenStore from "../stores/stores"
+    import { accessTokenStore } from "../stores/stores"
     import snarkdown from "snarkdown"
 
     let username
@@ -51,7 +51,7 @@
         }
         const res = await fetch(url, options)
         const data = await res.json()
-        comments.push(data)
+        comments = [...comments, data]
     }
 </script>
 
