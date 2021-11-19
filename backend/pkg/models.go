@@ -44,6 +44,7 @@ type user struct {
 	Fullname string `json:"fullname"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
+	Profile  string `json:"profile"`
 }
 
 type submission struct {
