@@ -280,3 +280,25 @@ func NewComment(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(&newComment)
 }
+
+func GetUser(w http.ResponseWriter, r *http.Request) {
+	HandleCors(w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	vars := mux.Vars(r)
+	keys := vars["username"]
+
+	var u user
+	err := Db.QueryRow(
+		"SELECT (username, fullname, email, profile_pic) FROM users WHERE username = $1;",
+		keys,
+	).Scan(&u.Username, &u.Fullname, &u.Email, &u.ProfilePic)
+	if err != nil {
+		fmt.Println("failed to query user: ", err)
+		return
+	}
+
+	json.NewEncoder(w).Encode(&u)
+}
