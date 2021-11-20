@@ -1,5 +1,5 @@
 <script>
-    import { createEventDispatcher } from "svelte";
+    import { createEventDispatcher, onMount } from "svelte";
 
     export let discussion
 
@@ -12,11 +12,27 @@
             }
         })
     }
+
+    let userData
+    onMount(async () => {
+        const url = `http://jpoly1219devbox.xyz:8090/users/${discussion.author}`
+        const options = {
+            method: "GET"
+        }
+        const res = await fetch(url, options)
+        const data = await res.json()
+        userData = {
+            username: data.username,
+            fullname: data.fullname,
+            email: data.email,
+            profilePic: data.profilePic
+        }
+    })
 </script>
 
 <div>
     <div class="flex flex-row items-center py-2">
-        <img src="https://www.catholicsingles.com/wp-content/uploads/2020/06/blog-header-3.png" class="rounded-full w-12 h-12 mr-4">
+        <img src={userData.profilePic} class="rounded-full w-12 h-12 mr-4">
         <div class="flex flex-col">
             <p on:click={switchComponent} class="text-base">{discussion.title}</p>
             <p class="text-xs text-gray-500">{discussion.author} created at: {discussion.created}</p>
