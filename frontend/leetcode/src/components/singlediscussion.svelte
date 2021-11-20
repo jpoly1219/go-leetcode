@@ -1,6 +1,7 @@
 <script>
     import { createEventDispatcher, onMount } from "svelte";
     import { accessTokenStore } from "../stores/stores"
+    import Comment from "./comment.svelte"
     import snarkdown from "snarkdown"
 
     let username
@@ -72,21 +73,6 @@
         <span on:click={postComment} class="cursor-pointer">Post</span>
     </div>
     {#each comments as comment}
-        <div class="">
-            <div class="">
-                <div class="flex flex-row items-center mb-2">
-                    <img 
-                        src="https://img.freepik.com/free-photo/pleasant-looking-serious-man-stands-profile-has-confident-expression-wears-casual-white-t-shirt_273609-16959.jpg?size=626&ext=jpg"
-                        class="rounded-full w-10 h-10 mr-2"
-                    >
-                    <p class="text-sm mr-2">{comment.author}</p>
-                    <p class="text-sm">{comment.created}</p>
-                </div>
-                <div class="flex flex-row">
-                    <div class="w-10 mr-2"></div>
-                    <p>{comment.description}</p>
-                </div>
-            </div>
-        </div>
+        <Comment comment={comment}/>
     {/each}
 </div>
