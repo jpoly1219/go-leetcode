@@ -60,5 +60,8 @@ func main() {
 	authR.HandleFunc("/login", pkg.Login)
 	authR.HandleFunc("/silentrefresh", pkg.SilentRefresh)
 
+	usersR := r.PathPrefix("/users").Subrouter()
+	usersR.HandleFunc("/{username}", pkg.GetUser)
+
 	log.Fatal(http.ListenAndServe(":8090", r))
 }
