@@ -72,10 +72,11 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	// insert user data to database
 	userid := 0
 	username := ""
+	defaultProfilePic := "https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg"
 
 	err = Db.QueryRow(
-		"INSERT INTO users (username, fullname, email, password) VALUES ($1, $2, $3, $4) RETURNING id, username;",
-		formData.Username, formData.Fullname, formData.Email, string(passwordHash),
+		"INSERT INTO users (username, fullname, email, password, profile_pic) VALUES ($1, $2, $3, $4, $5) RETURNING id, username;",
+		formData.Username, formData.Fullname, formData.Email, string(passwordHash), defaultProfilePic,
 	).Scan(&userid, &username)
 	// check if user already exists
 	if err != nil {
