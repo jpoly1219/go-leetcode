@@ -39,12 +39,12 @@ type token struct {
 }
 
 type user struct {
-	Userid   int    `json:"userid"`
-	Username string `json:"username"`
-	Fullname string `json:"fullname"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	Profile  string `json:"profile"`
+	Userid     int    `json:"userid"`
+	Username   string `json:"username"`
+	Fullname   string `json:"fullname"`
+	Email      string `json:"email"`
+	Password   string `json:"password"`
+	ProfilePic string `json:"profilePic"`
 }
 
 type submission struct {
