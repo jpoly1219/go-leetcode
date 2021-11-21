@@ -292,13 +292,15 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 
 	var u user
 	err := Db.QueryRow(
-		"SELECT (username, fullname, email, profile_pic) FROM users WHERE username = $1;",
+		"SELECT username, fullname, email, profile_pic FROM users WHERE username = $1;",
 		keys,
 	).Scan(&u.Username, &u.Fullname, &u.Email, &u.ProfilePic)
 	if err != nil {
 		fmt.Println("failed to query user: ", err)
 		return
 	}
+
+	fmt.Println(u)
 
 	json.NewEncoder(w).Encode(&u)
 }
