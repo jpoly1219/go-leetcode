@@ -13,7 +13,12 @@
         })
     }
 
-    let userData
+    let userData = {
+        username: "",
+        fullname: "",
+        email: "",
+        profilePic: ""
+    }
     onMount(async () => {
         const url = `http://jpoly1219devbox.xyz:8090/users/${discussion.author}`
         const options = {
