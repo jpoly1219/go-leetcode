@@ -12,13 +12,13 @@
         }
     })
 </script>
-<nav class="flex justify-center w-full">
-    <a href="/" class="mx-4 text-lg">Home</a>
-    <a href="/problemset" class="mx-4 text-lg">Problems</a>
+<nav class="flex justify-start w-full bg-gray-800">
+    <a href="/" class="mx-4 px-3 py-2 rounded-md text-lg text-white font-medium">Home</a>
+    <a href="/problemset" class="mx-4 px-3 py-2 rounded-md text-lg text-white font-medium">Problems</a>
     {#if $accessTokenStore != ""}
-        <a href="#" class="mx-4 text-lg">Welcome, {username}</a>
+        <a href="#" class="mx-4 text-lg text-white">Welcome, {username}</a>
     {:else}
-        <a href="/signup" class="mx-4 text-lg">Sign Up</a>
-        <a href="/login" class="mx-4 text-lg">Log In</a>
+        <a href="/signup" class="mx-4 px-3 py-2 rounded-md text-lg text-white font-medium">Sign Up</a>
+        <a href="/login" class="mx-4 px-3 py-2 rounded-md text-lg text-white font-medium">Log In</a>
     {/if}
 </nav>
