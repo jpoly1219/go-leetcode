@@ -37,9 +37,11 @@
 	$: $accessTokenStore, console.log($accessTokenStore)
 </script>
 
-<div class="p-8 h-screen">
+<div class="h-screen">
     <Nav/>
-    <slot></slot>
+	<div class="p-8">
+		<slot></slot>
+	</div>
 </div>
 
 <style>
