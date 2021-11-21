@@ -39,7 +39,7 @@
     <div class="flex flex-row items-center py-2">
         <img src={userData.profilePic} class="rounded-full w-12 h-12 mr-4">
         <div class="flex flex-col">
-            <p on:click={switchComponent} class="text-base">{discussion.title}</p>
+            <p on:click={switchComponent} class="text-base cursor-pointer">{discussion.title}</p>
             <p class="text-xs text-gray-500">{discussion.author} created at: {discussion.created}</p>
         </div>
     </div>
