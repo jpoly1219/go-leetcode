@@ -68,9 +68,9 @@
     <div class="my-5 border-t border-b border-gray-200">
         <p class="text-base my-2">Comments:</p>
     </div>
-    <div class="mb-5 border border-gray-200 rounded">
-        <textarea bind:value={newComment} class="w-full h-24" placeholder="Type comment here... (Markdown is supported)"></textarea>
-        <span on:click={postComment} class="cursor-pointer">Post</span>
+    <div class="mb-5">
+        <textarea bind:value={newComment} class="w-full h-24 border border-gray-200 rounded" placeholder="Type comment here... (Markdown is supported)"></textarea>
+        <span on:click={postComment} class="bg-gray-600 px-2 py-1 mt-3 text-sm text-white cursor-pointer rounded">Post</span>
     </div>
     {#each comments as comment}
         <Comment comment={comment}/>
