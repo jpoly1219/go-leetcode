@@ -255,3 +255,8 @@
       - `discussions` table will hold the discussion posts. It will have columns `id`, `author`, `slug`, `title`, `description`, `created`
       - `comments` table will hold the comments to each post. It will have columns `id`, `author`, `discussion_id`, `description`, `created`
           - Need to load in comments
+    
+    - Color Palette:
+      - https://coolors.co/ff9f1c-ffbf69-ffffff-cbf3f0-2ec4b6
+      - https://coolors.co/1a535c-4ecdc4-f7fff7-ff6b6b-ffe66d
+      - https://coolors.co/353535-3c6e71-ffffff-d9d9d9-284b63
