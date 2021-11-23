@@ -14,7 +14,7 @@
             All problems are sourced directly from Leetcode.
         </p>
     </div>
-    <div class="w-3/5 m-10">
+    <div class="w=3/5 m-10">
         <img 
             src="https://elements-cover-images-0.imgix.net/790945c8-90f0-4ac9-b551-06fa26d4f597?auto=compress%2Cformat&fit=max&w=1170&s=416d544ceb7bab026f982e86952f31ad"
         >
