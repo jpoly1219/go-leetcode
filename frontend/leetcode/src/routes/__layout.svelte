@@ -39,7 +39,7 @@
 
 <div class="h-screen">
     <Nav/>
-	<div class="p-8">
+	<div class="px-8 pt-24 pb-8 h-full">
 		<slot></slot>
 	</div>
 </div>
