@@ -19,7 +19,7 @@
     <a href="/" on:click={() => {currentPage = "home"}} class="mx-4 px-3 py-2 rounded-md text-lg text-white font-medium {currentPage === "home" ? "bg-gray-900" : "hover:bg-gray-700"}">Home</a>
     <a href="/problemset" on:click={() => {currentPage = "problems"}} class="mx-4 px-3 py-2 rounded-md text-lg text-white font-medium {currentPage === "problems" ? "bg-gray-900" : "hover:bg-gray-700"}">Problems</a>
     {#if $accessTokenStore != ""}
-        <a href="#" on:click={() => {currentPage = "profile"}} class="absolute right-0 mx-4 text-lg text-white {currentPage === "profile" ? "bg-gray-900" : "hover:bg-gray-700"}">Welcome, {username}</a>
+        <a href="#" on:click={() => {currentPage = "profile"}} class="absolute right-0 mx-4 px-3 py-2 rounded-md text-lg text-white font-medium {currentPage === "profile" ? "bg-gray-900" : "hover:bg-gray-700"}">Welcome, {username}</a>
     {:else}
     <div class="absolute right-0">
         <a href="/signup" on:click={() => {currentPage = "signup"}} class="mx-4 px-3 py-2 rounded-md text-lg text-white font-medium {currentPage === "signup" ? "bg-gray-900" : "hover:bg-gray-700"}">Sign Up</a>
