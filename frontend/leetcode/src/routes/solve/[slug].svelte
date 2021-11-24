@@ -101,7 +101,7 @@
         const res = await fetch(`http://jpoly1219devbox.xyz:8090/check/${problem.slug}`, options)
         resultData = await res.json()
         console.log(resultData)
-        submissionsData.push(resultData)
+        submissionsData = [...submissionsData, resultData]
     }
 
     let tabs = ["Description", "Solution", "Discussion", "Submissions"]
