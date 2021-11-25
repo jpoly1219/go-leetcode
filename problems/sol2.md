@@ -37,3 +37,37 @@ Take extra caution of the following cases:
 | *l1 = []*<br>*l2 = [0, 1]*        | When one list is null, which means an empty list.                             |
 | *l1 = [9, 9]*<br>*l2 = [1]*       | The sum could have an extra carry of one at the end, which is easy to forget. |
 
+```
+// Java
+public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+    ListNode dummyHead = new ListNode(0);
+    ListNode p = l1, q = l2, curr = dummyHead;
+    int carry = 0;
+    while (p != null || q != null) {
+        int x = (p != null) ? p.val : 0;
+        int y = (q != null) ? q.val : 0;
+        int sum = carry + x + y;
+        carry = sum / 10;
+        curr.next = new ListNode(sum % 10);
+        curr = curr.next;
+        if (p != null) p = p.next;
+        if (q != null) q = q.next;
+    }
+    if (carry > 0) {
+        curr.next = new ListNode(carry);
+    }
+    return dummyHead.next;
+}
+```
+
+**Complexity Analysis**
+
+- Time complexity: *O(max(m, n))*. Assume that *m* and *n* represents the length of *l1* and *l2* respectively, the algorithm above iterates at most *max(m, n)* times.
+
+- Space complexity: *O(max(m, n))*. The length of the new list is at most *max(m, n) + 1*.
+
+**Follow up**
+
+What if the the digits in the linked list are stored in non-reversed order? For example:
+
+*(3 → 4 → 2) + (4 → 6 → 5) = 8 → 0 → 7*
