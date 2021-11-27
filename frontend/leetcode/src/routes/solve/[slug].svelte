@@ -75,6 +75,7 @@
     let submissionsData = []
     let prevSlug
     let nextSlug
+    let randSlug
     onMount(async () => {
         ({CodeJar} = await import("@novacbn/svelte-codejar"));
         submissions.map((data) => {
@@ -84,6 +85,7 @@
         const currentIndex = $problemsListStore.indexOf(problem.slug)
         const prevIndex = currentIndex - 1
         const nextIndex = currentIndex + 1
+        const randIndex = Math.floor(Math.random() * $problemsListStore.length)
 
         if (prevIndex >= 0) {
             prevSlug = $problemsListStore[prevIndex]
@@ -96,6 +98,8 @@
         } else {
             nextSlug = problem.slug
         }
+
+        randSlug = $problemsListStore[randIndex]
     });
     export let value = "console.log('hello world')"
 
@@ -189,9 +193,13 @@
     <div class="row-span-1 grid grid-cols-2 gap-4 content-center">
         <div class="flex flex-row">
             <div class="flex-1 flex">
-                <button class="border border-gray-300 rounded-lg px-3 py-2">Problems</button>
+                <a href="/problemset">
+                    <button class="border border-gray-300 rounded-lg px-3 py-2">Problems</button>
+                </a>
             </div>
-            <button class="border border-gray-300 rounded-lg px-3 py-2">Pick One</button>
+            <a href={`/solve/${randSlug}`}>
+                <button class="border border-gray-300 rounded-lg px-3 py-2">Pick One</button>
+            </a>
             <a href={`/solve/${prevSlug}`}>
                 <button class="border border-gray-300 rounded-lg px-3 py-2 mx-4">Prev</button>
             </a>
