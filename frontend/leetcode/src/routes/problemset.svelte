@@ -19,7 +19,10 @@
 </script>
 
 <script>
+    import { problemsListStore } from "../stores/stores.js"
+
     export let problems
+    problemsListStore.set(problems)
 </script>
 
 <svelte:head>
