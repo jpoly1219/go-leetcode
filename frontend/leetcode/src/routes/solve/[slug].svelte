@@ -59,7 +59,7 @@
 </script>
 
 <script>
-    import { onMount } from "svelte"
+    import { beforeUpdate, onMount } from "svelte"
     import snarkdown from "snarkdown"
     import { problemsListStore } from "../../stores/stores.js"
     import Tabs from "../../components/tabs.svelte";
@@ -73,19 +73,19 @@
     
     let CodeJar
     let submissionsData = []
+    let currentIndex = $problemsListStore.indexOf(problem.slug)
     let prevSlug
     let nextSlug
-    let randSlug
     onMount(async () => {
         ({CodeJar} = await import("@novacbn/svelte-codejar"));
         submissions.map((data) => {
             submissionsData.push(data)
         })
 
-        const currentIndex = $problemsListStore.indexOf(problem.slug)
+        console.log("onMount!")
+
         const prevIndex = currentIndex - 1
         const nextIndex = currentIndex + 1
-        const randIndex = Math.floor(Math.random() * $problemsListStore.length)
 
         if (prevIndex >= 0) {
             prevSlug = $problemsListStore[prevIndex]
@@ -98,9 +98,20 @@
         } else {
             nextSlug = problem.slug
         }
-
-        randSlug = $problemsListStore[randIndex]
     });
+
+    let randSlug = "1-two-sum"
+
+    function generateRandSlug() {
+        const randIndex = Math.floor(Math.random() * $problemsListStore.length)
+        console.log(randIndex)
+        if (randIndex === currentIndex) {
+            generateRandSlug()
+        } else {
+            randSlug = $problemsListStore[randIndex]
+        }
+    }
+
     export let value = "console.log('hello world')"
 
     let languages = ["cpp", "java", "js", "py"]
@@ -198,7 +209,7 @@
                 </a>
             </div>
             <a href={`/solve/${randSlug}`}>
-                <button class="border border-gray-300 rounded-lg px-3 py-2">Pick One</button>
+                <button on:click={generateRandSlug} class="border border-gray-300 rounded-lg px-3 py-2">Pick One</button>
             </a>
             <a href={`/solve/${prevSlug}`}>
                 <button class="border border-gray-300 rounded-lg px-3 py-2 mx-4">Prev</button>
