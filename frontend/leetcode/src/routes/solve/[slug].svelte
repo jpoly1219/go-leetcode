@@ -61,6 +61,7 @@
 <script>
     import { onMount } from "svelte"
     import snarkdown from "snarkdown"
+    import { problemsListStore } from "../../stores/stores.js"
     import Tabs from "../../components/tabs.svelte";
     import Discussions from "../../components/discussions.svelte";
     
@@ -72,11 +73,29 @@
     
     let CodeJar
     let submissionsData = []
+    let prevSlug
+    let nextSlug
     onMount(async () => {
         ({CodeJar} = await import("@novacbn/svelte-codejar"));
         submissions.map((data) => {
             submissionsData.push(data)
         })
+
+        const currentIndex = $problemsListStore.indexOf(problem.slug)
+        const prevIndex = currentIndex - 1
+        const nextIndex = currentIndex + 1
+
+        if (prevIndex >= 0) {
+            prevSlug = $problemsListStore[prevIndex]
+        } else {
+            prevSlug = problem.slug
+        }
+
+        if (nextIndex < $problemsListStore.length) {
+            nextSlug = $problemsListStore[nextIndex]
+        } else {
+            nextSlug = problem.slug
+        }
     });
     export let value = "console.log('hello world')"
 
@@ -173,11 +192,11 @@
                 <button class="border border-gray-300 rounded-lg px-3 py-2">Problems</button>
             </div>
             <button class="border border-gray-300 rounded-lg px-3 py-2">Pick One</button>
-            <button class="border border-gray-300 rounded-lg px-3 py-2 mx-4">Prev</button>
+            <button on:click={prevProblem} class="border border-gray-300 rounded-lg px-3 py-2 mx-4">Prev</button>
             <div class="mx-2 flex">
                 <p class="self-center">1/1977</p>
             </div>
-            <button class="border border-gray-300 rounded-lg px-3 py-2 ml-4">Next</button>
+            <button on:click={nextProblem} class="border border-gray-300 rounded-lg px-3 py-2 ml-4">Next</button>
         </div>
         <div class="flex flex-row">
             <div class="flex-1 flex">
