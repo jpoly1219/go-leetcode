@@ -192,11 +192,15 @@
                 <button class="border border-gray-300 rounded-lg px-3 py-2">Problems</button>
             </div>
             <button class="border border-gray-300 rounded-lg px-3 py-2">Pick One</button>
-            <button on:click={prevProblem} class="border border-gray-300 rounded-lg px-3 py-2 mx-4">Prev</button>
+            <a href={`/solve/${prevSlug}`}>
+                <button class="border border-gray-300 rounded-lg px-3 py-2 mx-4">Prev</button>
+            </a>
             <div class="mx-2 flex">
                 <p class="self-center">1/1977</p>
             </div>
-            <button on:click={nextProblem} class="border border-gray-300 rounded-lg px-3 py-2 ml-4">Next</button>
+            <a href={`/solve/${nextSlug}`}>
+                <button class="border border-gray-300 rounded-lg px-3 py-2 ml-4">Next</button>
+            </a>
         </div>
         <div class="flex flex-row">
             <div class="flex-1 flex">
