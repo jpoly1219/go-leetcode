@@ -23,9 +23,11 @@
 
     export let problems
     
+    console.log($problemsListStore)
     Object.entries(problems).forEach(([key, value]) => {
         $problemsListStore = [...$problemsListStore, value.slug]
     })
+    console.log($problemsListStore)
 </script>
 
 <svelte:head>
