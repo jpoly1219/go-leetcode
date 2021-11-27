@@ -22,7 +22,10 @@
     import { problemsListStore } from "../stores/stores.js"
 
     export let problems
-    problemsListStore.set(problems)
+    
+    Object.entries(problems).forEach(([key, value]) => {
+        $problemsListStore = [...$problemsListStore, value.slug]
+    })
 </script>
 
 <svelte:head>
