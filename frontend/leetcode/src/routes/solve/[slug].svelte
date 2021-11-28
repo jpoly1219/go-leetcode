@@ -82,8 +82,6 @@
             submissionsData.push(data)
         })
 
-        console.log("onMount!")
-
         const prevIndex = currentIndex - 1
         const nextIndex = currentIndex + 1
 
@@ -104,7 +102,6 @@
 
     function generateRandSlug() {
         const randIndex = Math.floor(Math.random() * $problemsListStore.length)
-        console.log(randIndex)
         if (randIndex === currentIndex) {
             generateRandSlug()
         } else {
@@ -134,7 +131,6 @@
         }
         const res = await fetch(`http://jpoly1219devbox.xyz:8090/check/${problem.slug}`, options)
         resultData = await res.json()
-        console.log(resultData)
         submissionsData = [...submissionsData, resultData]
     }
 
