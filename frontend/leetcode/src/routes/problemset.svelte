@@ -19,15 +19,19 @@
 </script>
 
 <script>
+    import { onMount } from "svelte"
     import { problemsListStore } from "../stores/stores.js"
 
     export let problems
     
-    console.log($problemsListStore)
-    Object.entries(problems).forEach(([key, value]) => {
-        $problemsListStore = [...$problemsListStore, value.slug]
+    onMount(() => {
+        if ($problemsListStore.length != 0) {
+            $problemsListStore.set([])
+        }
+        Object.entries(problems).forEach(([key, value]) => {
+            $problemsListStore = [...$problemsListStore, value.slug]
+        })
     })
-    console.log($problemsListStore)
 </script>
 
 <svelte:head>
