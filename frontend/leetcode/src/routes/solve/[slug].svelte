@@ -73,7 +73,7 @@
     
     let CodeJar
     let submissionsData = []
-    let currentIndex = $problemsListStore.indexOf(problem.slug)
+    $: currentIndex = $problemsListStore.indexOf(problem.slug)
     let prevSlug
     let nextSlug
     onMount(async () => {
