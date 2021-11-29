@@ -22,7 +22,7 @@
     {#if currentComponent === "Singlediscussion"}
         <Singlediscussion discussion={props.discussion} on:switch={handleSwitch}/>
     {:else if currentComponent === "Newdiscussion"}
-        <Newdiscussion />
+        <Newdiscussion on:switch={handleSwitch}/>
     {:else}
         <div class="flex flex-row items-center relative">
             <p class="text-lg font-bold mb-3">Discussion Board for {slug}</p>
