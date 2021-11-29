@@ -26,7 +26,7 @@
     
     onMount(() => {
         if ($problemsListStore.length != 0) {
-            $problemsListStore.set([])
+            problemsListStore.set([])
         }
         Object.entries(problems).forEach(([key, value]) => {
             $problemsListStore = [...$problemsListStore, value.slug]
