@@ -1,1 +1,0 @@
-curl -X GET jpoly1219devbox.xyz:8090/run
