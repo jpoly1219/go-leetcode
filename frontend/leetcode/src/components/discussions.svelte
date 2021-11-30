@@ -2,19 +2,24 @@
     import Discussioncard from "./discussioncard.svelte"
     import Singlediscussion from "./singlediscussion.svelte"
     import Newdiscussion from "./newdiscussion.svelte";
+    import { beforeUpdate } from "svelte";
 
     // props
     export let slug
     export let discussions
 
     // variable to show which component to render
-    let currentComponent
+    let currentComponent = "Discussioncard"
     let props
 
     // event listener to change currentView
     const handleSwitch = (event) => {
         currentComponent = event.detail.component
         props = event.detail.props
+    }
+
+    const switchComponent = () => {
+        currentComponent = "Newdiscussion"
     }
 </script>
 
@@ -27,7 +32,7 @@
         <div class="flex flex-row items-center relative">
             <p class="text-lg font-bold mb-3">Discussion Board for {slug}</p>
             <a href="#">
-                <button on:click={currentComponent = "Newdiscussion"} class="absolute right-0 rounded-md bg-gray-800 px-2 py-1 text-sm text-white">New +</button>
+                <button on:click={switchComponent} class="absolute right-0 rounded-md bg-gray-800 px-2 py-1 text-sm text-white">New +</button>
             </a>
         </div>
         <div class="divide-y divide-solid divide-gray-300">
