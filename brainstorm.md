@@ -255,6 +255,9 @@
       - `discussions` table will hold the discussion posts. It will have columns `id`, `author`, `slug`, `title`, `description`, `created`
       - `comments` table will hold the comments to each post. It will have columns `id`, `author`, `discussion_id`, `description`, `created`
           - Need to load in comments
+      - New discussions need their own controller
+    
+    - Tokens are not working as intended, need to try this at home with local dev server instead of remote code-server
     
     - Color Palette:
       - https://coolors.co/ff9f1c-ffbf69-ffffff-cbf3f0-2ec4b6
