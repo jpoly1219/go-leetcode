@@ -11,8 +11,20 @@
     let title = ""
     let description = ""
 
-    const postDiscussion = () => {
-
+    const postDiscussion = async () => {
+        console.log("running postDiscussion")
+        const url = `http://jpoly1219devbox.xyz:8090/discussions/${discussion.slug}/newdiscussion`
+        const newDiscussionData = {
+            author: username,
+            title: title,
+            description: description
+        }
+        const options = {
+            method: "POST",
+            body: JSON.stringify(newDiscussionData)
+        }
+        const res = await fetch(url, options)
+        const data = await res.json()
     }
 </script>
 
