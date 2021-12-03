@@ -3,11 +3,11 @@
 A clone of Leetcode written in Go and SvelteKit.
 
 ## Languages and Tools Used:
-- Go
-- SvelteKit
-- Tailwind CSS
-- PostgreSQL
-- Docker Compose
+- `go`
+- `svelte-kit`
+- `tailwindcss`
+- `postgresql`
+- `docker`, `docker-compose`
 
 ## App Workflow
 - User writes a code within the online editor provided by the frontend.
