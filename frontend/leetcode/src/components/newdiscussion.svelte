@@ -1,5 +1,5 @@
 <script>
-    import { createEventDispatcher } from "svelte";
+    import { beforeUpdate, createEventDispatcher } from "svelte";
 
     const dispatch = createEventDispatcher();
     const switchComponent = () => {
@@ -7,6 +7,14 @@
             component: 'Discussioncard'
         })
     }
+
+    let username = ""
+    beforeUpdate(() => {
+        if ($accessTokenStore != "") {
+            const payloadB64 = $accessTokenStore.split(".")[1]
+            username = JSON.parse(window.atob(payloadB64)).username
+        }
+    })
 
     let title = ""
     let description = ""
