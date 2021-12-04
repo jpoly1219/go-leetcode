@@ -304,3 +304,28 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(&u)
 }
+
+func NewDiscussion(w http.ResponseWriter, r *http.Request) {
+	HandleCors(w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	vars := mux.Vars(r)
+	keys := vars["slug"]
+
+	var newDiscussion discussion
+	json.NewDecoder(r.Body).Decode(&newDiscussion)
+	fmt.Println("new discussion: ", newDiscussion)
+
+	err := Db.QueryRow(
+		"INSERT INTO comments (author, slug, title, description) VALUES ($1, $2, $3, $4) RETURNING *;",
+		&newDiscussion.Author, keys, &newDiscussion.Title, &newDiscussion.Description,
+	).Scan(&newDiscussion.Id, &newDiscussion.Author, &newDiscussion.Slug, &newDiscussion.Title, &newDiscussion.Description, &newDiscussion.Created)
+	if err != nil {
+		fmt.Println("failed to insert comment: ", err)
+		return
+	}
+
+	json.NewEncoder(w).Encode(&newDiscussion)
+}
