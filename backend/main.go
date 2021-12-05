@@ -51,7 +51,7 @@ func main() {
 	discussionsR.HandleFunc("/{slug}", pkg.Discussions)
 	discussionsR.HandleFunc("/{slug}/{discussionId}", pkg.Comments)
 	discussionsR.HandleFunc("/{slug}/{discussionId}/newcomment", pkg.NewComment)
-	discussionsR.HandleFunc("/{slug}/newdiscussion", pkg.NewDiscussion)
+	discussionsR.HandleFunc("/newdiscussion", pkg.NewDiscussion)
 
 	checkR := r.PathPrefix("/check").Subrouter()
 	checkR.HandleFunc("/{slug}", pkg.CheckProblem)
