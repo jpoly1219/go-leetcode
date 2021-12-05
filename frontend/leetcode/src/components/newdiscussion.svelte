@@ -33,6 +33,7 @@
         }
         const res = await fetch(url, options)
         const data = await res.json()
+        console.log("new discussion posted: ", data)
     }
 </script>
 
