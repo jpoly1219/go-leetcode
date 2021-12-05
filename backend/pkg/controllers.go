@@ -306,8 +306,6 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func NewDiscussion(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("reached newdiscussion")
-
 	HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
