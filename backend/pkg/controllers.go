@@ -306,6 +306,8 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func NewDiscussion(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("reached newdiscussion")
+
 	HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
@@ -323,7 +325,7 @@ func NewDiscussion(w http.ResponseWriter, r *http.Request) {
 		&newDiscussion.Author, keys, &newDiscussion.Title, &newDiscussion.Description,
 	).Scan(&newDiscussion.Id, &newDiscussion.Author, &newDiscussion.Slug, &newDiscussion.Title, &newDiscussion.Description, &newDiscussion.Created)
 	if err != nil {
-		fmt.Println("failed to insert comment: ", err)
+		fmt.Println("failed to insert discussion: ", err)
 		return
 	}
 
