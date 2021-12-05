@@ -319,7 +319,7 @@ func NewDiscussion(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("new discussion: ", newDiscussion)
 
 	err := Db.QueryRow(
-		"INSERT INTO comments (author, slug, title, description) VALUES ($1, $2, $3, $4) RETURNING *;",
+		"INSERT INTO discussions (author, slug, title, description) VALUES ($1, $2, $3, $4) RETURNING *;",
 		&newDiscussion.Author, keys, &newDiscussion.Title, &newDiscussion.Description,
 	).Scan(&newDiscussion.Id, &newDiscussion.Author, &newDiscussion.Slug, &newDiscussion.Title, &newDiscussion.Description, &newDiscussion.Created)
 	if err != nil {
