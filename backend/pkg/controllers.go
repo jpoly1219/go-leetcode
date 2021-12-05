@@ -313,16 +313,13 @@ func NewDiscussion(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	vars := mux.Vars(r)
-	keys := vars["slug"]
-
 	var newDiscussion discussion
 	json.NewDecoder(r.Body).Decode(&newDiscussion)
 	fmt.Println("new discussion: ", newDiscussion)
 
 	err := Db.QueryRow(
 		"INSERT INTO discussions (author, slug, title, description) VALUES ($1, $2, $3, $4) RETURNING *;",
-		&newDiscussion.Author, keys, &newDiscussion.Title, &newDiscussion.Description,
+		&newDiscussion.Author, &newDiscussion.Slug, &newDiscussion.Title, &newDiscussion.Description,
 	).Scan(&newDiscussion.Id, &newDiscussion.Author, &newDiscussion.Slug, &newDiscussion.Title, &newDiscussion.Description, &newDiscussion.Created)
 	if err != nil {
 		fmt.Println("failed to insert discussion: ", err)
