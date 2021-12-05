@@ -19,10 +19,11 @@
 
     let title = ""
     let description = ""
+    export let slug
 
     const postDiscussion = async () => {
         console.log("running postDiscussion")
-        const url = `http://jpoly1219devbox.xyz:8090/discussions/${discussion.slug}/newdiscussion`
+        const url = `http://jpoly1219devbox.xyz:8090/discussions/${slug}/newdiscussion`
         const newDiscussionData = {
             author: username,
             title: title,
