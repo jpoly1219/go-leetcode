@@ -23,9 +23,10 @@
 
     const postDiscussion = async () => {
         console.log("running postDiscussion")
-        const url = `http://jpoly1219devbox.xyz:8090/discussions/${slug}/newdiscussion`
+        const url = `http://jpoly1219devbox.xyz:8090/discussions/newdiscussion`
         const newDiscussionData = {
             author: username,
+            slug: slug,
             title: title,
             description: description
         }
@@ -33,6 +34,8 @@
             method: "POST",
             body: JSON.stringify(newDiscussionData)
         }
+        console.log(newDiscussionData)
+        console.log(options)
         const res = await fetch(url, options)
         const data = await res.json()
         console.log("new discussion posted: ", data)
