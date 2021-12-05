@@ -95,8 +95,9 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		HttpOnly: true,
 		Name:     "refreshToken",
 		Value:    tokenPair.RefreshToken,
-		Domain:   "jpoly1219devbox.xyz",
-		Path:     "/auth/",
+		Domain:   "jpoly1219devbox.xyz:5000",
+		SameSite: http.SameSiteNoneMode,
+		Secure:   true,
 	}
 	http.SetCookie(w, &cookie)
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
@@ -144,8 +145,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			HttpOnly: true,
 			Name:     "refreshToken",
 			Value:    tokenPair.RefreshToken,
-			Domain:   "jpoly1219devbox.xyz",
-			Path:     "/auth/",
+			Domain:   "jpoly1219devbox.xyz:5000",
 			SameSite: http.SameSiteNoneMode,
 			Secure:   true,
 		}
