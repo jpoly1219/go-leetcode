@@ -1,5 +1,6 @@
 <script>
     import { beforeUpdate, createEventDispatcher } from "svelte";
+    import { accessTokenStore } from "../stores/stores.js"
 
     const dispatch = createEventDispatcher();
     const switchComponent = () => {
