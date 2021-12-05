@@ -144,6 +144,7 @@
   - https://hasura.io/blog/best-practices-of-using-jwt-with-graphql/
   - https://hackernoon.com/creating-a-middleware-in-golang-for-jwt-based-authentication-cx3f32z8
   - https://medium.com/swlh/building-a-user-auth-system-with-jwt-using-golang-30892659cc0
+  - https://www.youtube.com/watch?v=XYjOteYbCMo
   - User sends requests to a protected route, with a bearer token.
   - Middleware extracts the token from the HTTP header, then uses `jwt-go` library to check if the token is valid.
   - If token is valid, the middleware creates a ctx variable with claims stored inside it, then hands over the request to the protected endpoint.
