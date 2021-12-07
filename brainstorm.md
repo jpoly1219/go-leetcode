@@ -264,3 +264,6 @@
       - https://coolors.co/ff9f1c-ffbf69-ffffff-cbf3f0-2ec4b6
       - https://coolors.co/1a535c-4ecdc4-f7fff7-ff6b6b-ffe66d
       - https://coolors.co/353535-3c6e71-ffffff-d9d9d9-284b63
+
+    - Git stuff
+      - https://gist.github.com/nanusdad/7e516743e5e709073f7e
