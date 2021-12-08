@@ -87,7 +87,7 @@
 <div class="grid grid-rows-16 h-full">
     <div class="row-span-15 grid grid-cols-2 gap-4">
         <div class="overflow-auto border border-gray-300 p-4">
-            <Tabs />
+            <Tabs slug={slug}/>
             <slot></slot>
         </div>
         <div class="flex flex-col border border-gray-300 overflow-hidden">
