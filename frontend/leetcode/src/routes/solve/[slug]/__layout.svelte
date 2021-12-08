@@ -1,10 +1,93 @@
-<script>
+<script context="module">
+    import hljs from "highlight.js/lib/core"
+    import javascript from "highlight.js/lib/languages/javascript"
+
+    hljs.registerLanguage("js", javascript)
+    const highlight = (code, syntax) =>
+        hljs.highlight(code, {
+            language: syntax,
+        }).value
     
+    export function load({page}) {
+        const slug = page.params.slug
+        return {props: {slug}}
+    }
+</script>
+
+<script>
+    import { onMount } from "svelte"
+    import { problemsListStore } from "../../../stores/stores.js"
+    import Tabs from "../../../components/tabs.svelte";
+
+    // Props from the module context script
+    export let slug
+
+    // CodeJar editor
+    let CodeJar
+    export let value = "console.log('hello world')"
+    let languages = ["cpp", "java", "js", "py"]
+    let selected = "cpp"
+
+    // Page UI
+    $: currentIndex = $problemsListStore.indexOf(slug)
+    let prevSlug
+    let nextSlug
+    onMount(async () => {
+        ({CodeJar} = await import("@novacbn/svelte-codejar"));
+
+        const prevIndex = currentIndex - 1
+        const nextIndex = currentIndex + 1
+
+        if (prevIndex >= 0) {
+            prevSlug = $problemsListStore[prevIndex]
+        } else {
+            prevSlug = slug
+        }
+
+        if (nextIndex < $problemsListStore.length) {
+            nextSlug = $problemsListStore[nextIndex]
+        } else {
+            nextSlug = slug
+        }
+    });
+
+    let randSlug = "1-two-sum"
+
+    function generateRandSlug() {
+        const randIndex = Math.floor(Math.random() * $problemsListStore.length)
+        if (randIndex === currentIndex) {
+            generateRandSlug()
+        } else {
+            randSlug = $problemsListStore[randIndex]
+        }
+    }
+
+    // On code submit
+    // let resultData
+    // async function submit() {
+    //     alert("code submitted!")
+    //     // activeTab = "Submissions"
+    //     const userInput = {
+    //         username: username,
+    //         slug: problem.slug,
+    //         lang: selected,
+    //         code: value
+    //     }
+
+    //     const options = {
+    //         method: "POST",
+    //         body: JSON.stringify(userInput)
+    //     }
+    //     const res = await fetch(`http://jpoly1219devbox.xyz:8090/check/${problem.slug}`, options)
+    //     resultData = await res.json()
+    //     submissionsData = [...submissionsData, resultData]
+    // }
 </script>
 
 <div class="grid grid-rows-16 h-full">
     <div class="row-span-15 grid grid-cols-2 gap-4">
         <div class="overflow-auto border border-gray-300 p-4">
+            <Tabs />
             <slot></slot>
         </div>
         <div class="flex flex-col border border-gray-300 overflow-hidden">
@@ -48,7 +131,7 @@
                 <option value={languages[3]}>Python</option>
             </select>
             <button class="border border-gray-300 rounded-lg px-3 py-2 mx-2">Run Code</button>
-            <button on:click={submit} class="border border-gray-300 rounded-lg px-3 py-2 ml-2">Submit</button>
+            <button class="border border-gray-300 rounded-lg px-3 py-2 ml-2">Submit</button>
         </div>
     </div>
 </div>
