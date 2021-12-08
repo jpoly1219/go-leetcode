@@ -1,5 +1,34 @@
-<script>
+<script context="module">
+    import { get } from "svelte/store"
+    import { accessTokenStore } from "../../../stores/stores.js"
 
+    export async function load({page}) {
+        const url = `http://jpoly1219devbox.xyz:8090/solve/${slug}`
+
+        let accessToken = get(accessTokenStore)
+
+        const options1 = {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + accessToken,
+            },
+            credentials: "include"
+        }
+
+        try {
+            const res = await fetch(url, options1)
+            const problem = await res.json()
+            return {props: {problem}}
+        } catch(err) {
+            console.log(err)
+        }
+    }
+</script>
+
+<script>
+    import snarkdown from "snarkdown"
+
+    export let problem
 </script>
 
 <div>
