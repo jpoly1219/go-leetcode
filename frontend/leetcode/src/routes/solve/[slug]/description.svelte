@@ -3,6 +3,10 @@
     import { accessTokenStore } from "../../../stores/stores.js"
 
     export async function load({page}) {
+        const fullPath = page.path // "/solve/1-two-sum/description"
+        const slugArray = fullPath.split("/")
+        const slug = slugArray[2]
+
         const url = `http://jpoly1219devbox.xyz:8090/solve/${slug}`
 
         let accessToken = get(accessTokenStore)
