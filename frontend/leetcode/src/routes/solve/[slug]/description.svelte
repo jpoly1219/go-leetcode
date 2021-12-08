@@ -3,7 +3,7 @@
     import { accessTokenStore } from "../../../stores/stores.js"
 
     export async function load({page}) {
-        const fullPath = page.path // "/solve/1-two-sum/description"
+        const fullPath = page.path
         const slugArray = fullPath.split("/")
         const slug = slugArray[2]
 
