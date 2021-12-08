@@ -259,6 +259,7 @@
       - New discussions need their own controller
     
     - Tokens are not working as intended, need to try this at home with local dev server instead of remote code-server
+    - Probably a HttpOnly issue with HTTPS and Secure mode
     
     - Color Palette:
       - https://coolors.co/ff9f1c-ffbf69-ffffff-cbf3f0-2ec4b6
