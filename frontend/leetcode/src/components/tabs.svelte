@@ -1,18 +1,28 @@
 <script>
-    import { createEventDispatcher } from 'svelte'
-
-    const dispatch = createEventDispatcher()
-
-    export let tabs
-    export let activeTab
+    export let slug
 </script>
 
 <div class="mb-3">
     <ul class="flex justify-start p-0 list-none">
-        {#each tabs as tab}
-        <li on:click={() => dispatch("tabChange", tab)} class="mr-4 text-sm cursor-pointer">
-            <div>{tab}</div>
+        <li class="mr-4 text-sm cursor-pointer">
+            <a href={`/solve/${slug}/description`}>
+                <p>Description</p>
+            </a>
         </li>
-        {/each}
+        <li class="mr-4 text-sm cursor-pointer">
+            <a href={`/solve/${slug}/solution`}>
+                <p>Solution</p>
+            </a>
+        </li>
+        <li class="mr-4 text-sm cursor-pointer">
+            <a href={`/solve/${slug}/discussion`}>
+                <p>Discussion</p>
+            </a>
+        </li>
+        <li class="mr-4 text-sm cursor-pointer">
+            <a href={`/solve/${slug}/submissions`}>
+                <p>Submissions</p>
+            </a>
+        </li>
     </ul>
 </div>
