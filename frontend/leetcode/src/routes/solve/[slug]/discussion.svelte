@@ -1,4 +1,4 @@
-<script>
+<script context="module">
 import Discussions from "src/components/discussions.svelte";
 import { load } from "./solution.svelte";
 
