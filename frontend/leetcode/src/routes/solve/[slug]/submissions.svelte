@@ -7,7 +7,7 @@
         const slugArray = fullPath.split("/")
         const slug = slugArray[2]
 
-        const url = `http://jpoly1219devbox.xyz:8090/submissions/`
+        const url = `http://jpoly1219devbox.xyz:8090/submissions`
 
         let accessToken = get(accessTokenStore)
         let username
