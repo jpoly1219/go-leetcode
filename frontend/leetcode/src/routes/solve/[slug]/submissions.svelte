@@ -1,10 +1,20 @@
 <script context="module">
+    import { get } from "svelte/store"
+    import { accessTokenStore } from "../../stores/stores"
+
     export async function load({page}) {
         const fullPath = page.path
         const slugArray = fullPath.split("/")
         const slug = slugArray[2]
 
         const url = `http://jpoly1219devbox.xyz:8090/submissions/`
+
+        let accessToken = get(accessTokenStore)
+        let username
+        if (accessToken != "") {
+            const payloadB64 = accessToken.split(".")[1]
+            username = JSON.parse(window.atob(payloadB64)).username
+        }
 
         const options = {
             method: "POST",
