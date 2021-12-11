@@ -1,6 +1,7 @@
 <script context="module">
     import { get } from "svelte/store"
     import { accessTokenStore } from "../../../stores/stores.js"
+    import snarkdown from "snarkdown"
 
     export async function load({page}) {
         const fullPath = page.path
@@ -30,8 +31,6 @@
 </script>
 
 <script>
-    import snarkdown from "snarkdown"
-
     export let problem
 </script>
 
