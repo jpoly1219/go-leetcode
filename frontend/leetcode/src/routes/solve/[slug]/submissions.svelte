@@ -1,6 +1,6 @@
 <script context="module">
     import { get } from "svelte/store"
-    import { accessTokenStore } from "../../stores/stores"
+    import { accessTokenStore } from "../../../stores/stores"
 
     export async function load({page}) {
         const fullPath = page.path
