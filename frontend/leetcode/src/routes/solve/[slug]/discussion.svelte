@@ -1,9 +1,6 @@
 <script context="module">
-import Discussions from "src/components/discussions.svelte";
-import { load } from "./solution.svelte";
+    import Discussions from "../../../components/discussions.svelte";
 
-</script>
-<script context="module">
     export async function load({page}) {
         const fullPath = page.path
         const slugArray = fullPath.split("/")
