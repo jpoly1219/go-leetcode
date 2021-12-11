@@ -8,12 +8,12 @@
 
         const url = `http://jpoly1219devbox.xyz:8090/solutions/${slug}`
 
-        const options1 = {
+        const options = {
             method: "GET"
         }
 
         try {
-            const res = await fetch(url, options1)
+            const res = await fetch(url, options)
             const solution = await res.json()
             return {props: {solution}}
         } catch(err) {
