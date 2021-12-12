@@ -1,6 +1,8 @@
 <script context="module">
     import hljs from "highlight.js/lib/core"
     import javascript from "highlight.js/lib/languages/javascript"
+    import { get } from "svelte/store"
+    import { accessTokenStore } from "../../../stores/stores"
 
     hljs.registerLanguage("js", javascript)
     const highlight = (code, syntax) =>
@@ -10,17 +12,26 @@
     
     export function load({page}) {
         const slug = page.params.slug
-        return {props: {slug}}
+
+        let accessToken = get(accessTokenStore)
+        let username
+        if (accessToken != "") {
+            const payloadB64 = accessToken.split(".")[1]
+            username = JSON.parse(window.atob(payloadB64)).username
+        }
+
+        return {props: {slug, username}}
     }
 </script>
 
 <script>
-    import { onMount } from "svelte"
+    import { onMount, createEventDispatcher } from "svelte"
     import { problemsListStore } from "../../../stores/stores.js"
     import Tabs from "../../../components/tabs.svelte";
 
     // Props from the module context script
     export let slug
+    export let username
 
     // CodeJar editor
     let CodeJar
@@ -62,25 +73,26 @@
         }
     }
 
-    On code submit
-    let resultData
-    async function submit() {
+    // On code submit
+    const dispatch = createEventDispatcher()
+
+    function submitCode() {
         alert("code submitted!")
         // activeTab = "Submissions"
-        const userInput = {
+
+        dispatch('submitCode', {
             username: username,
-            slug: problem.slug,
+            slug: slug,
             lang: selected,
             code: value
-        }
+        })
 
-        const options = {
-            method: "POST",
-            body: JSON.stringify(userInput)
-        }
-        const res = await fetch(`http://jpoly1219devbox.xyz:8090/check/${problem.slug}`, options)
-        resultData = await res.json()
-        submissionsData = [...submissionsData, resultData]
+        // const options = {
+        //     method: "POST",
+        //     body: JSON.stringify(userInput)
+        // }
+        // const res = await fetch(`http://jpoly1219devbox.xyz:8090/check/${problem.slug}`, options)
+        // resultData = await res.json()
     }
 </script>
 
@@ -131,7 +143,7 @@
                 <option value={languages[3]}>Python</option>
             </select>
             <button class="border border-gray-300 rounded-lg px-3 py-2 mx-2">Run Code</button>
-            <button class="border border-gray-300 rounded-lg px-3 py-2 ml-2">Submit</button>
+            <button on:click={submitCode} class="border border-gray-300 rounded-lg px-3 py-2 ml-2">Submit</button>
         </div>
     </div>
 </div>
