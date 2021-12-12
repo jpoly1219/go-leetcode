@@ -26,7 +26,8 @@
 
 <script>
     import { onMount, createEventDispatcher } from "svelte"
-    import { problemsListStore } from "../../../stores/stores.js"
+    import { problemsListStore, submitCodeStore } from "../../../stores/stores.js"
+    import { goto } from "$app/navigation"
     import Tabs from "../../../components/tabs.svelte";
 
     // Props from the module context script
@@ -74,18 +75,18 @@
     }
 
     // On code submit
-    const dispatch = createEventDispatcher()
-
     function submitCode() {
         alert("code submitted!")
         // activeTab = "Submissions"
 
-        dispatch('submitCode', {
+        submitCodeStore.set({
             username: username,
             slug: slug,
             lang: selected,
             code: value
         })
+
+        goto(`/solve/${slug}/submissions`)
 
         // const options = {
         //     method: "POST",
