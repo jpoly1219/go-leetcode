@@ -62,26 +62,26 @@
         }
     }
 
-    // On code submit
-    // let resultData
-    // async function submit() {
-    //     alert("code submitted!")
-    //     // activeTab = "Submissions"
-    //     const userInput = {
-    //         username: username,
-    //         slug: problem.slug,
-    //         lang: selected,
-    //         code: value
-    //     }
+    On code submit
+    let resultData
+    async function submit() {
+        alert("code submitted!")
+        // activeTab = "Submissions"
+        const userInput = {
+            username: username,
+            slug: problem.slug,
+            lang: selected,
+            code: value
+        }
 
-    //     const options = {
-    //         method: "POST",
-    //         body: JSON.stringify(userInput)
-    //     }
-    //     const res = await fetch(`http://jpoly1219devbox.xyz:8090/check/${problem.slug}`, options)
-    //     resultData = await res.json()
-    //     submissionsData = [...submissionsData, resultData]
-    // }
+        const options = {
+            method: "POST",
+            body: JSON.stringify(userInput)
+        }
+        const res = await fetch(`http://jpoly1219devbox.xyz:8090/check/${problem.slug}`, options)
+        resultData = await res.json()
+        submissionsData = [...submissionsData, resultData]
+    }
 </script>
 
 <div class="grid grid-rows-16 h-full">
