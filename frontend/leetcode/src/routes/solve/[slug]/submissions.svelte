@@ -46,7 +46,16 @@
 </script>
 
 <script>
+    import { onMount } from "svelte"
+    import { submitCodeStore } from "../../../stores/stores.js"
+
     export let submissions
+
+    onMount(() => {
+        if (submitCodeStore) {
+            alert(submitCodeStore)
+        }
+    })
 </script>
 
 <div>
