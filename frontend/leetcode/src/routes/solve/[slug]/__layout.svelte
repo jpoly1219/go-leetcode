@@ -77,7 +77,6 @@
     // On code submit
     function submitCode() {
         alert("code submitted!")
-        // activeTab = "Submissions"
 
         submitCodeStore.set({
             username: username,
@@ -87,13 +86,6 @@
         })
 
         goto(`/solve/${slug}/submissions`)
-
-        // const options = {
-        //     method: "POST",
-        //     body: JSON.stringify(userInput)
-        // }
-        // const res = await fetch(`http://jpoly1219devbox.xyz:8090/check/${problem.slug}`, options)
-        // resultData = await res.json()
     }
 </script>
 
