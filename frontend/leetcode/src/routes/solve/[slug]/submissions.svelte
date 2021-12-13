@@ -46,14 +46,19 @@
 </script>
 
 <script>
-    import { onMount } from "svelte"
+    import { beforeUpdate } from "svelte"
     import { submitCodeStore } from "../../../stores/stores.js"
 
     export let submissions
 
-    onMount(() => {
-        if (submitCodeStore) {
-            alert(submitCodeStore)
+    beforeUpdate(() => {
+        console.log($submitCodeStore)
+        console.log(Object.keys($submitCodeStore).length)
+        if (Object.keys($submitCodeStore).length !== 0) {
+            alert($submitCodeStore.username, $submitCodeStore.slug, $submitCodeStore.lang, $submitCodeStore.code)
+            submitCodeStore.set({})
+        } else {
+            console.log("else")
         }
     })
 </script>
