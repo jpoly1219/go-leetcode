@@ -53,7 +53,10 @@
 
     beforeUpdate(() => {
         if (Object.keys($submitCodeStore).length !== 0) {
-            alert($submitCodeStore.username, $submitCodeStore.slug, $submitCodeStore.lang, $submitCodeStore.code)
+            alert($submitCodeStore.username)
+            alert($submitCodeStore.slug)
+            alert($submitCodeStore.lang)
+            alert($submitCodeStore.code)
             submitCodeStore.set({})
         } else {
             console.log("else")
