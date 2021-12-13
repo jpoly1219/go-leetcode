@@ -51,15 +51,26 @@
 
     export let submissions
 
-    beforeUpdate(() => {
+    beforeUpdate(async () => {
         if (Object.keys($submitCodeStore).length !== 0) {
-            alert($submitCodeStore.username)
-            alert($submitCodeStore.slug)
-            alert($submitCodeStore.lang)
-            alert($submitCodeStore.code)
+            const userInput = {
+                username: $submitCodeStore.username,
+                slug: $submitCodeStore.slug,
+                lang: $submitCodeStore.lang,
+                code: $submitCodeStore.code
+            }
+
+            const options = {
+                method: "POST",
+                body: JSON.stringify(userInput)
+            }
+            const res = await fetch(`http://jpoly1219devbox.xyz:8090/check/${$submitCodeStore.slug}`, options)
+            const data = await res.json()
+            submissions = [...submissions, data]
+
             submitCodeStore.set({})
         } else {
-            console.log("else")
+            console.log("no code in submitCodeStore")
         }
     })
 </script>
