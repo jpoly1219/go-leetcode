@@ -52,8 +52,6 @@
     export let submissions
 
     beforeUpdate(() => {
-        console.log($submitCodeStore)
-        console.log(Object.keys($submitCodeStore).length)
         if (Object.keys($submitCodeStore).length !== 0) {
             alert($submitCodeStore.username, $submitCodeStore.slug, $submitCodeStore.lang, $submitCodeStore.code)
             submitCodeStore.set({})
