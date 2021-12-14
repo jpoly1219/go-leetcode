@@ -25,7 +25,7 @@
 </script>
 
 <script>
-    import { onMount, createEventDispatcher } from "svelte"
+    import { onMount } from "svelte"
     import { problemsListStore, submitCodeStore } from "../../../stores/stores.js"
     import { goto } from "$app/navigation"
     import Tabs from "../../../components/tabs.svelte";
