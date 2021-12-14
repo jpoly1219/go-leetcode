@@ -17,7 +17,7 @@
             const discussions = await res.json()
             return {props: {slug, discussions}}
         } catch(err) {
-            console.log(err)
+            alert(err)
         }
     }
 </script>
