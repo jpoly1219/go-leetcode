@@ -18,12 +18,17 @@
             }
         }
         const url = "http://jpoly1219devbox.xyz:8090/auth/login"
-        const res = await fetch(url, options)
-        const accessToken = await res.json()
-        console.log(accessToken)
-        accessTokenStore.set(accessToken)
-        const payloadB64 = accessToken.split(".")[1]
-        timeToExpireStore.set(JSON.parse(window.atob(payloadB64)).exp)
+        
+        try {
+            const res = await fetch(url, options)
+            const accessToken = await res.json()
+            console.log(accessToken)
+            accessTokenStore.set(accessToken)
+            const payloadB64 = accessToken.split(".")[1]
+            timeToExpireStore.set(JSON.parse(window.atob(payloadB64)).exp)
+        } catch(err) {
+            alert(err)
+        }
     }
 </script>
 
