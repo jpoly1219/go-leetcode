@@ -2,7 +2,6 @@
     import Discussioncard from "./discussioncard.svelte"
     import Singlediscussion from "./singlediscussion.svelte"
     import Newdiscussion from "./newdiscussion.svelte";
-    import { beforeUpdate } from "svelte";
 
     // props
     export let slug
