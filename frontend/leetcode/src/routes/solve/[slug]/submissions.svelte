@@ -64,9 +64,14 @@
                 method: "POST",
                 body: JSON.stringify(userInput)
             }
-            const res = await fetch(`http://jpoly1219devbox.xyz:8090/check/${$submitCodeStore.slug}`, options)
-            const data = await res.json()
-            submissions = [...submissions, data]
+
+            try {
+                const res = await fetch(`http://jpoly1219devbox.xyz:8090/check/${$submitCodeStore.slug}`, options)
+                const data = await res.json()
+                submissions = [...submissions, data]
+            } catch(err) {
+                alert(err)
+            }
 
             submitCodeStore.set({})
         } else {
