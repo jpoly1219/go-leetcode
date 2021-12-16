@@ -66,14 +66,14 @@
         
     })
 
-    let randSlug = "1-two-sum"
+    let randSlug = "1-two-sum/description"
 
     function generateRandSlug() {
         const randIndex = Math.floor(Math.random() * $problemsListStore.length)
         if (randIndex === currentIndex) {
             generateRandSlug()
         } else {
-            randSlug = $problemsListStore[randIndex]
+            randSlug = $problemsListStore[randIndex] + "/description"
         }
     }
 
