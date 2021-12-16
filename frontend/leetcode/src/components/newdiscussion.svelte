@@ -36,9 +36,14 @@
         }
         console.log(newDiscussionData)
         console.log(options)
-        const res = await fetch(url, options)
-        const data = await res.json()
-        console.log("new discussion posted: ", data)
+
+        try {
+            const res = await fetch(url, options)
+            const data = await res.json()
+            console.log("new discussion posted: ", data)
+        } catch(err) {
+            console.log(err)
+        }
     }
 </script>
 
