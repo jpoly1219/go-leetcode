@@ -25,7 +25,7 @@
 </script>
 
 <script>
-    import { onMount } from "svelte"
+    import { beforeUpdate, onMount } from "svelte"
     import { problemsListStore, submitCodeStore } from "../../../stores/stores.js"
     import { goto } from "$app/navigation"
     import Tabs from "../../../components/tabs.svelte";
@@ -41,27 +41,30 @@
     let selected = "cpp"
 
     // Page UI
+    onMount(async () => {
+        ({CodeJar} = await import("@novacbn/svelte-codejar"));
+    });
+    
     $: currentIndex = $problemsListStore.indexOf(slug)
     let prevSlug
     let nextSlug
-    onMount(async () => {
-        ({CodeJar} = await import("@novacbn/svelte-codejar"));
-
+    beforeUpdate(() => {
         const prevIndex = currentIndex - 1
         const nextIndex = currentIndex + 1
-
+    
         if (prevIndex >= 0) {
-            prevSlug = $problemsListStore[prevIndex]
+            prevSlug = $problemsListStore[prevIndex] + "/description"
         } else {
-            prevSlug = slug
+            prevSlug = slug + "/description"
         }
-
+    
         if (nextIndex < $problemsListStore.length) {
-            nextSlug = $problemsListStore[nextIndex]
+            nextSlug = $problemsListStore[nextIndex] + "/description"
         } else {
-            nextSlug = slug
+            nextSlug = slug + "/description"
         }
-    });
+        
+    })
 
     let randSlug = "1-two-sum"
 
