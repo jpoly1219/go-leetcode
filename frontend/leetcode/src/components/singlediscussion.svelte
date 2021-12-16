@@ -25,17 +25,22 @@
         const options = {
             method: "GET"
         }
-        const res = await fetch(url, options)
-        const data = await res.json()
-        comments = data.map((data) => {
-            return {
-                id: data.id,
-                author: data.author,
-                discussionId: data.discussionId,
-                description: data.description,
-                created: data.created
-            }
-        })
+
+        try {
+            const res = await fetch(url, options)
+            const data = await res.json()
+            comments = data.map((data) => {
+                return {
+                    id: data.id,
+                    author: data.author,
+                    discussionId: data.discussionId,
+                    description: data.description,
+                    created: data.created
+                }
+            })
+        } catch(err) {
+            console.log(err)
+        }
     })
 
     let newComment = ""
