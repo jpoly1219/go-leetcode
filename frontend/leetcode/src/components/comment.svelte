@@ -14,16 +14,21 @@
         const options = {
             method: "GET"
         }
-        const res = await fetch(url, options)
-        const data = await res.json()
-        
-        userData = {
-            username: data.username,
-            fullname: data.fullname,
-            email: data.email,
-            profilePic: data.profilePic
+
+        try {
+            const res = await fetch(url, options)
+            const data = await res.json()
+            
+            userData = {
+                username: data.username,
+                fullname: data.fullname,
+                email: data.email,
+                profilePic: data.profilePic
+            }
+            console.log(data)
+        } catch(err) {
+            console.log(err)
         }
-        console.log(data)
     })
 </script>
 
