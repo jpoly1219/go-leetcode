@@ -108,35 +108,37 @@ class Solution:
 
 **Complexity Analysis**
 
-Time complexity : O(n3)O(n^3)O(n3).
+- Time complexity : *O(n^3)*.
 
-To verify if characters within index range [i,j)[i, j)[i,j) are all unique, we need to scan all of them. Thus, it costs O(j−i)O(j - i)O(j−i) time.
+  To verify if characters within index range *[i, j)* are all unique, we need to scan all of them. Thus, it costs *O(j - i)* time.    
 
-For a given i, the sum of time costed by each j∈[i+1,n]j \in [i+1, n]j∈[i+1,n] is
+  For a given `i`, the sum of time costed by each *j ∈ [i+1, n]* is
 
-∑i+1nO(j−i) \sum_{i+1}^{n}O(j - i) ∑i+1n​O(j−i)
+  *∑(i+1, n) O(j − i)*
 
-Thus, the sum of all the time consumption is:
+  Thus, the sum of all the time consumption is:
 
-O(∑i=0n−1(∑j=i+1n(j−i)))=O(∑i=0n−1(1+n−i)(n−i)2)=O(n3) O\left(\sum_{i = 0}^{n - 1}\left(\sum_{j = i + 1}^{n}(j - i)\right)\right) = O\left(\sum_{i = 0}^{n - 1}\frac{(1 + n - i)(n - i)}{2}\right) = O(n^3) O(∑i=0n−1​(∑j=i+1n​(j−i)))=O(∑i=0n−1​2(1+n−i)(n−i)​)=O(n3)
+*O(∑(i=0, n−1)(∑(j = i+1, n) (j − i))) = O(∑(i=0, n−1)(1 + n − i)(n − i) / 2) = O(n^3)*
 
-Space complexity : O(min(n,m))O(min(n, m))O(min(n,m)). We need O(k)O(k)O(k) space for checking a substring has no duplicate characters, where kkk is the size of the Set. The size of the Set is upper bounded by the size of the string nnn and the size of the charset/alphabet mmm.
+- Space complexity : *O(min(n, m))*. We need *O(k)* space for checking a substring has no duplicate characters, where *k* is the size of the `Set`. The size of the `Set` is upper bounded by the size of the string *n* and the size of the charset/alphabet *m*.
 
-Approach 2: Sliding Window
+---
 
-Algorithm
+### Approach 2: Sliding Window
+
+**Algorithm**
 
 The naive approach is very straightforward. But it is too slow. So how can we optimize it?
 
-In the naive approaches, we repeatedly check a substring to see if it has duplicate character. But it is unnecessary. If a substring sijs_{ij}sij​ from index iii to j−1j - 1j−1 is already checked to have no duplicate characters. We only need to check if s[j]s[j]s[j] is already in the substring sijs_{ij}sij​.
+In the naive approaches, we repeatedly check a substring to see if it has duplicate character. But it is unnecessary. If a substring *s_ij*​ from index *i* to *j − 1* is already checked to have no duplicate characters. We only need to check if *s[j]* is already in the substring *s_ij*.
 
-To check if a character is already in the substring, we can scan the substring, which leads to an O(n2)O(n^2)O(n2) algorithm. But we can do better.
+To check if a character is already in the substring, we can scan the substring, which leads to an *O(n^2)* algorithm. But we can do better.
 
-By using HashSet as a sliding window, checking if a character in the current can be done in O(1)O(1)O(1).
+By using HashSet as a sliding window, checking if a character in the current can be done in *O(1)*.
 
-A sliding window is an abstract concept commonly used in array/string problems. A window is a range of elements in the array/string which usually defined by the start and end indices, i.e. [i,j)[i, j)[i,j) (left-closed, right-open). A sliding window is a window "slides" its two boundaries to the certain direction. For example, if we slide [i,j)[i, j)[i,j) to the right by 111 element, then it becomes [i+1,j+1)[i+1, j+1)[i+1,j+1) (left-closed, right-open).
+A sliding window is an abstract concept commonly used in array/string problems. A window is a range of elements in the array/string which usually defined by the start and end indices, i.e. *[i, j)* (left-closed, right-open). A sliding window is a window "slides" its two boundaries to the certain direction. For example, if we slide *[i, j)* to the right by *1* element, then it becomes *[i+1, j+1)* (left-closed, right-open).
 
-Back to our problem. We use HashSet to store the characters in current window [i,j)[i, j)[i,j) (j=ij = ij=i initially). Then we slide the index jjj to the right. If it is not in the HashSet, we slide jjj further. Doing so until s[j] is already in the HashSet. At this point, we found the maximum size of substrings without duplicate characters start with index iii. If we do this for all iii, we get our answer.
+Back to our problem. We use HashSet to store the characters in current window *[i, j)* (*j = i* initially). Then we slide the index *j* to the right. If it is not in the HashSet, we slide *j* further. Doing so until *s[j]* is already in the HashSet. At this point, we found the maximum size of substrings without duplicate characters start with index *i*. If we do this for all *i*, we get our answer.
 
 Complexity Analysis
 
