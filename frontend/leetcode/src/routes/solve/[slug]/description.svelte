@@ -36,9 +36,7 @@
 
 <div>
     <p class="text-lg font-bold mb-3">{problem.title}</p>
-    <p 
-        class="text-sm font-light {problem.difficulty === "easy" ? "text-green-500" : (problem.difficulty === "medium" ? "text-yellow-500" : "text-red-500")}"
-    >
+    <p class="text-sm font-light {problem.difficulty === "easy" ? "text-green-500" : (problem.difficulty === "medium" ? "text-yellow-500" : "text-red-500")}">
         {problem.difficulty}
     </p>
     <hr class="my-4">
