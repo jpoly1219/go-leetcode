@@ -43,6 +43,7 @@
 
     async function filterDifficulty () {
         alert(selectedDifficulty)
+        // fetch API to return only the problems of the selected difficulty
     }
 </script>
 
@@ -55,6 +56,9 @@
     <div class="flex flex-row items-center">
         <p class="text-base mr-2">Difficulty:</p>
         <select bind:value={selectedDifficulty} on:change={filterDifficulty} class="border border-gray-300 rounded-lg">
+            <option value="all">
+                <p class="text-green-500">all</p>
+            </option>
             <option value="easy">
                 <p class="text-green-500">easy</p>
             </option>
