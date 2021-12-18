@@ -37,6 +37,13 @@
             $problemsListStore = [...$problemsListStore, value.slug]
         })
     })
+
+    // Menu bar
+    let selectedDifficulty = "easy"
+
+    async function filterDifficulty () {
+        alert(selectedDifficulty)
+    }
 </script>
 
 <svelte:head>
@@ -44,6 +51,22 @@
 </svelte:head>
 
 <h1 class="text-4xl text-center my-8">Problem Sets</h1>
+<div class="flex flex-row mb-4">
+    <div class="flex flex-row items-center">
+        <p class="text-base mr-2">Difficulty:</p>
+        <select bind:value={selectedDifficulty} on:change={filterDifficulty} class="border border-gray-300 rounded-lg">
+            <option value="easy">
+                <p class="text-green-500">easy</p>
+            </option>
+            <option value="medium">
+                <p class="text-yellow-500">medium</p>
+            </option>
+            <option value="hard">
+                <p class="text-red-500">hard</p>
+            </option>
+        </select>
+    </div>
+</div>
 {#each problems as problem}
     <div class="mb-5">
         <p class="text-lg my-2"><a href={`/solve/${problem.slug}/description`}>{problem.title}</a></p>
