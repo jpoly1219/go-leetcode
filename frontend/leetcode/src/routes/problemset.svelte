@@ -40,7 +40,7 @@
 
     // Menu bar
     let filterObject = {
-        difficulty: "easy"
+        difficulty: "all"
     }
 
     async function filter () {
