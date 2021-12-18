@@ -45,8 +45,10 @@
 
 <h1 class="text-4xl text-center my-8">Problem Sets</h1>
 {#each problems as problem}
-    <p class="text-lg my-2"><a href={`/solve/${problem.slug}/description`}>{problem.title}</a></p>
-    <p class="text-sm font-extralight my-2 {problem.difficulty === "easy" ? "text-green-500" : (problem.difficulty === "medium" ? "text-yellow-500" : "text-red-500")}">
-        {problem.difficulty}
-    </p>
+    <div class="mb-5">
+        <p class="text-lg my-2"><a href={`/solve/${problem.slug}/description`}>{problem.title}</a></p>
+        <p class="text-sm font-extralight my-2 {problem.difficulty === "easy" ? "text-green-500" : (problem.difficulty === "medium" ? "text-yellow-500" : "text-red-500")}">
+            {problem.difficulty}
+        </p>
+    </div>
 {/each}
