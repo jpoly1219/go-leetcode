@@ -40,6 +40,9 @@ func main() {
 	r.HandleFunc("/problemsets", pkg.Problemsets)
 	r.HandleFunc("/submissions", pkg.Submissions)
 
+	problemsetsR := r.PathPrefix("/problemsets").Subrouter()
+	problemsetsR.Handle("/filter", pkg.filterProblemsets)
+
 	solveR := r.PathPrefix("/solve").Subrouter()
 	solveR.Handle("/{slug}", pkg.VerifyToken(http.HandlerFunc(pkg.ReturnProblem)))
 	// solveR.HandleFunc("/{slug}", pkg.ReturnProblem)
