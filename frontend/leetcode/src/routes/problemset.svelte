@@ -43,8 +43,7 @@
         difficulty: "all"
     }
 
-    async function filter () {
-        alert(filterObject.difficulty)
+    async function filter() {
         // fetch API to return only the problems of the selected difficulty
         const url = "http://jpoly1219devbox.xyz:8090/problemsets/filter"
         const options = {
