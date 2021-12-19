@@ -86,6 +86,38 @@ func Problemsets(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(problems)
 }
 
+func FilterProblemsets(w http.ResponseWriter, r *http.Request) {
+	HandleCors(w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	var f filter
+	json.NewDecoder(r.Body).Decode(&f)
+
+	if f.Difficulty == "all" {
+		Problemsets(w, r)
+	}
+
+	var problems = make([]problem, 0)
+
+	results, err := Db.Query("SELECT * FROM problems WHERE difficulty = $1;", f.Difficulty)
+	if err != nil {
+		log.Fatal("failed to execute query", err)
+	}
+	for results.Next() {
+		var p problem
+		err = results.Scan(&p.Id, &p.Title, &p.Slug, &p.Difficulty, &p.Description, &p.Created)
+		if err != nil {
+			log.Fatal("failed to scan", err)
+		}
+		problems = append(problems, p)
+	}
+
+	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
+	json.NewEncoder(w).Encode(problems)
+}
+
 func ReturnProblem(w http.ResponseWriter, r *http.Request) {
 	HandleCors(w, r)
 	if r.Method == "OPTIONS" {
