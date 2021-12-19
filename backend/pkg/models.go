@@ -73,3 +73,7 @@ type comment struct {
 	Description  string `json:"description"`
 	Created      string `json:"created"`
 }
+
+type filter struct {
+	Difficulty string `json:"difficulty"`
+}
