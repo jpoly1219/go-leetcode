@@ -97,25 +97,26 @@ func FilterProblemsets(w http.ResponseWriter, r *http.Request) {
 
 	if f.Difficulty == "all" {
 		Problemsets(w, r)
-	}
+	} else {
+		var problems = make([]problem, 0)
 
-	var problems = make([]problem, 0)
-
-	results, err := Db.Query("SELECT * FROM problems WHERE difficulty = $1;", f.Difficulty)
-	if err != nil {
-		log.Fatal("failed to execute query", err)
-	}
-	for results.Next() {
-		var p problem
-		err = results.Scan(&p.Id, &p.Title, &p.Slug, &p.Difficulty, &p.Description, &p.Created)
+		results, err := Db.Query("SELECT * FROM problems WHERE difficulty = $1;", f.Difficulty)
 		if err != nil {
-			log.Fatal("failed to scan", err)
+			log.Fatal("failed to execute query", err)
 		}
-		problems = append(problems, p)
+		for results.Next() {
+			var p problem
+			err = results.Scan(&p.Id, &p.Title, &p.Slug, &p.Difficulty, &p.Description, &p.Created)
+			if err != nil {
+				log.Fatal("failed to scan", err)
+			}
+			problems = append(problems, p)
+		}
+
+		w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
+		json.NewEncoder(w).Encode(problems)
 	}
 
-	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
-	json.NewEncoder(w).Encode(problems)
 }
 
 func ReturnProblem(w http.ResponseWriter, r *http.Request) {
