@@ -46,6 +46,20 @@
     async function filter () {
         alert(filterObject.difficulty)
         // fetch API to return only the problems of the selected difficulty
+        const url = "http://jpoly1219devbox.xyz:8090/problemsets/filter"
+        const options = {
+            method: "POST",
+            body: JSON.stringify(filterObject)
+        }
+
+        try {
+            const res = await fetch(url, options)
+            const data = await res.json()
+            problems = data
+            console.log(problems)
+        } catch(err) {
+            console.log(err)
+        }
     }
 </script>
 
