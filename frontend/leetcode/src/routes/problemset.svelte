@@ -88,13 +88,13 @@
 </div>
 <div class="w-full">
     <table class="table-fixed w-full items-start">
-        <tr class="border-b border-gray-200">
+        <tr class="border-b border-gray-200 my-4">
             <th class="w-1/12 text-left text-lg">Status</th>
             <th class="w-8/12 text-left text-lg">Title</th>
             <th class="w-3/12 text-left text-lg">Difficulty</th>
         </tr>
         {#each problems as problem}
-            <tr class="{problem.num % 2 === 0 ? "bg-white" : "bg-gray-200"} bg-gray-200">
+            <tr class="{problem.num % 2 === 0 ? "bg-white" : "bg-gray-100"}">
                 <td>Status</td>
                 <td>
                     <p class="text-lg my-2"><a href={`/solve/${problem.slug}/description`}>{problem.title}</a></p>
