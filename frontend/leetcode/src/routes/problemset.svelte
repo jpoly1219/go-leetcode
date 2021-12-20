@@ -86,11 +86,36 @@
         </select>
     </div>
 </div>
-{#each problems as problem}
-    <div class="mb-5">
-        <p class="text-lg my-2"><a href={`/solve/${problem.slug}/description`}>{problem.title}</a></p>
-        <p class="text-sm font-extralight my-2 {problem.difficulty === "easy" ? "text-green-500" : (problem.difficulty === "medium" ? "text-yellow-500" : "text-red-500")}">
-            {problem.difficulty}
-        </p>
-    </div>
-{/each}
+<div class="w-full">
+    <table class="table-fixed w-full items-start">
+        <tr>
+            <th class="w-1/12 text-left">Status</th>
+            <th class="w-8/12 text-left">Title</th>
+            <th class="w-3/12 text-left">Difficulty</th>
+        </tr>
+        {#each problems as problem}
+            <tr>
+                <td>Status</td>
+                <td>
+                    <p class="text-lg my-2"><a href={`/solve/${problem.slug}/description`}>{problem.title}</a></p>
+                </td>
+                <td>
+                    <p class="text-sm font-extralight my-2 {problem.difficulty === "easy" ? "text-green-500" : (problem.difficulty === "medium" ? "text-yellow-500" : "text-red-500")}">
+                        {problem.difficulty}
+                    </p>
+                </td>
+            </tr>
+        {/each}
+    </table>
+</div>
+
+<!--
+    {#each problems as problem}
+        <div class="mb-5">
+            <p class="text-lg my-2"><a href={`/solve/${problem.slug}/description`}>{problem.title}</a></p>
+            <p class="text-sm font-extralight my-2 {problem.difficulty === "easy" ? "text-green-500" : (problem.difficulty === "medium" ? "text-yellow-500" : "text-red-500")}">
+                {problem.difficulty}
+            </p>
+        </div>
+    {/each}
+-->
