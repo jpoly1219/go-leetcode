@@ -88,19 +88,21 @@
 </div>
 <div class="w-full">
     <table class="table-fixed w-full items-start">
-        <tr class="border-b border-gray-200 my-4">
+        <tr class="border-b border-gray-200">
             <th class="w-1/12 text-left text-lg">Status</th>
             <th class="w-8/12 text-left text-lg">Title</th>
             <th class="w-3/12 text-left text-lg">Difficulty</th>
         </tr>
         {#each problems as problem}
-            <tr class="{problem.num % 2 === 0 ? "bg-white" : "bg-gray-100"}">
-                <td>Status</td>
+            <tr class="{problem.num % 2 === 0 ? "bg-gray-100" : "bg-white"} py-4">
                 <td>
-                    <p class="text-lg my-2"><a href={`/solve/${problem.slug}/description`}>{problem.title}</a></p>
+                    <p class="text-base">Status</p>
                 </td>
                 <td>
-                    <p class="text-sm font-extralight my-2 {problem.difficulty === "easy" ? "text-green-500" : (problem.difficulty === "medium" ? "text-yellow-500" : "text-red-500")}">
+                    <p class="text-base"><a href={`/solve/${problem.slug}/description`}>{problem.title}</a></p>
+                </td>
+                <td>
+                    <p class="text-base font-extralight my-2 {problem.difficulty === "easy" ? "text-green-500" : (problem.difficulty === "medium" ? "text-yellow-500" : "text-red-500")}">
                         {problem.difficulty}
                     </p>
                 </td>
