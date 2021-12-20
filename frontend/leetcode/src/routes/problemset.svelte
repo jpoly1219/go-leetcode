@@ -54,7 +54,18 @@
         try {
             const res = await fetch(url, options)
             const data = await res.json()
-            problems = data
+            const loadedProblem = data.map((data, index) => {
+                return {
+                    num: index + 1,
+                    title: data.title,
+                    slug: data.slug,
+                    difficulty: data.difficulty,
+                    description: data.description,
+                    created: data.created
+                }
+            })
+
+            problems = loadedProblem
             console.log(problems)
         } catch(err) {
             console.log(err)
