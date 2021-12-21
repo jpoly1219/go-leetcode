@@ -21,6 +21,12 @@
             alert(err)
         }
     }
+
+    // Call attempts table. Send username to API.
+    // Check username, slug and result column.
+    // SELECT DISTINCT slug, result FROM attempts WHERE username = $1;
+    // Get back slug/result JSON.
+    // Match 
 </script>
 
 <script>
