@@ -24,9 +24,9 @@
 
     // Call attempts table. Send username to API.
     // Check username, slug and result column.
-    // SELECT DISTINCT slug, result FROM attempts WHERE username = $1;
+    // SELECT DISTINCT title, problems.slug, difficulty, result FROM problems LEFT JOIN attempts ON problems.slug = attempts.slug AND userame = $1 ORDER BY title;
     // Get back slug/result JSON.
-    // Match 
+    // for each loadedProblem, if result = OK, 
 </script>
 
 <script>
