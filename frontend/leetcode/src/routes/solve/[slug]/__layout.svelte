@@ -36,7 +36,7 @@
 
     // CodeJar editor
     let CodeJar
-    export let value = "console.log('hello world')"
+    let value = ""
     let languages = ["cpp", "java", "js", "py"]
     let selected = "cpp"
 
