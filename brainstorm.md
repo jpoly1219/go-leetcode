@@ -268,3 +268,5 @@
 
     - Git stuff
       - https://gist.github.com/nanusdad/7e516743e5e709073f7e
+
+      - Maintain a Todoist for this project
