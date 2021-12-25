@@ -15,17 +15,19 @@ struct ListNode {
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
-vector<ListNode> createLinkedList(vector<int> vecNums) {
-    vector<ListNode> vecLL;
+vector<ListNode*> createLinkedList(vector<int> vecNums) {
+    vector<ListNode*> vecLL;
+    ListNode* node = new ListNode();
 
     for (size_t i = 0; i < vecNums.size(); i++) {
         if (i == 0) {
             int nodeValue = vecNums.at(vecNums.size() - i);
-            ListNode* node = new ListNode(nodeValue);
+            node->val = nodeValue;
         } else {
             int nodeValue = vecNums.at(vecNums.size() - i);
-            int lastValue = vecLL.back();
-            ListNode* node = ListNode(nodeValue, lastValue);
+            ListNode* lastNode = vecLL.back();
+            node->val = nodeValue;
+            node->next = lastNode;
         }
 
         vecLL.push_back(node);
@@ -38,7 +40,7 @@ vector<int> linkedListToVector(ListNode* node) {
     vector<int> vecInt;
     while (node != nullptr) {
         vecInt.push_back(node->val);
-        node = node->next
+        node = node->next;
     }
 
     return vecInt;
@@ -96,7 +98,7 @@ public:
 int main() {
     Solution sol;
 
-    ifstream i("../testcase-2-add-two-numbers.json")
+    ifstream i("tc2.json");
     json j;
     i >> j;
 
@@ -107,13 +109,13 @@ int main() {
     bool isOk = true;
     // test
     for (int i = 0; i < vecNums1.size(); i++) {
-        vector<ListNode> vecL1 = createLinkedList(vecNums1.at(i));
-        vector<ListNode> vecL2 = createLinkedList(vecNums2.at(i));
+        vector<ListNode*> vecL1 = createLinkedList(vecNums1.at(i));
+        vector<ListNode*> vecL2 = createLinkedList(vecNums2.at(i));
 
         ListNode* solutionNode = sol.addTwoNumbers(vecL1.front(), vecL2.front());
-        vector<int> vecSolution = linkedListToVector(solutionNode)
-        for (int j = 0; j < vecSolution.size(); j++) {
-            if (vecSolution.at(i) != vecExpected.at(i)) {
+        vector<int> vecSolution = linkedListToVector(solutionNode);
+        for (size_t j = 0; j < vecSolution.size(); j++) {
+            if (vecSolution.at(i) != vecExpected.at(i).at(j)) {
                 isOk = false;
                 break;
             }
