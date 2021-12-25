@@ -41,7 +41,7 @@ with open("../testcase-1-two-sum.json", "r") as read_file:
 
 sol = Solution()
 isOk = True
-# for each input pair, check if Solution.twoSum() returns a matching expected answer
+
 for i in range(len(data["input"]["l1"])):
     l1 = createLinkedList(data["input"]["l1"])
     l2 = createLinkedList(data["input"]["l2"])
