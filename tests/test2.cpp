@@ -15,25 +15,23 @@ struct ListNode {
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
-vector<ListNode*> createLinkedList(vector<int> vecNums) {
+ListNode* createLinkedList(vector<int> vecNums) {
     vector<ListNode*> vecLL;
     ListNode* node = new ListNode();
 
     for (size_t i = 0; i < vecNums.size(); i++) {
-        if (i == 0) {
-            int nodeValue = vecNums.at(vecNums.size() - i);
-            node->val = nodeValue;
-        } else {
-            int nodeValue = vecNums.at(vecNums.size() - i);
+        int nodeValue = vecNums.at(vecNums.size() - (i+1));
+        node->val = nodeValue;
+
+        if (i != 0) {
             ListNode* lastNode = vecLL.back();
-            node->val = nodeValue;
             node->next = lastNode;
         }
 
         vecLL.push_back(node);
     }
 
-    return vecLL;
+    return vecLL.front();
 }
 
 vector<int> linkedListToVector(ListNode* node) {
@@ -108,11 +106,11 @@ int main() {
 
     bool isOk = true;
     // test
-    for (int i = 0; i < vecNums1.size(); i++) {
-        vector<ListNode*> vecL1 = createLinkedList(vecNums1.at(i));
-        vector<ListNode*> vecL2 = createLinkedList(vecNums2.at(i));
+    for (size_t i = 0; i < vecNums1.size(); i++) {
+        ListNode* l1 = createLinkedList(vecNums1.at(i));
+        ListNode* l2 = createLinkedList(vecNums2.at(i));
 
-        ListNode* solutionNode = sol.addTwoNumbers(vecL1.front(), vecL2.front());
+        ListNode* solutionNode = sol.addTwoNumbers(l1, l2);
         vector<int> vecSolution = linkedListToVector(solutionNode);
         for (size_t j = 0; j < vecSolution.size(); j++) {
             if (vecSolution.at(i) != vecExpected.at(i).at(j)) {
