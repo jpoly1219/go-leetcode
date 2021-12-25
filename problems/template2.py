@@ -31,7 +31,7 @@ def linkedListToVector(node):
         node = node.next
     
     return intList
-    
+
 
 # insert Solution class here
 
@@ -42,8 +42,16 @@ with open("../testcase-1-two-sum.json", "r") as read_file:
 sol = Solution()
 isOk = True
 # for each input pair, check if Solution.twoSum() returns a matching expected answer
-for i in range(len(data["input"]["nums"])):
-    
+for i in range(len(data["input"]["l1"])):
+    l1 = createLinkedList(data["input"]["l1"])
+    l2 = createLinkedList(data["input"]["l2"])
+
+    solutionNode = sol.addTwoNumbers(l1[0], l2[0])
+    solutionList = linkedListToVector(solutionNode)
+    for j, solution in enumerate(solutionList):
+        if solution != data["expected"][j]:
+            isOk = False;
+            break;
 
 if isOk:
     # write json to file
