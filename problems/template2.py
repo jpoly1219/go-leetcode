@@ -9,19 +9,17 @@ class ListNode:
         self.next = next
 
 
+def insertNode(head, i):
+    newNode = ListNode(i, head)
+    head = newNode
+
+
 def createLinkedList(nums):
-    nodeList = []
+    head = None
     for num in nums:
-        newNode = ListNode(num)
-        nodeList.append(newNode)
+        insertNode(head, num)
     
-    for i, node in enumerate(nodeList):
-        if i+1 == len(nodeList):
-            node.next = None
-        else:
-            node.next = nodeList[i+1]
-    
-    return nodeList
+    return head
 
 
 def linkedListToVector(node):
@@ -36,7 +34,7 @@ def linkedListToVector(node):
 # insert Solution class here
 
 
-with open("../testcase-1-two-sum.json", "r") as read_file:
+with open("../testcase-2-add-two-numbers.json", "r") as read_file:
     data = json.load(read_file)
 
 sol = Solution()
