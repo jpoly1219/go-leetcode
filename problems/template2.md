@@ -47,7 +47,7 @@ vector<int> linkedListToVector(ListNode* node) {
 int main() {
     Solution sol;
 
-    ifstream i("tc2.json");
+    ifstream i("../testcase-2-add-two-numbers.json");
     json j;
     i >> j;
 
