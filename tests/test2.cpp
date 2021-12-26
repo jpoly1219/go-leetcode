@@ -15,23 +15,18 @@ struct ListNode {
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
+void insertNode(ListNode** head, int i) {
+    ListNode* newNode = new ListNode(i, *head);
+    *head = newNode;
+}
+
 ListNode* createLinkedList(vector<int> vecNums) {
-    vector<ListNode*> vecLL;
-    ListNode* node = new ListNode();
-
-    for (size_t i = 0; i < vecNums.size(); i++) {
-        int nodeValue = vecNums.at(vecNums.size() - (i+1));
-        node->val = nodeValue;
-
-        if (i != 0) {
-            ListNode* lastNode = vecLL.back();
-            node->next = lastNode;
-        }
-
-        vecLL.push_back(node);
+    ListNode* head = nullptr;
+    for (int i = vecNums.size()-1; i >= 0; i--) {
+        insertNode(&head, vecNums.at(i));
     }
-
-    return vecLL.front();
+    
+    return head;
 }
 
 vector<int> linkedListToVector(ListNode* node) {
@@ -48,48 +43,47 @@ vector<int> linkedListToVector(ListNode* node) {
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-    
-        ListNode* dummy = new ListNode(0);
-        ListNode* tail = dummy;
         int carry = 0;
+        int sum = 0;
         
-        ListNode* ptr1 = l1;
-        ListNode* ptr2 = l2;
+        ListNode* p1 = l1;
+        ListNode* p2 = l2;
         
-        while(ptr1 && ptr2)
-        {
-            int sum = (ptr1->val + ptr2->val + carry);
-            carry = sum/10;
-            tail->next = new ListNode(sum%10);
+        ListNode* res = nullptr;
+        ListNode* currentNode = nullptr;
+        
+        while (p1 != nullptr || p2 != nullptr) {
+            // calculate sum
+            int sum = (p1 ? p1->val : 0) + (p2 ? p2->val : 0) + carry;
+            if (sum >= 10) {
+                sum = sum % 10;
+                carry = 1;
+            } else {
+                carry = 0;
+            }
             
-            tail = tail->next;
-            ptr1 = ptr1->next;
-            ptr2 = ptr2->next;
+            // make the new node
+            ListNode* newNode = new ListNode(sum);
+            if (!currentNode) { // if the first node hasn't been generated
+                res = newNode;
+                currentNode = newNode;
+            } else {
+                currentNode->next = newNode;
+                currentNode = newNode;
+            }
+            
+            // proceed to next, if any
+            if (p1) p1 = p1->next;
+            if (p2) p2 = p2->next;
         }
         
-        while(ptr1)
-        {
-            int sum = ptr1->val + carry;
-            carry = sum/10;
-            tail->next = new ListNode(sum%10);
-            
-            tail = tail->next;
-            ptr1 = ptr1->next;
+        // finally handle the left carry = 1
+        if (1 == carry) {
+            ListNode* newNode = new ListNode(1);
+            currentNode->next = newNode;
         }
         
-        while(ptr2)
-        {
-            int sum = ptr2->val + carry;
-            carry = sum/10;
-            tail->next = new ListNode(sum%10);
-            
-            tail = tail->next;
-            ptr2 = ptr2->next;
-        }
-        
-        if(carry)
-            tail->next = new ListNode(carry);
-        return dummy->next;
+        return res;
     }
 };
 
@@ -113,7 +107,7 @@ int main() {
         ListNode* solutionNode = sol.addTwoNumbers(l1, l2);
         vector<int> vecSolution = linkedListToVector(solutionNode);
         for (size_t j = 0; j < vecSolution.size(); j++) {
-            if (vecSolution.at(i) != vecExpected.at(i).at(j)) {
+            if (vecSolution.at(j) != vecExpected.at(i).at(j)) {
                 isOk = false;
                 break;
             }
