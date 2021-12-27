@@ -30,14 +30,19 @@ def linkedListToVector(node):
 # insert Solution class here
 class Solution:
     def addTwoNumbers(self, l1, l2):
-        def toint(node):
-            return node.val + 10 * toint(node.next) if node else 0
-        def tolist(n):
-            node = ListNode(n % 10)
-            if n > 9:
-                node.next = tolist(n / 10)
-            return node
-        return tolist(toint(l1) + toint(l2))
+        dummy = cur = ListNode(0)
+        carry = 0
+        while l1 or l2 or carry:
+            if l1:
+                carry += l1.val
+                l1 = l1.next
+            if l2:
+                carry += l2.val
+                l2 = l2.next
+            cur.next = ListNode(carry%10)
+            cur = cur.next
+            carry //= 10
+        return dummy.next
 
 
 with open("tc2.json", "r") as read_file:
@@ -46,23 +51,19 @@ with open("tc2.json", "r") as read_file:
 sol = Solution()
 isOk = True
 
-for i in range(len(data["input"]["l1"])):
-    listL1 = data["input"]["l1"]
-    listL2 = data["input"]["l2"]
+listL1 = data["input"]["l1"]
+listL2 = data["input"]["l2"]
 
-    for i, nums in enumerate(listL1):
-        l1 = createLinkedList(listL1[i])
-        l2 = createLinkedList(listL2[i])
+for j, nums in enumerate(listL1):
+    l1 = createLinkedList(listL1[j])
+    l2 = createLinkedList(listL2[j])
 
-        print("l1: ", l1.val)
-        print("l2: ", l2.val)
-
-        solutionNode = sol.addTwoNumbers(l1, l2)
-        solutionList = linkedListToVector(solutionNode)
-        for j, solution in enumerate(solutionList):
-            if solution != data["expected"][j]:
-                isOk = False;
-                break;
+    solutionNode = sol.addTwoNumbers(l1, l2)
+    solutionList = linkedListToVector(solutionNode)
+    for solution in enumerate(solutionList):
+        if solutionList != data["expected"][j]:
+            isOk = False;
+            break;
 
 if isOk:
     # write json to file
