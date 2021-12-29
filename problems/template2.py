@@ -45,10 +45,10 @@ for i, nums in enumerate(listL1):
 
     solutionNode = sol.addTwoNumbers(l1, l2)
     solutionList = linkedListToVector(solutionNode)
-    for solution in enumerate(solutionList):
-        if solutionList != data["expected"][i]:
-            isOk = False;
-            break;
+    
+    if solutionList != data["expected"][i]:
+        isOk = False
+        break
 
 if isOk:
     # write json to file
