@@ -10,3 +10,9 @@
 - Refactoring `coderunner` code
   - All the code is inside `main.go`. This makes the file unnecessarily long and difficult to maintain.
   - There should be a structure where the utils and the controllers are separated into their own files.
+  - Keep the `cpp`, `java`, `js`, `py` directories.
+  - `utils.go` should hold functions such as `FileToLines`, `LinesFromFile`, `WriteCodeToFile`, etc.
+  - `main.go` should hold the db connection and mux.
+  - `interfaces.go` sounds like a good idea, but I need to research this a bit more.
+  - `models.go` should hold the struct definitions.
+  - `controllers.go` should hold the controller.
