@@ -2,6 +2,7 @@ package pkg
 
 import (
 	"bytes"
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -76,6 +77,7 @@ func Problemsets(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("reached Problemsets")
 	var problems = make([]problemAndResult, 0)
+	var result sql.NullString
 
 	results, err := Db.Query(
 		"SELECT DISTINCT problems.id, title, problems.slug, difficulty, result FROM problems LEFT JOIN attempts ON problems.slug = attempts.slug AND username = $1 AND result = 'OK' ORDER BY title;",
@@ -86,9 +88,14 @@ func Problemsets(w http.ResponseWriter, r *http.Request) {
 	}
 	for results.Next() {
 		var p problemAndResult
-		err = results.Scan(&p.Id, &p.Title, &p.Slug, &p.Difficulty, &p.Result)
+		err = results.Scan(&p.Id, &p.Title, &p.Slug, &p.Difficulty, &result)
 		if err != nil {
 			log.Fatal("failed to scan", err)
+		}
+		if result.Valid {
+			p.Result = result.String
+		} else {
+			p.Result = "-"
 		}
 		problems = append(problems, p)
 	}
