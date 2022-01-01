@@ -47,6 +47,7 @@
     import { problemsListStore } from "../stores/stores.js"
 
     export let problems
+    export let username
     
     onMount(() => {
         if ($problemsListStore.length != 0) {
