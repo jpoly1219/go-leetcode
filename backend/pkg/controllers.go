@@ -72,8 +72,12 @@ func Problemsets(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var username string
-	json.NewDecoder(r.Body).Decode(&username)
+	type username struct {
+		Username string `json:"username"`
+	}
+
+	var uname username
+	json.NewDecoder(r.Body).Decode(&uname)
 
 	fmt.Println("reached Problemsets")
 	var problems = make([]problemAndResult, 0)
@@ -81,7 +85,7 @@ func Problemsets(w http.ResponseWriter, r *http.Request) {
 
 	results, err := Db.Query(
 		"SELECT DISTINCT problems.id, title, problems.slug, difficulty, result FROM problems LEFT JOIN attempts ON problems.slug = attempts.slug AND username = $1 AND result = 'OK' ORDER BY title;",
-		username,
+		uname.Username,
 	)
 	if err != nil {
 		log.Fatal("failed to execute query", err)
@@ -120,7 +124,7 @@ func FilterProblemsets(w http.ResponseWriter, r *http.Request) {
 		var problems = make([]problemAndResult, 0)
 
 		results, err := Db.Query(
-			"SELECT DISTINCT title, problems.slug, difficulty, result FROM problems LEFT JOIN attempts ON problems.slug = attempts.slug AND userame = $1 AND result = 'OK' AND difficulty = $2 ORDER BY title;",
+			"SELECT DISTINCT title, problems.slug, difficulty, result FROM problems LEFT JOIN attempts ON problems.slug = attempts.slug AND userame = $1 AND (result = 'OK' OR NULL) AND difficulty = $2 ORDER BY title;",
 			f.Username, f.Difficulty,
 		)
 		if err != nil {
