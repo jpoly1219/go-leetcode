@@ -1,9 +1,23 @@
 <script context="module">
+    import { get } from "svelte/store"
+    import { accessTokenStore } from "../stores/stores.js"
+
     export async function load() {
-        const url = "http://jpoly1219devbox.xyz:8090/problemsets"
+        let accessToken = get(accessTokenStore)
+        let username
+        if (accessToken != "") {
+            const payloadB64 = accessToken.split(".")[1]
+            username = JSON.parse(window.atob(payloadB64)).username
+        }
+
+        const url = "http://jpoly1219devbox.xyz:8090/problemsets/all"
+        const options = {
+            method: "POST",
+            body: JSON.stringify({username: username})
+        }
 
         try {
-            const res = await fetch(url)
+            const res = await fetch(url, options)
             const data = await res.json()
             console.log(data, typeof(data))
             const loadedProblem = data.map((data, index) => {
@@ -12,11 +26,10 @@
                     title: data.title,
                     slug: data.slug,
                     difficulty: data.difficulty,
-                    description: data.description,
-                    created: data.created
+                    result: data.result
                 }
             })
-            return {props: {problems: loadedProblem}}
+            return {props: {problems: loadedProblem}, username}
         } catch(err) {
             alert(err)
         }
@@ -24,9 +37,9 @@
 
     // Call attempts table. Send username to API.
     // Check username, slug and result column.
-    // SELECT DISTINCT title, problems.slug, difficulty, result FROM problems LEFT JOIN attempts ON problems.slug = attempts.slug AND userame = $1 ORDER BY title;
+    // SELECT DISTINCT title, problems.slug, difficulty, result FROM problems LEFT JOIN attempts ON problems.slug = attempts.slug AND userame = $1 AND result = 'OK' ORDER BY title;
     // Get back slug/result JSON.
-    // for each loadedProblem, if result = OK, 
+    // for each loadedProblem, if result = OK, mark the problem as solved.
 </script>
 
 <script>
@@ -46,6 +59,7 @@
 
     // Menu bar
     let filterObject = {
+        username: username,
         difficulty: "all"
     }
 
@@ -66,8 +80,7 @@
                     title: data.title,
                     slug: data.slug,
                     difficulty: data.difficulty,
-                    description: data.description,
-                    created: data.created
+                    result: data.result
                 }
             })
 
@@ -113,7 +126,7 @@
         {#each problems as problem}
             <tr class="{problem.num % 2 === 0 ? "bg-gray-100" : "bg-white"} py-4">
                 <td>
-                    <p class="text-base">Status</p>
+                    <p class="text-base">{problem.result}</p>
                 </td>
                 <td>
                     <p class="text-base"><a href={`/solve/${problem.slug}/description`}>{problem.title}</a></p>
