@@ -78,7 +78,7 @@ func Problemsets(w http.ResponseWriter, r *http.Request) {
 	var problems = make([]problemAndResult, 0)
 
 	results, err := Db.Query(
-		"SELECT DISTINCT title, problems.slug, difficulty, result FROM problems LEFT JOIN attempts ON problems.slug = attempts.slug AND userame = $1 AND result = 'OK' ORDER BY title;",
+		"SELECT DISTINCT problems.id, title, problems.slug, difficulty, result FROM problems LEFT JOIN attempts ON problems.slug = attempts.slug AND username = $1 AND result = 'OK' ORDER BY title;",
 		username,
 	)
 	if err != nil {
