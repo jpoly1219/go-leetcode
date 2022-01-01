@@ -66,16 +66,27 @@ func Run(w http.ResponseWriter, r *http.Request) {
 }
 
 func Problemsets(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("reached Problemsets")
-	var problems = make([]problem, 0)
+	HandleCors(w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
 
-	results, err := Db.Query("SELECT * FROM problems;")
+	var username string
+	json.NewDecoder(r.Body).Decode(&username)
+
+	fmt.Println("reached Problemsets")
+	var problems = make([]problemAndResult, 0)
+
+	results, err := Db.Query(
+		"SELECT DISTINCT title, problems.slug, difficulty, result FROM problems LEFT JOIN attempts ON problems.slug = attempts.slug AND userame = $1 AND result = 'OK' ORDER BY title;",
+		username,
+	)
 	if err != nil {
 		log.Fatal("failed to execute query", err)
 	}
 	for results.Next() {
-		var p problem
-		err = results.Scan(&p.Id, &p.Title, &p.Slug, &p.Difficulty, &p.Description, &p.Created)
+		var p problemAndResult
+		err = results.Scan(&p.Id, &p.Title, &p.Slug, &p.Difficulty, &p.Result)
 		if err != nil {
 			log.Fatal("failed to scan", err)
 		}
