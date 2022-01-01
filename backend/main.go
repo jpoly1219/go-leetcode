@@ -41,6 +41,7 @@ func main() {
 	r.HandleFunc("/submissions", pkg.Submissions)
 
 	problemsetsR := r.PathPrefix("/problemsets").Subrouter()
+	problemsetsR.HandleFunc("/all", pkg.Problemsets)
 	problemsetsR.HandleFunc("/filter", pkg.FilterProblemsets)
 
 	solveR := r.PathPrefix("/solve").Subrouter()
