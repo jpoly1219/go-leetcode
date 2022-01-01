@@ -33,6 +33,14 @@ type result struct {
 	Output   string `json:"output"`
 }
 
+type problemAndResult struct {
+	Id         int    `json:"id"`
+	Title      string `json:"string"`
+	Slug       string `json:"slug"`
+	Difficulty string `json:"difficulty"`
+	Result     string `json:"result"`
+}
+
 type token struct {
 	AccessToken  string `json:"accessToken"`
 	RefreshToken string `json:"refreshToken"`
