@@ -83,5 +83,6 @@ type comment struct {
 }
 
 type filter struct {
+	Username   string `json:"username"`
 	Difficulty string `json:"difficulty"`
 }
