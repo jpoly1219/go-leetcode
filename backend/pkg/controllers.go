@@ -109,15 +109,18 @@ func FilterProblemsets(w http.ResponseWriter, r *http.Request) {
 	if f.Difficulty == "all" {
 		Problemsets(w, r)
 	} else {
-		var problems = make([]problem, 0)
+		var problems = make([]problemAndResult, 0)
 
-		results, err := Db.Query("SELECT * FROM problems WHERE difficulty = $1;", f.Difficulty)
+		results, err := Db.Query(
+			"SELECT DISTINCT title, problems.slug, difficulty, result FROM problems LEFT JOIN attempts ON problems.slug = attempts.slug AND userame = $1 AND result = 'OK' AND difficulty = $2 ORDER BY title;",
+			f.Username, f.Difficulty,
+		)
 		if err != nil {
 			log.Fatal("failed to execute query", err)
 		}
 		for results.Next() {
-			var p problem
-			err = results.Scan(&p.Id, &p.Title, &p.Slug, &p.Difficulty, &p.Description, &p.Created)
+			var p problemAndResult
+			err = results.Scan(&p.Id, &p.Title, &p.Slug, &p.Difficulty, &p.Result)
 			if err != nil {
 				log.Fatal("failed to scan", err)
 			}
