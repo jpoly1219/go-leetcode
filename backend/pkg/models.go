@@ -35,7 +35,7 @@ type result struct {
 
 type problemAndResult struct {
 	Id         int    `json:"id"`
-	Title      string `json:"string"`
+	Title      string `json:"title"`
 	Slug       string `json:"slug"`
 	Difficulty string `json:"difficulty"`
 	Result     string `json:"result"`
