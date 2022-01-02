@@ -29,7 +29,7 @@
                     result: data.result
                 }
             })
-            return {props: {problems: loadedProblem}, username}
+            return {props: {problems: loadedProblem}}
         } catch(err) {
             alert(err)
         }
@@ -43,11 +43,10 @@
 </script>
 
 <script>
-    import { onMount } from "svelte"
+    import { onMount, beforeUpdate } from "svelte"
     import { problemsListStore } from "../stores/stores.js"
 
     export let problems
-    export let username
     
     onMount(() => {
         if ($problemsListStore.length != 0) {
@@ -58,9 +57,18 @@
         })
     })
 
+    let username = ""
+    beforeUpdate(() => {
+        if ($accessTokenStore != "") {
+            const payloadB64 = $accessTokenStore.split(".")[1]
+            username = JSON.parse(window.atob(payloadB64)).username
+            filterObject.username = username
+        }
+    })
+
     // Menu bar
     let filterObject = {
-        username: username,
+        username: "",
         difficulty: "all"
     }
 
