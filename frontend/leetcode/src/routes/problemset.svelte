@@ -74,10 +74,20 @@
 
     async function filter() {
         // fetch API to return only the problems of the selected difficulty
-        const url = "http://jpoly1219devbox.xyz:8090/problemsets/filter"
-        const options = {
-            method: "POST",
-            body: JSON.stringify(filterObject)
+        let url = ""
+        let options = {}
+        if (filterObject.difficulty == "all") {
+            url = "http://jpoly1219devbox.xyz:8090/problemsets/all"
+            options = {
+                method: "POST",
+                body: JSON.stringify({username: username})
+            }
+        } else {
+            url = "http://jpoly1219devbox.xyz:8090/problemsets/filter"
+            options = {
+                method: "POST",
+                body: JSON.stringify(filterObject)
+            }
         }
 
         try {
@@ -94,7 +104,6 @@
             })
 
             problems = loadedProblem
-            console.log(problems)
         } catch(err) {
             console.log(err)
         }
