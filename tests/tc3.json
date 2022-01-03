@@ -1,0 +1,12 @@
+{
+    "input": [
+        "abcabcbb",
+        "bbbbb",
+        "pwwkew"
+    ],
+    "expected": [
+        3,
+        1,
+        3
+    ]
+}
