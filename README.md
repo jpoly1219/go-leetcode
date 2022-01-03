@@ -1,6 +1,7 @@
 # go-leetcode
 
-A clone of Leetcode written in Go and SvelteKit.
+A clone of Leetcode written in Go and SvelteKit. I wanted to see if I could reverse-engineer a popular web app with complicated internals.
+The goal of this side project was to learn how to use Go for backend development, SvelteKit and TailwindCSS for scaffolding the frontend, learn a new database, and understand how Docker and Docker Compose works.
 
 ## Languages and Tools Used:
 - `go`
