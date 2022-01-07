@@ -68,7 +68,7 @@ int main() {
     for (size_t i = 0; i < vecNums1.size(); i++) {
         vector<int> num1 = vecNums1.at(i);
         vector<int> num2 = vecNums2.at(i);
-        double solution  = sol.findMedianSortedArrays(&num1, &num2);
+        double solution  = sol.findMedianSortedArrays(num1, num2);
         if (solution != vecExpected.at(i)) {
             isOk = false;
             break;
