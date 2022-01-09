@@ -1,0 +1,10 @@
+{
+    "input": [
+        "babad",
+        "cbbd"
+    ],
+    "expected": [
+        ["bab", "aba"],
+        ["bb"]
+    ]
+}
