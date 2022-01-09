@@ -1,5 +1,5 @@
 // template file
-const tc = require("./tc5.json")
+const tc = require("../testcase-5-longest-palindromic-substring.json")
 
 // insert Solution class here
 
