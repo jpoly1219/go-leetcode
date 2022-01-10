@@ -16,3 +16,8 @@
   - `interfaces.go` sounds like a good idea, but I need to research this a bit more.
   - `models.go` should hold the struct definitions.
   - `controllers.go` should hold the controller.
+
+- Separate `auth` into its own service?
+  - Many microservices have an auth server running separately from the rest of the program.
+  - Separation of concerns.
+  - The auth server will have a Redis cache to store session id's.
