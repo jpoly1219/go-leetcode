@@ -13,6 +13,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
+	"github.com/jpoly1219/go-leetcode/coderunner/models"
 	"github.com/jpoly1219/go-leetcode/coderunner/utils"
 	_ "github.com/lib/pq"
 )
@@ -251,20 +252,8 @@ func GetOutput(lang Language) (string, []byte, error) {
 	}
 }
 
-type resultFile struct {
-	Username string `json:"username"`
-	Slug     string `json:"Slug"`
-	Lang     string `json:"lang"`
-	Code     string `json:"code"`
-	Result   string `json:"result"`
-	Input    string `json:"input"`
-	Expected string `json:"expected"`
-	Output   string `json:"output"`
-	// Runtime string `json:"runtime"`
-}
-
-func HandleLangs(username, slug, lang, code, template string) (*resultFile, error) {
-	var result resultFile
+func HandleLangs(username, slug, lang, code, template string) (*models.ResultFile, error) {
+	var result models.ResultFile
 	result.Username = username
 	result.Slug = slug
 	result.Lang = lang
