@@ -21,16 +21,6 @@ import (
 
 var db *sql.DB
 
-func FileToLines(filePath string) ([]string, error) {
-	f, err := os.Open(filePath)
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
-	}
-	defer f.Close()
-	return LinesFromFile(f)
-}
-
 func LinesFromFile(r io.Reader) ([]string, error) {
 	var lines []string
 	scanner := bufio.NewScanner(r)
@@ -89,7 +79,7 @@ func (cpp Cpp) GenerateFile() error {
 	}
 
 	// generate file.cpp
-	codeLines, err := FileToLines(templatePath)
+	codeLines, err := utils.FileToLines(templatePath)
 	if err != nil {
 		fmt.Println("FileToLines failed")
 		return err
@@ -148,7 +138,7 @@ func (java Java) GenerateFile() error {
 	}
 
 	// generate file.java
-	lines, err := FileToLines(templatePath)
+	lines, err := utils.FileToLines(templatePath)
 	if err != nil {
 		fmt.Println("FileToLines failed")
 		return err
@@ -197,7 +187,7 @@ func (js Js) GenerateFile() error {
 	}
 
 	// generate file.js
-	lines, err := FileToLines(templatePath)
+	lines, err := utils.FileToLines(templatePath)
 	if err != nil {
 		fmt.Println("FileToLines failed")
 		return err
@@ -246,7 +236,7 @@ func (py Py) GenerateFile() error {
 	}
 
 	// generate file.py
-	lines, err := FileToLines(templatePath)
+	lines, err := utils.FileToLines(templatePath)
 	if err != nil {
 		fmt.Println("FileToLines failed")
 		return err
