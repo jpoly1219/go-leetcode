@@ -1,11 +1,9 @@
 package main
 
 import (
-	"bufio"
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"os"
@@ -20,41 +18,6 @@ import (
 )
 
 var db *sql.DB
-
-func LinesFromFile(r io.Reader) ([]string, error) {
-	var lines []string
-	scanner := bufio.NewScanner(r)
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
-	if err := scanner.Err(); err != nil {
-		return nil, err
-	}
-	return lines, nil
-}
-
-func WriteCodeToFile(filePath, code string, lines []string) error {
-	f, err := os.Create(filePath)
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
-	defer f.Close()
-
-	codeLines := strings.Split(code, "\n")
-
-	writer := bufio.NewWriter(f)
-	for _, line := range lines {
-		if strings.Contains(line, "insert Solution class here") {
-			for _, codeLine := range codeLines {
-				_, _ = writer.WriteString(codeLine + "\n")
-			}
-		}
-		_, _ = writer.WriteString(line + "\n")
-	}
-	writer.Flush()
-	return nil
-}
 
 // interface and structs/methods definition
 type Language interface {
@@ -86,7 +49,7 @@ func (cpp Cpp) GenerateFile() error {
 	}
 
 	sourcePath := filepath.Join(cpp.RootDir, cpp.Id+"-source.cpp")
-	err = WriteCodeToFile(sourcePath, cpp.Code, codeLines)
+	err = utils.WriteCodeToFile(sourcePath, cpp.Code, codeLines)
 	if err != nil {
 		fmt.Println("WriteCodeToFile failed")
 		return err
@@ -145,7 +108,7 @@ func (java Java) GenerateFile() error {
 	}
 
 	sourcePath := filepath.Join(java.RootDir, java.Id+"-source.java")
-	err = WriteCodeToFile(sourcePath, java.Code, lines)
+	err = utils.WriteCodeToFile(sourcePath, java.Code, lines)
 	if err != nil {
 		fmt.Println("WriteCodeToFile failed")
 		return err
@@ -194,7 +157,7 @@ func (js Js) GenerateFile() error {
 	}
 
 	sourcePath := filepath.Join(js.RootDir, js.Id+"-source.js")
-	err = WriteCodeToFile(sourcePath, js.Code, lines)
+	err = utils.WriteCodeToFile(sourcePath, js.Code, lines)
 	if err != nil {
 		fmt.Println("WriteCodeToFile failed")
 		return err
@@ -243,7 +206,7 @@ func (py Py) GenerateFile() error {
 	}
 
 	sourcePath := filepath.Join(py.RootDir, py.Id+"-source.py")
-	err = WriteCodeToFile(sourcePath, py.Code, lines)
+	err = utils.WriteCodeToFile(sourcePath, py.Code, lines)
 	if err != nil {
 		fmt.Println("WriteCodeToFile failed")
 		return err
