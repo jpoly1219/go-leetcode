@@ -12,6 +12,10 @@ COPY . ./
 
 RUN go build -o /binCoderunner
 
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash
+
+RUN apt install nodejs
+
 EXPOSE 8091
 
 CMD ["/binCoderunner"]
