@@ -1,5 +1,9 @@
 package models
 
+import "database/sql"
+
+var Db *sql.DB
+
 type ResultFile struct {
 	Username string `json:"username"`
 	Slug     string `json:"Slug"`
