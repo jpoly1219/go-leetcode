@@ -46,6 +46,7 @@
     });
     
     $: currentIndex = $problemsListStore.indexOf(slug)
+    $: numProblems = $problemsListStore.length
     let prevSlug
     let nextSlug
     beforeUpdate(() => {
@@ -122,7 +123,7 @@
                 <button class="border border-gray-300 rounded-lg px-3 py-2 mx-4">Prev</button>
             </a>
             <div class="mx-2 flex">
-                <p class="self-center">1/1977</p>
+                <p class="self-center">{currentIndex + 1}/{numProblems}</p>
             </div>
             <a href={`/solve/${nextSlug}`}>
                 <button class="border border-gray-300 rounded-lg px-3 py-2 ml-4">Next</button>
