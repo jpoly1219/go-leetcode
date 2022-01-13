@@ -21,3 +21,4 @@
   - Many microservices have an auth server running separately from the rest of the program.
   - Separation of concerns.
   - The auth server will have a Redis cache to store session id's.
+  - Or just use Auth0.
