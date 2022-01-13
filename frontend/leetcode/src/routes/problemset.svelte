@@ -34,12 +34,6 @@
             alert(err)
         }
     }
-
-    // Call attempts table. Send username to API.
-    // Check username, slug and result column.
-    // SELECT DISTINCT title, problems.slug, difficulty, result FROM problems LEFT JOIN attempts ON problems.slug = attempts.slug AND userame = $1 AND result = 'OK' ORDER BY title;
-    // Get back slug/result JSON.
-    // for each loadedProblem, if result = OK, mark the problem as solved.
 </script>
 
 <script>
