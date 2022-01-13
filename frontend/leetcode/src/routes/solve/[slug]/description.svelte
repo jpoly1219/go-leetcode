@@ -2,6 +2,7 @@
     import { get } from "svelte/store"
     import { accessTokenStore } from "../../../stores/stores.js"
     import snarkdown from "snarkdown"
+    import { goto } from "$app/navigation";
 
     export async function load({page}) {
         const fullPath = page.path
@@ -11,6 +12,9 @@
         const url = `http://jpoly1219devbox.xyz:8090/solve/${slug}`
 
         let accessToken = get(accessTokenStore)
+        if (accessToken == "") {
+            goto("/login")
+        }
 
         const options1 = {
             method: "GET",
