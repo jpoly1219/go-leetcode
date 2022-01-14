@@ -12,21 +12,30 @@ The goal of this side project was to learn how to use Go for backend development
 
 ## Authentication Workflow
 
-## App Workflow
-- The frontend service renders these pages:
+## Services Description
+- `frontend` service renders these pages:
   - Index page to welcome users.
   - Sign Up / Login page for user authentication.
   - Problems page to list and filter available problems.
   - Problem page that shows the problem description, solution, discussion and submissions, along with an online editor where users can write their code.
 
-- The backend service acts as an API gateway of sort.
+- `backend` service is an API server that handles user requests from the frontend and then responds with a corresponding JSON.
   - `main.go` handles incoming requests and relays them to the corresponding controller function in `controllers.go`. It is also responsible for loading the `.env` file and connecting to the database.
   - `auth.go` holds the functions necessary for user authentication, which includes handling CORS requests, generating JWTs, handling user sign ins and logins, and handling silent refreshes.
   - `controllers.go` holds all the controller functions.
   - `middlewares.go` holds the middlewares that wraps certain controller functions.
   - `models.go` holds structs that mirror the database schema.
 
+- `coderunner` service is responsible for running user code and testing it against numerous test cases.
+  - It is separated as its own service for SoC (separation of concern) purposes.
+  - `main.go` handles incoming requests and relays them to the corresponding controller function in `controllers.go`. It is also responsible for connecting to the database.
+  - `controllers.go` holds all the controller functions.
+  - `/cpp`, `/java`, `/js`, `/py` are directories that hold the user code written in those specific langauges. It also holds the test results. The user code file and test result file share the same UUID, which the service uses to differentiate between different users' code.
+  - `lang` holds code for language support. This mainly includes methods responsible for generating and compiling user code files.
+  - `models.go` holds structs that mirror the database schema.
+  - `utils.go` holds utility functions.
 
+## App Workflow
 - User writes a code within the online editor provided by the frontend.
 - The code is then sent to the backend once the user presses the submit button. The data is transferred via REST API.
 - The API gateway receives the code and checks what problem the user is solving. Then it queries the database for the appropriate template code and testcases.
