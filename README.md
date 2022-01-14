@@ -13,6 +13,9 @@ The goal of this side project was to learn how to use Go for backend development
 ## Authentication Workflow
 
 ## Services Description
+- There are four services: `frontend`, `backend`, `coderunner`, and `database`.
+  - All services are served inside their own Docker containers. These containers are spun up using Docker Compose.
+
 - `frontend` service renders these pages:
   - Index page to welcome users.
   - Sign Up / Login page for user authentication.
@@ -34,6 +37,8 @@ The goal of this side project was to learn how to use Go for backend development
   - `lang` holds code for language support. This mainly includes methods responsible for generating and compiling user code files.
   - `models.go` holds structs that mirror the database schema.
   - `utils.go` holds utility functions.
+
+- `database` service holds the PostgreSQL database that stores all the data for the web app.
 
 ## App Workflow
 - User writes a code within the online editor provided by the frontend.
