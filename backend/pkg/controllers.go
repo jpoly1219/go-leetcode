@@ -12,60 +12,6 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// outdated and for testing purposes only!
-func fileGen(language string, userInput string, pathUserfiles string) string {
-	var out string
-	var err error
-	switch language {
-	case "C++":
-		out, err = RunCpp([]byte(userInput), pathUserfiles)
-		if err != nil {
-			log.Fatal(err)
-		}
-		// w.Write
-		fmt.Println(out)
-	case "Java":
-		out, err = RunJava([]byte(userInput), pathUserfiles)
-		if err != nil {
-			log.Fatal(err)
-		}
-		// w.Write
-		fmt.Println(out)
-	case "Javascript":
-		out, err = RunJs([]byte(userInput), pathUserfiles)
-		if err != nil {
-			log.Fatal(err)
-		}
-		// w.Write
-		fmt.Println(out)
-	case "Python":
-		out, err = RunPy([]byte(userInput), pathUserfiles)
-		if err != nil {
-			log.Fatal(err)
-		}
-		// w.Write
-		fmt.Println(out)
-	}
-	return out
-}
-
-// outdated and for testing purposes only!
-func Run(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("endpoint reached")
-
-	pathUserfiles := filepath.Join(".", "userfiles", "testuserfiles")
-
-	// reading from test.* files is only temporary; later on these will be actual user inputs sent over from the frontend
-
-	for i := 0; i < 10; i++ {
-		go fileGen("test.cpp", "hi", pathUserfiles)
-		go fileGen("test.java", "hi", pathUserfiles)
-		go fileGen("test.js", "hi", pathUserfiles)
-		go fileGen("test.py", "hi", pathUserfiles)
-	}
-	w.Write([]byte("done\n"))
-}
-
 func Problemsets(w http.ResponseWriter, r *http.Request) {
 	HandleCors(w, r)
 	if r.Method == "OPTIONS" {
