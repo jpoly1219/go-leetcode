@@ -36,7 +36,6 @@ func main() {
 	defer pkg.Db.Close()
 
 	r := mux.NewRouter()
-	r.HandleFunc("/run", pkg.Run)
 	r.HandleFunc("/problemsets", pkg.Problemsets)
 	r.HandleFunc("/submissions", pkg.Submissions)
 
