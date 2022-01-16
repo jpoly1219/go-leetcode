@@ -6,7 +6,7 @@ import (
 
 var Db *sql.DB
 
-type problem struct {
+type Problem struct {
 	Id          int    `json:"id"`
 	Title       string `json:"title"`
 	Slug        string `json:"slug"`
@@ -15,14 +15,14 @@ type problem struct {
 	Created     string `json:"created"`
 }
 
-type userCode struct {
+type UserCode struct {
 	Username string `json:"username"`
 	Slug     string `json:"slug"`
 	Lang     string `json:"lang"`
 	Code     string `json:"code"`
 }
 
-type result struct {
+type Result struct {
 	Username string `json:"username"`
 	Slug     string `json:"slug"`
 	Lang     string `json:"lang"`
@@ -33,7 +33,7 @@ type result struct {
 	Output   string `json:"output"`
 }
 
-type problemAndResult struct {
+type ProblemAndResult struct {
 	Id         int    `json:"id"`
 	Title      string `json:"title"`
 	Slug       string `json:"slug"`
@@ -41,12 +41,12 @@ type problemAndResult struct {
 	Result     string `json:"result"`
 }
 
-type token struct {
+type Token struct {
 	AccessToken  string `json:"accessToken"`
 	RefreshToken string `json:"refreshToken"`
 }
 
-type user struct {
+type User struct {
 	Userid     int    `json:"userid"`
 	Username   string `json:"username"`
 	Fullname   string `json:"fullname"`
@@ -55,17 +55,17 @@ type user struct {
 	ProfilePic string `json:"profilePic"`
 }
 
-type submission struct {
+type Submission struct {
 	Username string `json:"username"`
 	Slug     string `json:"slug"`
 }
 
-type solution struct {
+type Solution struct {
 	Slug     string `json:"slug"`
 	Solution string `json:"solution"`
 }
 
-type discussion struct {
+type Discussion struct {
 	Id          int    `json:"id"`
 	Author      string `json:"author"`
 	Slug        string `json:"slug"`
@@ -74,7 +74,7 @@ type discussion struct {
 	Created     string `json:"created"`
 }
 
-type comment struct {
+type Comment struct {
 	Id           int    `json:"id"`
 	Author       string `json:"author"`
 	DiscussionId string `json:"discussionId"`
@@ -82,7 +82,7 @@ type comment struct {
 	Created      string `json:"created"`
 }
 
-type filter struct {
+type Filter struct {
 	Username   string `json:"username"`
 	Difficulty string `json:"difficulty"`
 }
