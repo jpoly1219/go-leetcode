@@ -6,15 +6,17 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/joho/godotenv"
-	"github.com/jpoly1219/go-leetcode/backend/pkg"
+	"github.com/jpoly1219/go-leetcode/backend/controllers"
+	"github.com/jpoly1219/go-leetcode/backend/models"
+	"github.com/jpoly1219/go-leetcode/backend/utils"
 
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
 func main() {
-	err := pkg.SetLog()
+	err := utils.SetLog()
 	if err != nil {
 		log.Println(err)
 	}
@@ -34,43 +36,42 @@ func main() {
 	)
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 
-	pkg.Db, err = sql.Open("postgres", psqlInfo)
+	models.Db, err = sql.Open("postgres", psqlInfo)
 	if err != nil {
 		log.Fatal("failed to connect to db")
 	}
-	defer pkg.Db.Close()
+	defer models.Db.Close()
 
 	r := mux.NewRouter()
-	r.HandleFunc("/problemsets", pkg.Problemsets)
-	r.HandleFunc("/submissions", pkg.Submissions)
+	r.HandleFunc("/problemsets", controllers.Problemsets)
+	r.HandleFunc("/submissions", controllers.Submissions)
 
 	problemsetsR := r.PathPrefix("/problemsets").Subrouter()
-	problemsetsR.HandleFunc("/all", pkg.Problemsets)
-	problemsetsR.HandleFunc("/filter", pkg.FilterProblemsets)
+	problemsetsR.HandleFunc("/all", controllers.Problemsets)
+	problemsetsR.HandleFunc("/filter", controllers.FilterProblemsets)
 
 	solveR := r.PathPrefix("/solve").Subrouter()
-	solveR.Handle("/{slug}", pkg.VerifyToken(http.HandlerFunc(pkg.ReturnProblem)))
-	// solveR.HandleFunc("/{slug}", pkg.ReturnProblem)
+	solveR.Handle("/{slug}", controllers.VerifyToken(http.HandlerFunc(controllers.ReturnProblem)))
 
 	solutionsR := r.PathPrefix("/solutions").Subrouter()
-	solutionsR.HandleFunc("/{slug}", pkg.Solutions)
+	solutionsR.HandleFunc("/{slug}", controllers.Solutions)
 
 	discussionsR := r.PathPrefix("/discussions").Subrouter()
-	discussionsR.HandleFunc("/newdiscussion", pkg.NewDiscussion)
-	discussionsR.HandleFunc("/{slug}", pkg.Discussions)
-	discussionsR.HandleFunc("/{slug}/{discussionId}", pkg.Comments)
-	discussionsR.HandleFunc("/{slug}/{discussionId}/newcomment", pkg.NewComment)
+	discussionsR.HandleFunc("/newdiscussion", controllers.NewDiscussion)
+	discussionsR.HandleFunc("/{slug}", controllers.Discussions)
+	discussionsR.HandleFunc("/{slug}/{discussionId}", controllers.Comments)
+	discussionsR.HandleFunc("/{slug}/{discussionId}/newcomment", controllers.NewComment)
 
 	checkR := r.PathPrefix("/check").Subrouter()
-	checkR.HandleFunc("/{slug}", pkg.CheckProblem)
+	checkR.HandleFunc("/{slug}", controllers.CheckProblem)
 
 	authR := r.PathPrefix("/auth").Subrouter()
-	authR.HandleFunc("/signup", pkg.Signup)
-	authR.HandleFunc("/login", pkg.Login)
-	authR.HandleFunc("/silentrefresh", pkg.SilentRefresh)
+	authR.HandleFunc("/signup", controllers.Signup)
+	authR.HandleFunc("/login", controllers.Login)
+	authR.HandleFunc("/silentrefresh", controllers.SilentRefresh)
 
 	usersR := r.PathPrefix("/users").Subrouter()
-	usersR.HandleFunc("/{username}", pkg.GetUser)
+	usersR.HandleFunc("/{username}", controllers.GetUser)
 
 	log.Fatal(http.ListenAndServe(":8090", r))
 }
