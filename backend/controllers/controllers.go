@@ -8,11 +8,14 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/jpoly1219/go-leetcode/backend/auth"
+	"github.com/jpoly1219/go-leetcode/backend/models"
+
 	"github.com/gorilla/mux"
 )
 
 func Problemsets(w http.ResponseWriter, r *http.Request) {
-	HandleCors(w, r)
+	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
 	}
@@ -25,10 +28,10 @@ func Problemsets(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&uname)
 
 	fmt.Println("reached Problemsets")
-	var problems = make([]problemAndResult, 0)
+	var problems = make([]models.ProblemAndResult, 0)
 	var result sql.NullString
 
-	results, err := Db.Query(
+	results, err := models.Db.Query(
 		"SELECT DISTINCT problems.id, title, problems.slug, difficulty, result FROM problems LEFT JOIN attempts ON problems.slug = attempts.slug AND username = $1 AND result = 'OK' ORDER BY title;",
 		uname.Username,
 	)
@@ -36,7 +39,7 @@ func Problemsets(w http.ResponseWriter, r *http.Request) {
 		log.Println("failed to execute query", err)
 	}
 	for results.Next() {
-		var p problemAndResult
+		var p models.ProblemAndResult
 		err = results.Scan(&p.Id, &p.Title, &p.Slug, &p.Difficulty, &result)
 		if err != nil {
 			log.Println("failed to scan", err)
@@ -55,21 +58,21 @@ func Problemsets(w http.ResponseWriter, r *http.Request) {
 }
 
 func FilterProblemsets(w http.ResponseWriter, r *http.Request) {
-	HandleCors(w, r)
+	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
 	}
 
-	var f filter
+	var f models.Filter
 	json.NewDecoder(r.Body).Decode(&f)
 
 	if f.Difficulty == "all" {
 		Problemsets(w, r)
 	} else {
-		var problems = make([]problemAndResult, 0)
+		var problems = make([]models.ProblemAndResult, 0)
 		var result sql.NullString
 
-		results, err := Db.Query(
+		results, err := models.Db.Query(
 			"SELECT DISTINCT problems.id, title, problems.slug, difficulty, result FROM problems LEFT JOIN attempts ON problems.slug = attempts.slug AND username = $1 AND result = 'OK' WHERE difficulty = $2 ORDER BY title;",
 			f.Username, f.Difficulty,
 		)
@@ -77,7 +80,7 @@ func FilterProblemsets(w http.ResponseWriter, r *http.Request) {
 			log.Println("failed to execute query", err)
 		}
 		for results.Next() {
-			var p problemAndResult
+			var p models.ProblemAndResult
 			err = results.Scan(&p.Id, &p.Title, &p.Slug, &p.Difficulty, &result)
 			if err != nil {
 				log.Println("failed to scan", err)
@@ -99,7 +102,7 @@ func FilterProblemsets(w http.ResponseWriter, r *http.Request) {
 }
 
 func ReturnProblem(w http.ResponseWriter, r *http.Request) {
-	HandleCors(w, r)
+	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
 	}
@@ -107,8 +110,8 @@ func ReturnProblem(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	keys := vars["slug"]
 
-	var p problem
-	results, err := Db.Query("SELECT * FROM problems WHERE slug = $1;", keys)
+	var p models.Problem
+	results, err := models.Db.Query("SELECT * FROM problems WHERE slug = $1;", keys)
 	if err != nil {
 		log.Println("failed to execute query", err)
 	}
@@ -124,12 +127,12 @@ func ReturnProblem(w http.ResponseWriter, r *http.Request) {
 }
 
 func CheckProblem(w http.ResponseWriter, r *http.Request) {
-	HandleCors(w, r)
+	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
 	}
 
-	var input userCode
+	var input models.UserCode
 	json.NewDecoder(r.Body).Decode(&input)
 
 	fmt.Println("CheckProblem() reached: ", input.Username, input.Slug, input.Lang, input.Code)
@@ -151,7 +154,7 @@ func CheckProblem(w http.ResponseWriter, r *http.Request) {
 	}
 	defer resp.Body.Close()
 
-	var resFromContainer result
+	var resFromContainer models.Result
 	json.NewDecoder(resp.Body).Decode(&resFromContainer)
 	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
 	json.NewEncoder(w).Encode(resFromContainer)
@@ -159,17 +162,17 @@ func CheckProblem(w http.ResponseWriter, r *http.Request) {
 
 func Submissions(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("reached submissions")
-	HandleCors(w, r)
+	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
 	}
 
-	var userSubmission submission
+	var userSubmission auth.submission
 	json.NewDecoder(r.Body).Decode(&userSubmission)
 	fmt.Println(userSubmission.Username, userSubmission.Slug)
 
-	var prevSubmissions = make([]result, 0)
-	results, err := Db.Query(
+	var prevSubmissions = make([]auth.result, 0)
+	results, err := models.Db.Query(
 		"SELECT username, slug, lang, code, result, output FROM attempts WHERE username = $1 AND slug = $2;",
 		userSubmission.Username, userSubmission.Slug,
 	)
@@ -177,7 +180,7 @@ func Submissions(w http.ResponseWriter, r *http.Request) {
 		log.Println("failed to query attempts", err)
 	}
 	for results.Next() {
-		var prevSubmission result
+		var prevSubmission models.Result
 		err = results.Scan(
 			&prevSubmission.Username, &prevSubmission.Slug, &prevSubmission.Lang,
 			&prevSubmission.Code, &prevSubmission.Result, &prevSubmission.Output,
@@ -194,7 +197,7 @@ func Submissions(w http.ResponseWriter, r *http.Request) {
 }
 
 func Solutions(w http.ResponseWriter, r *http.Request) {
-	HandleCors(w, r)
+	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
 	}
@@ -202,8 +205,8 @@ func Solutions(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	keys := vars["slug"]
 
-	var s solution
-	err := Db.QueryRow("SELECT solution FROM solutions WHERE slug = $1;", keys).Scan(&s.Solution)
+	var s models.Solution
+	err := models.Db.QueryRow("SELECT solution FROM solutions WHERE slug = $1;", keys).Scan(&s.Solution)
 	if err != nil {
 		log.Println("failed to execute query", err)
 		return
@@ -214,7 +217,7 @@ func Solutions(w http.ResponseWriter, r *http.Request) {
 }
 
 func Discussions(w http.ResponseWriter, r *http.Request) {
-	HandleCors(w, r)
+	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
 	}
@@ -222,14 +225,14 @@ func Discussions(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	keys := vars["slug"]
 
-	var discussions = make([]discussion, 0)
-	results, err := Db.Query("SELECT * FROM discussions WHERE slug = $1;", keys)
+	var discussions = make([]models.Discussion, 0)
+	results, err := models.Db.Query("SELECT * FROM discussions WHERE slug = $1;", keys)
 	if err != nil {
 		log.Println("failed to execute query", err)
 		return
 	}
 	for results.Next() {
-		var d discussion
+		var d models.Discussion
 		err = results.Scan(&d.Id, &d.Author, &d.Slug, &d.Title, &d.Description, &d.Created)
 		if err != nil {
 			log.Println("failed to scan", err)
@@ -242,7 +245,7 @@ func Discussions(w http.ResponseWriter, r *http.Request) {
 }
 
 func Comments(w http.ResponseWriter, r *http.Request) {
-	HandleCors(w, r)
+	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
 	}
@@ -250,13 +253,13 @@ func Comments(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	keys := vars["discussionId"]
 
-	var comments = make([]comment, 0)
-	results, err := Db.Query("SELECT * FROM comments WHERE discussion_id = $1;", keys)
+	var comments = make([]models.Comment, 0)
+	results, err := models.Db.Query("SELECT * FROM comments WHERE discussion_id = $1;", keys)
 	if err != nil {
 		log.Println("failed to execute query, err")
 	}
 	for results.Next() {
-		var c comment
+		var c models.Comment
 		err = results.Scan(&c.Id, &c.Author, &c.DiscussionId, &c.Description, &c.Created)
 		if err != nil {
 			log.Println("failed to scan", err)
@@ -269,7 +272,7 @@ func Comments(w http.ResponseWriter, r *http.Request) {
 }
 
 func NewComment(w http.ResponseWriter, r *http.Request) {
-	HandleCors(w, r)
+	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
 	}
@@ -277,11 +280,11 @@ func NewComment(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	keys := vars["discussionId"]
 
-	var newComment comment
+	var newComment models.Comment
 	json.NewDecoder(r.Body).Decode(&newComment)
 	fmt.Println("new comment: ", newComment)
 
-	err := Db.QueryRow(
+	err := models.Db.QueryRow(
 		"INSERT INTO comments (author, discussion_id, description) VALUES ($1, $2, $3) RETURNING *;",
 		&newComment.Author, keys, &newComment.Description,
 	).Scan(&newComment.Id, &newComment.Author, &newComment.DiscussionId, &newComment.Description, &newComment.Created)
@@ -294,7 +297,7 @@ func NewComment(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUser(w http.ResponseWriter, r *http.Request) {
-	HandleCors(w, r)
+	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
 	}
@@ -302,8 +305,8 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	keys := vars["username"]
 
-	var u user
-	err := Db.QueryRow(
+	var u models.User
+	err := models.Db.QueryRow(
 		"SELECT username, fullname, email, profile_pic FROM users WHERE username = $1;",
 		keys,
 	).Scan(&u.Username, &u.Fullname, &u.Email, &u.ProfilePic)
@@ -318,16 +321,16 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func NewDiscussion(w http.ResponseWriter, r *http.Request) {
-	HandleCors(w, r)
+	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
 	}
 
-	var newDiscussion discussion
+	var newDiscussion models.Discussion
 	json.NewDecoder(r.Body).Decode(&newDiscussion)
 	fmt.Println("new discussion: ", newDiscussion)
 
-	err := Db.QueryRow(
+	err := models.Db.QueryRow(
 		"INSERT INTO discussions (author, slug, title, description) VALUES ($1, $2, $3, $4) RETURNING *;",
 		&newDiscussion.Author, &newDiscussion.Slug, &newDiscussion.Title, &newDiscussion.Description,
 	).Scan(&newDiscussion.Id, &newDiscussion.Author, &newDiscussion.Slug, &newDiscussion.Title, &newDiscussion.Description, &newDiscussion.Created)
