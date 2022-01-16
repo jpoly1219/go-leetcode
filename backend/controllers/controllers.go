@@ -167,11 +167,11 @@ func Submissions(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var userSubmission auth.submission
+	var userSubmission models.Submission
 	json.NewDecoder(r.Body).Decode(&userSubmission)
 	fmt.Println(userSubmission.Username, userSubmission.Slug)
 
-	var prevSubmissions = make([]auth.result, 0)
+	var prevSubmissions = make([]models.Result, 0)
 	results, err := models.Db.Query(
 		"SELECT username, slug, lang, code, result, output FROM attempts WHERE username = $1 AND slug = $2;",
 		userSubmission.Username, userSubmission.Slug,
