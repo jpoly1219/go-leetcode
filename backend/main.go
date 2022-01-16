@@ -6,7 +6,9 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/jpoly1219/go-leetcode/backend/auth"
 	"github.com/jpoly1219/go-leetcode/backend/controllers"
+	"github.com/jpoly1219/go-leetcode/backend/middlewares"
 	"github.com/jpoly1219/go-leetcode/backend/models"
 	"github.com/jpoly1219/go-leetcode/backend/utils"
 
@@ -51,7 +53,7 @@ func main() {
 	problemsetsR.HandleFunc("/filter", controllers.FilterProblemsets)
 
 	solveR := r.PathPrefix("/solve").Subrouter()
-	solveR.Handle("/{slug}", controllers.VerifyToken(http.HandlerFunc(controllers.ReturnProblem)))
+	solveR.Handle("/{slug}", middlewares.VerifyToken(http.HandlerFunc(controllers.ReturnProblem)))
 
 	solutionsR := r.PathPrefix("/solutions").Subrouter()
 	solutionsR.HandleFunc("/{slug}", controllers.Solutions)
@@ -66,9 +68,9 @@ func main() {
 	checkR.HandleFunc("/{slug}", controllers.CheckProblem)
 
 	authR := r.PathPrefix("/auth").Subrouter()
-	authR.HandleFunc("/signup", controllers.Signup)
-	authR.HandleFunc("/login", controllers.Login)
-	authR.HandleFunc("/silentrefresh", controllers.SilentRefresh)
+	authR.HandleFunc("/signup", auth.Signup)
+	authR.HandleFunc("/login", auth.Login)
+	authR.HandleFunc("/silentrefresh", auth.SilentRefresh)
 
 	usersR := r.PathPrefix("/users").Subrouter()
 	usersR.HandleFunc("/{username}", controllers.GetUser)
