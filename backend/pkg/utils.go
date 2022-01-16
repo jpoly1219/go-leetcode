@@ -5,11 +5,15 @@ import (
 	"os"
 )
 
-func writeLog(message string, err error) {
-	f, _ := os.OpenFile("/backend/logs.txt", os.O_APPEND, 0644)
+func SetLog() error {
+	f, err := os.OpenFile("/backend/logs.txt", os.O_APPEND, 0644)
+	if err != nil {
+		return err
+	}
 	defer f.Close()
 
 	log.SetOutput(f)
 	log.SetFlags(log.Ldate | log.Ltime | log.Llongfile)
-	log.Println(message, err)
+
+	return nil
 }
