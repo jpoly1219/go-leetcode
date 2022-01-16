@@ -7,6 +7,8 @@ import (
 	"os"
 	"strings"
 
+	"github.com/jpoly1219/go-leetcode/backend/auth"
+
 	"github.com/golang-jwt/jwt"
 )
 
@@ -16,7 +18,7 @@ var authKey key = "authkey"
 
 func VerifyToken(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		HandleCors(w, r)
+		auth.HandleCors(w, r)
 		if r.Method == "OPTIONS" {
 			return
 		}
