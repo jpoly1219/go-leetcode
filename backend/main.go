@@ -14,8 +14,13 @@ import (
 )
 
 func main() {
+	err := pkg.SetLog()
+	if err != nil {
+		log.Println(err)
+	}
+
 	fmt.Println("app start")
-	err := godotenv.Load(".env")
+	err = godotenv.Load(".env")
 	if err != nil {
 		log.Fatalln("Error loading .env file.")
 	}
