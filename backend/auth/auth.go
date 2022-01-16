@@ -7,6 +7,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/jpoly1219/go-leetcode/backend/models"
+
 	"github.com/golang-jwt/jwt"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -18,7 +20,7 @@ func HandleCors(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
 }
 
-func GenerateToken(userid int, username string) (*token, error) {
+func GenerateToken(userid int, username string) (*models.Token, error) {
 	accessKey := os.Getenv("ACCESSSECRETKEY")
 	refreshKey := os.Getenv("REFRESHSECRETKEY")
 	accessExp := time.Now().Add(time.Minute * 15).Unix()
@@ -46,7 +48,7 @@ func GenerateToken(userid int, username string) (*token, error) {
 		return nil, err
 	}
 
-	tokenPair := token{AccessToken: accessTokenString, RefreshToken: refreshTokenString}
+	tokenPair := models.Token{AccessToken: accessTokenString, RefreshToken: refreshTokenString}
 	return &tokenPair, nil
 }
 
@@ -58,7 +60,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// read form data and check if form is valid
-	var formData user
+	var formData models.User
 	json.NewDecoder(r.Body).Decode(&formData)
 	fmt.Println(formData)
 
@@ -74,7 +76,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	username := ""
 	defaultProfilePic := "https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg"
 
-	err = Db.QueryRow(
+	err = models.Db.QueryRow(
 		"INSERT INTO users (username, fullname, email, password, profile_pic) VALUES ($1, $2, $3, $4, $5) RETURNING id, username;",
 		formData.Username, formData.Fullname, formData.Email, string(passwordHash), defaultProfilePic,
 	).Scan(&userid, &username)
@@ -112,13 +114,13 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// read form data and check if form is valid
-	var formData user
+	var formData models.User
 	json.NewDecoder(r.Body).Decode(&formData)
 	// fmt.Println(formData)
 
 	// compare form data to database
 	dbPasswordHash := ""
-	err := Db.QueryRow(
+	err := models.Db.QueryRow(
 		"SELECT password FROM users WHERE username = $1;",
 		formData.Username,
 	).Scan(&dbPasswordHash)
