@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -32,13 +33,13 @@ func Problemsets(w http.ResponseWriter, r *http.Request) {
 		uname.Username,
 	)
 	if err != nil {
-		pkg.writeLog("failed to execute query", err)
+		log.Println("failed to execute query", err)
 	}
 	for results.Next() {
 		var p problemAndResult
 		err = results.Scan(&p.Id, &p.Title, &p.Slug, &p.Difficulty, &result)
 		if err != nil {
-			pkg.writeLog("failed to scan", err)
+			log.Println("failed to scan", err)
 		}
 
 		if result.Valid {
@@ -73,13 +74,13 @@ func FilterProblemsets(w http.ResponseWriter, r *http.Request) {
 			f.Username, f.Difficulty,
 		)
 		if err != nil {
-			pkg.writeLog("failed to execute query", err)
+			log.Println("failed to execute query", err)
 		}
 		for results.Next() {
 			var p problemAndResult
 			err = results.Scan(&p.Id, &p.Title, &p.Slug, &p.Difficulty, &result)
 			if err != nil {
-				pkg.writeLog("failed to scan", err)
+				log.Println("failed to scan", err)
 			}
 
 			if result.Valid {
@@ -109,12 +110,12 @@ func ReturnProblem(w http.ResponseWriter, r *http.Request) {
 	var p problem
 	results, err := Db.Query("SELECT * FROM problems WHERE slug = $1;", keys)
 	if err != nil {
-		pkg.writeLog("failed to execute query", err)
+		log.Println("failed to execute query", err)
 	}
 	for results.Next() {
 		err = results.Scan(&p.Id, &p.Title, &p.Slug, &p.Difficulty, &p.Description, &p.Created)
 		if err != nil {
-			pkg.writeLog("failed to scan", err)
+			log.Println("failed to scan", err)
 		}
 	}
 
@@ -173,7 +174,7 @@ func Submissions(w http.ResponseWriter, r *http.Request) {
 		userSubmission.Username, userSubmission.Slug,
 	)
 	if err != nil {
-		pkg.writeLog("failed to query attempts", err)
+		log.Println("failed to query attempts", err)
 	}
 	for results.Next() {
 		var prevSubmission result
@@ -182,7 +183,7 @@ func Submissions(w http.ResponseWriter, r *http.Request) {
 			&prevSubmission.Code, &prevSubmission.Result, &prevSubmission.Output,
 		)
 		if err != nil {
-			pkg.writeLog("failed to scan", err)
+			log.Println("failed to scan", err)
 		}
 		prevSubmissions = append(prevSubmissions, prevSubmission)
 	}
@@ -204,7 +205,7 @@ func Solutions(w http.ResponseWriter, r *http.Request) {
 	var s solution
 	err := Db.QueryRow("SELECT solution FROM solutions WHERE slug = $1;", keys).Scan(&s.Solution)
 	if err != nil {
-		pkg.writeLog("failed to execute query", err)
+		log.Println("failed to execute query", err)
 		return
 	}
 
@@ -224,14 +225,14 @@ func Discussions(w http.ResponseWriter, r *http.Request) {
 	var discussions = make([]discussion, 0)
 	results, err := Db.Query("SELECT * FROM discussions WHERE slug = $1;", keys)
 	if err != nil {
-		pkg.writeLog("failed to execute query", err)
+		log.Println("failed to execute query", err)
 		return
 	}
 	for results.Next() {
 		var d discussion
 		err = results.Scan(&d.Id, &d.Author, &d.Slug, &d.Title, &d.Description, &d.Created)
 		if err != nil {
-			pkg.writeLog("failed to scan", err)
+			log.Println("failed to scan", err)
 		}
 		discussions = append(discussions, d)
 	}
@@ -252,13 +253,13 @@ func Comments(w http.ResponseWriter, r *http.Request) {
 	var comments = make([]comment, 0)
 	results, err := Db.Query("SELECT * FROM comments WHERE discussion_id = $1;", keys)
 	if err != nil {
-		pkg.writeLog("failed to execute query, err")
+		log.Println("failed to execute query, err")
 	}
 	for results.Next() {
 		var c comment
 		err = results.Scan(&c.Id, &c.Author, &c.DiscussionId, &c.Description, &c.Created)
 		if err != nil {
-			pkg.writeLog("failed to scan", err)
+			log.Println("failed to scan", err)
 		}
 		comments = append(comments, c)
 	}
