@@ -9,7 +9,7 @@
         const slugArray = fullPath.split("/")
         const slug = slugArray[2]
 
-        const url = `http://jpoly1219devbox.xyz:8090/solve/${slug}`
+        const url = `http://localhost:8090/solve/${slug}`
 
         let accessToken = get(accessTokenStore)
         if (accessToken == "") {

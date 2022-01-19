@@ -20,7 +20,7 @@
         profilePic: ""
     }
     onMount(async () => {
-        const url = `http://jpoly1219devbox.xyz:8090/users/${discussion.author}`
+        const url = `http://localhost:8090/users/${discussion.author}`
         const options = {
             method: "GET"
         }

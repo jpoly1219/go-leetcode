@@ -21,7 +21,7 @@
 
     let comments = []
     onMount(async () => {
-        const url = `http://jpoly1219devbox.xyz:8090/discussions/${discussion.slug}/${discussion.id}`
+        const url = `http://localhost:8090/discussions/${discussion.slug}/${discussion.id}`
         const options = {
             method: "GET"
         }
@@ -46,7 +46,7 @@
     let newComment = ""
     const postComment = async () => {
         console.log("running postComment")
-        const url = `http://jpoly1219devbox.xyz:8090/discussions/${discussion.slug}/${discussion.id}/newcomment`
+        const url = `http://localhost:8090/discussions/${discussion.slug}/${discussion.id}/newcomment`
         const newCommentData = {
             author: username,
             description: newComment

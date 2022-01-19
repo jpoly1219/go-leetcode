@@ -23,7 +23,7 @@
 
     const postDiscussion = async () => {
         console.log("running postDiscussion")
-        const url = `http://jpoly1219devbox.xyz:8090/discussions/newdiscussion`
+        const url = `http://localhost:8090/discussions/newdiscussion`
         const newDiscussionData = {
             author: username,
             slug: slug,
