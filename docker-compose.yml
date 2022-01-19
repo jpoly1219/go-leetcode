@@ -14,8 +14,8 @@ services:
   frontend:
     build: ./frontend/leetcode
     ports:
-      - "5000:3000"
-      - "5001:15000"
+      - "3000:3000"
+      - "15000:15000"
   
   database:
     image: postgres
