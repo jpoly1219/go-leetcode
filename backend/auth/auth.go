@@ -14,7 +14,7 @@ import (
 )
 
 func HandleCors(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
@@ -97,12 +97,12 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		HttpOnly: true,
 		Name:     "refreshToken",
 		Value:    tokenPair.RefreshToken,
-		Domain:   "jpoly1219devbox.xyz:5000",
+		Domain:   "localhost:3000",
 		SameSite: http.SameSiteNoneMode,
 		Secure:   true,
 	}
 	http.SetCookie(w, &cookie)
-	w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	json.NewEncoder(w).Encode(tokenPair.AccessToken)
 }
 
@@ -147,12 +147,12 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			HttpOnly: true,
 			Name:     "refreshToken",
 			Value:    tokenPair.RefreshToken,
-			Domain:   "jpoly1219devbox.xyz:5000",
+			Domain:   "localhost:3000",
 			SameSite: http.SameSiteNoneMode,
 			Secure:   true,
 		}
 		http.SetCookie(w, &cookie)
-		w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
+		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 		json.NewEncoder(w).Encode(tokenPair.AccessToken)
 	}
 }
@@ -194,13 +194,13 @@ func SilentRefresh(w http.ResponseWriter, r *http.Request) {
 			HttpOnly: true,
 			Name:     "refreshToken",
 			Value:    tokenPair.RefreshToken,
-			Domain:   "jpoly1219devbox.xyz",
+			Domain:   "localhost",
 			Path:     "/auth/",
 			SameSite: http.SameSiteNoneMode,
 			Secure:   true,
 		}
 		http.SetCookie(w, &cookie)
-		w.Header().Set("Access-Control-Allow-Origin", "http://jpoly1219devbox.xyz:5000")
+		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 		json.NewEncoder(w).Encode(tokenPair.AccessToken)
 	} else {
 		fmt.Println(err)

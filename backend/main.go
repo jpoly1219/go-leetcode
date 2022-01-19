@@ -30,7 +30,7 @@ func main() {
 	}
 
 	const (
-		host     = "jpoly1219devbox.xyz"
+		host     = "localhost"
 		port     = 5432
 		user     = "postgres"
 		password = "postgres"
