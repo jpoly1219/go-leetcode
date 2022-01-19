@@ -17,7 +17,7 @@
                 "Content-Type": "application/json"
             }
         }
-        const url = "http://jpoly1219devbox.xyz:8090/auth/login"
+        const url = "http://localhost:8090/auth/login"
         
         try {
             const res = await fetch(url, options)
