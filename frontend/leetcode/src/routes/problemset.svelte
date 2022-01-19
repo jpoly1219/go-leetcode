@@ -10,7 +10,7 @@
             username = JSON.parse(window.atob(payloadB64)).username
         }
 
-        const url = "http://jpoly1219devbox.xyz:8090/problemsets/all"
+        const url = "http://localhost:8090/problemsets/all"
         const options = {
             method: "POST",
             body: JSON.stringify({username: username})
@@ -71,13 +71,13 @@
         let url = ""
         let options = {}
         if (filterObject.difficulty == "all") {
-            url = "http://jpoly1219devbox.xyz:8090/problemsets/all"
+            url = "http://localhost:8090/problemsets/all"
             options = {
                 method: "POST",
                 body: JSON.stringify({username: username})
             }
         } else {
-            url = "http://jpoly1219devbox.xyz:8090/problemsets/filter"
+            url = "http://localhost:8090/problemsets/filter"
             options = {
                 method: "POST",
                 body: JSON.stringify(filterObject)
