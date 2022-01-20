@@ -16,7 +16,7 @@ func main() {
 	// establish database connection
 	var err error
 	const (
-		host     = "localhost"
+		host     = "database"
 		port     = 5432
 		user     = "postgres"
 		password = "postgres"
