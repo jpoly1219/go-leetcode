@@ -18,6 +18,7 @@ services:
       - "15000:15000"
   
   database:
+    container_name: database
     image: postgres
     ports:
       - "5432:5432"
