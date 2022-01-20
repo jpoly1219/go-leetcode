@@ -49,4 +49,23 @@ The goal of this side project was to learn how to use Go for backend development
   - It handles concurrent runs by generating unique file names using Google's `uuid` package.
 - Once the run completes, the output will either be a compile error, runtime error, or a successful run. The output is sent back to the API gateway.
 - The result is marshalled into JSON and is sent back to the frontend, which renders it as a Javascript alert.
-- User authentication is a token-based auth system using JWT. 
+- User authentication is a token-based auth system using JWT.
+
+## Database Relationships
+- Tables:
+  - `attempts`
+    - `id`, `username`, `slug`, `lang`, `code`, `result`, `input`, `output`, `created_at`
+  - `templates`
+    - `id`, `slug`, `template`
+  - `tests`
+    - `id`, `slug`, `testcases`
+  - `users`
+    - `id`, `username`, `fullname`, `email`, `password`, `profile_pic`
+  - `problems`
+    - `id`, `title`, `slug`, `difficulty`, `description`, `created_at`
+  - `solutions`
+    - `id`, `slug`, `solutions`
+  - `discussions`
+    - `id`, `author`, `slug`, `title`, `description`, `created_at`
+  - `comments`
+    - `id`, `author`, `discussion_id`, `description`, `created_at`
