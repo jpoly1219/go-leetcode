@@ -54,7 +54,7 @@ The goal of this side project was to learn how to use Go for backend development
 ## Database Relationships
 - Tables:
   - `attempts`
-    - `id`, `username`, `slug`, `lang`, `code`, `result`, `input`, `output`, `created_at`
+    - `id`, `username`, `slug`, `lang`, `code`, `result`, `output`, `created_at`
   - `templates`
     - `id`, `slug`, `template`
   - `tests`
