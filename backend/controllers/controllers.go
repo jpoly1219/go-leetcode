@@ -14,7 +14,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func Problemsets(w http.ResponseWriter, r *http.Request) {
+func ReturnProblemsetsAll(w http.ResponseWriter, r *http.Request) {
 	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
@@ -57,7 +57,7 @@ func Problemsets(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(problems)
 }
 
-func FilterProblemsets(w http.ResponseWriter, r *http.Request) {
+func ReturnProblemsetsFilter(w http.ResponseWriter, r *http.Request) {
 	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
@@ -98,10 +98,9 @@ func FilterProblemsets(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 		json.NewEncoder(w).Encode(problems)
 	}
-
 }
 
-func ReturnProblem(w http.ResponseWriter, r *http.Request) {
+func ReturnSolveSlug(w http.ResponseWriter, r *http.Request) {
 	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
@@ -126,7 +125,7 @@ func ReturnProblem(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(p)
 }
 
-func CheckProblem(w http.ResponseWriter, r *http.Request) {
+func ReturnCheckSlug(w http.ResponseWriter, r *http.Request) {
 	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
@@ -160,7 +159,7 @@ func CheckProblem(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(resFromContainer)
 }
 
-func Submissions(w http.ResponseWriter, r *http.Request) {
+func ReturnSubmissions(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("reached submissions")
 	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
@@ -196,7 +195,7 @@ func Submissions(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(prevSubmissions)
 }
 
-func Solutions(w http.ResponseWriter, r *http.Request) {
+func ReturnSolutionsSlug(w http.ResponseWriter, r *http.Request) {
 	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
@@ -216,7 +215,7 @@ func Solutions(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(s)
 }
 
-func Discussions(w http.ResponseWriter, r *http.Request) {
+func ReturnDiscussionsSlug(w http.ResponseWriter, r *http.Request) {
 	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
@@ -244,7 +243,8 @@ func Discussions(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(discussions)
 }
 
-func Comments(w http.ResponseWriter, r *http.Request) {
+func ReturnDiscussionsSlugDiscussionId(w http.ResponseWriter, r *http.Request) {
+	// returns comments
 	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
@@ -271,7 +271,7 @@ func Comments(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(comments)
 }
 
-func NewComment(w http.ResponseWriter, r *http.Request) {
+func ReturnDiscussionsSlugDiscussionIdNewComment(w http.ResponseWriter, r *http.Request) {
 	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
@@ -296,7 +296,7 @@ func NewComment(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&newComment)
 }
 
-func GetUser(w http.ResponseWriter, r *http.Request) {
+func ReturnUsersUsername(w http.ResponseWriter, r *http.Request) {
 	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
@@ -320,7 +320,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&u)
 }
 
-func NewDiscussion(w http.ResponseWriter, r *http.Request) {
+func ReturnDiscussionsNewDiscussion(w http.ResponseWriter, r *http.Request) {
 	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
