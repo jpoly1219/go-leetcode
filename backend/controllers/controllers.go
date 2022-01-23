@@ -243,7 +243,7 @@ func DiscussionsSlug(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(discussions)
 }
 
-func DiscussionsSlugDiscussionId(w http.ResponseWriter, r *http.Request) {
+func DiscussionsSlugDiscussionid(w http.ResponseWriter, r *http.Request) {
 	// returns comments
 	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
@@ -271,7 +271,7 @@ func DiscussionsSlugDiscussionId(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(comments)
 }
 
-func DiscussionsSlugDiscussionIdNewComment(w http.ResponseWriter, r *http.Request) {
+func DiscussionsSlugDiscussionidNewcomment(w http.ResponseWriter, r *http.Request) {
 	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
@@ -320,7 +320,7 @@ func UsersUsername(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&u)
 }
 
-func DiscussionsNewDiscussion(w http.ResponseWriter, r *http.Request) {
+func DiscussionsNewdiscussion(w http.ResponseWriter, r *http.Request) {
 	auth.HandleCors(w, r)
 	if r.Method == "OPTIONS" {
 		return
