@@ -46,26 +46,26 @@ func main() {
 
 	r := mux.NewRouter()
 	r.HandleFunc("/problemsets", controllers.Problemsets)
-	r.HandleFunc("/submissions", controllers.ReturnSubmissions)
+	r.HandleFunc("/submissions", controllers.Submissions)
 
 	problemsetsR := r.PathPrefix("/problemsets").Subrouter()
-	problemsetsR.HandleFunc("/all", controllers.ReturnProblemsetsAll)
-	problemsetsR.HandleFunc("/filter", controllers.ReturnProblemsetsFilter)
+	problemsetsR.HandleFunc("/all", controllers.ProblemsetsAll)
+	problemsetsR.HandleFunc("/filter", controllers.ProblemsetsFilter)
 
 	solveR := r.PathPrefix("/solve").Subrouter()
-	solveR.Handle("/{slug}", middlewares.VerifyToken(http.HandlerFunc(controllers.ReturnSolveSlug)))
+	solveR.Handle("/{slug}", middlewares.VerifyToken(http.HandlerFunc(controllers.SolveSlug)))
 
 	solutionsR := r.PathPrefix("/solutions").Subrouter()
-	solutionsR.HandleFunc("/{slug}", controllers.ReturnSolutionsSlug)
+	solutionsR.HandleFunc("/{slug}", controllers.SolutionsSlug)
 
 	discussionsR := r.PathPrefix("/discussions").Subrouter()
-	discussionsR.HandleFunc("/newdiscussion", controllers.ReturnDiscussionsNewDiscussion)
-	discussionsR.HandleFunc("/{slug}", controllers.ReturnDiscussionsSlug)
-	discussionsR.HandleFunc("/{slug}/{discussionId}", controllers.ReturnDiscussionsSlugDiscussionId)
-	discussionsR.HandleFunc("/{slug}/{discussionId}/newcomment", controllers.ReturnDiscussionsSlugDiscussionIdNewComment)
+	discussionsR.HandleFunc("/newdiscussion", controllers.DiscussionsNewDiscussion)
+	discussionsR.HandleFunc("/{slug}", controllers.DiscussionsSlug)
+	discussionsR.HandleFunc("/{slug}/{discussionId}", controllers.DiscussionsSlugDiscussionId)
+	discussionsR.HandleFunc("/{slug}/{discussionId}/newcomment", controllers.DiscussionsSlugDiscussionIdNewComment)
 
 	checkR := r.PathPrefix("/check").Subrouter()
-	checkR.HandleFunc("/{slug}", controllers.ReturnCheckSlug)
+	checkR.HandleFunc("/{slug}", controllers.CheckSlug)
 
 	authR := r.PathPrefix("/auth").Subrouter()
 	authR.HandleFunc("/signup", auth.Signup)
@@ -73,7 +73,7 @@ func main() {
 	authR.HandleFunc("/silentrefresh", auth.SilentRefresh)
 
 	usersR := r.PathPrefix("/users").Subrouter()
-	usersR.HandleFunc("/{username}", controllers.ReturnUsersUsername)
+	usersR.HandleFunc("/{username}", controllers.UsersUsername)
 
 	log.Fatal(http.ListenAndServe(":8090", r))
 }
