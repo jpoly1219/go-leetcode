@@ -59,10 +59,10 @@ func main() {
 	solutionsR.HandleFunc("/{slug}", controllers.SolutionsSlug)
 
 	discussionsR := r.PathPrefix("/discussions").Subrouter()
-	discussionsR.HandleFunc("/newdiscussion", controllers.DiscussionsNewDiscussion)
+	discussionsR.HandleFunc("/newdiscussion", controllers.DiscussionsNewdiscussion)
 	discussionsR.HandleFunc("/{slug}", controllers.DiscussionsSlug)
-	discussionsR.HandleFunc("/{slug}/{discussionId}", controllers.DiscussionsSlugDiscussionId)
-	discussionsR.HandleFunc("/{slug}/{discussionId}/newcomment", controllers.DiscussionsSlugDiscussionIdNewComment)
+	discussionsR.HandleFunc("/{slug}/{discussionId}", controllers.DiscussionsSlugDiscussionid)
+	discussionsR.HandleFunc("/{slug}/{discussionId}/newcomment", controllers.DiscussionsSlugDiscussionidNewcomment)
 
 	checkR := r.PathPrefix("/check").Subrouter()
 	checkR.HandleFunc("/{slug}", controllers.CheckSlug)
