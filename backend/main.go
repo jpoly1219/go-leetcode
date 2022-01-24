@@ -45,7 +45,7 @@ func main() {
 	defer models.Db.Close()
 
 	r := mux.NewRouter()
-	r.HandleFunc("/problemsets", controllers.Problemsets)
+	// r.HandleFunc("/problemsets", controllers.Problemsets)
 	r.HandleFunc("/submissions", controllers.Submissions)
 
 	problemsetsR := r.PathPrefix("/problemsets").Subrouter()
