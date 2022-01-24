@@ -57,8 +57,8 @@ The goal of this side project was to learn how to use Go for backend development
     - `id`, `username`, `slug`, `lang`, `code`, `result`, `output`, `created_at`
   - `templates`
     - `id`, `slug`, `template`
-  - `tests`
-    - `id`, `slug`, `testcases`
+  - `testcases`
+    - `id`, `slug`, `testcase`
   - `users`
     - `id`, `username`, `fullname`, `email`, `password`, `profile_pic`
   - `problems`
