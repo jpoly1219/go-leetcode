@@ -67,7 +67,7 @@ func ProblemsetsFilter(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&f)
 
 	if f.Difficulty == "all" {
-		Problemsets(w, r)
+		ProblemsetsAll(w, r)
 	} else {
 		var problems = make([]models.ProblemAndResult, 0)
 		var result sql.NullString
