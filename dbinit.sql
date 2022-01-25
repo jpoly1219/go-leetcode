@@ -4,8 +4,12 @@ SET TIMEZONE='KST'
 
 CREATE TABLE [IF NOT EXISTS] attempts (
     attempt_id uuid DEFAULT uuid_generate_v4(),
-    username -- foreign key to users,
-    slug -- foreign key to problems,
+    CONSTRAINT fk_user
+        FOREIGN KEY(username)
+            REFERENCES users(username),
+    CONSTRAINT fk_problem
+        FOREIGN KEY(slug)
+            REFERENCES problems(slug),
     lang VARCHAR(8) NOT NULL,
     code TEXT NOT NULL,
     result TEXT NOT NULL,
@@ -15,13 +19,17 @@ CREATE TABLE [IF NOT EXISTS] attempts (
 
 CREATE TABLE [IF NOT EXISTS] templates (
     template_id uuid DEFAULT uuid_generate_v4(),
-    slug -- foreign key to problems,
+    CONSTRAINT fk_problem
+        FOREIGN KEY(slug)
+            REFERENCES problems(slug),
     template TEXT UNIQUE NOT NULL
 )
 
 CREATE TABLE [IF NOT EXISTS] testcases (
     testcase_id uuid DEFAULT uuid_generate_v4(),
-    slug -- foreign key to problems,
+    CONSTRAINT fk_problem
+        FOREIGN KEY(slug)
+            REFERENCES problems(slug),
     testcase TEXT UNIQUE NOT NULL
 )
 
@@ -46,14 +54,20 @@ CREATE TABLE [IF NOT EXISTS] problems (
 
 CREATE TABLE [IF NOT EXISTS] solutions (
     solution_id uuid DEFAULT uuid_generate_v4(),
-    slug -- foreign key to problems,
+    CONSTRAINT fk_problem
+        FOREIGN KEY(slug)
+            REFERENCES problems(slug),
     solution TEXT UNIQUE NOT NULL
 )
 
 CREATE TABLE [IF NOT EXISTS] discussions (
     discussion_id uuid DEFAULT uuid_generate_v4(),
-    author -- foreign key to users,
-    slug -- foreign key to problems,
+    CONSTRAINT fk_user
+        FOREIGN KEY(author)
+            REFERENCES users(username),
+    CONSTRAINT fk_problem
+        FOREIGN KEY(slug)
+            REFERENCES problems(slug),
     title VARCHAR(128) NOT NULL,
     description TEXT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW()
@@ -61,8 +75,12 @@ CREATE TABLE [IF NOT EXISTS] discussions (
 
 CREATE TABLE [IF NOT EXISTS] comments (
     comment_id uuid DEFAULT uuid_generate_v4(),
-    author -- foreign key to users,
-    discussion_id -- foreign key to discussions,
+    CONSTRAINT fk_user
+        FOREIGN KEY(author)
+            REFERENCES users(username),
+    CONSTRAINT fk_discussion
+        FOREIGN KEY(discussion_id)
+            REFERENCES discussions(discussion_id),
     description TEXT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW()
 )
