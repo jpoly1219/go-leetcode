@@ -7,7 +7,7 @@ The goal of this side project was to learn how to use Go for backend development
 - Go
 - SvelteKit
 - TailwindCSS
-- Postgresql
+- PostgreSQL
 - Docker, Docker Compose
 
 ## Authentication Workflow
