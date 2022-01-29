@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS solutions (
 
 CREATE TABLE IF NOT EXISTS discussions (
     discussion_id uuid DEFAULT uuid_generate_v4(),
-    username VARCHAR(16) UNIQUE NOT NULL,
+    author VARCHAR(16) UNIQUE NOT NULL,
     slug VARCHAR(128) UNIQUE NOT NULL,
     title VARCHAR(128) NOT NULL,
     description TEXT NOT NULL,
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS discussions (
 
 CREATE TABLE IF NOT EXISTS comments (
     comment_id uuid DEFAULT uuid_generate_v4(),
-    username VARCHAR(16) UNIQUE NOT NULL,
+    author VARCHAR(16) UNIQUE NOT NULL,
     discussion_id uuid,
     CONSTRAINT fk_user
         FOREIGN KEY(author)
