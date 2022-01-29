@@ -3,7 +3,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 SET TIMEZONE='Asia/Seoul';
 
 CREATE TABLE IF NOT EXISTS users (
-    user_id uuid DEFAULT uuid_generate_v4(),
+    user_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
     username VARCHAR(16) UNIQUE NOT NULL,
     fullname VARCHAR(128) NOT NULL,
     email VARCHAR(128) UNIQUE NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS problems (
-    problem_id uuid DEFAULT uuid_generate_v4(),
+    problem_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
     title VARCHAR(128) UNIQUE NOT NULL,
     slug VARCHAR(128) UNIQUE NOT NULL,
     difficulty VARCHAR(8) NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS problems (
 );
 
 CREATE TABLE IF NOT EXISTS attempts (
-    attempt_id uuid DEFAULT uuid_generate_v4(),
+    attempt_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
     username VARCHAR(16) UNIQUE NOT NULL,
     slug VARCHAR(128) UNIQUE NOT NULL,
     lang VARCHAR(8) NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS attempts (
 );
 
 CREATE TABLE IF NOT EXISTS templates (
-    template_id uuid DEFAULT uuid_generate_v4(),
+    template_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
     slug VARCHAR(128) UNIQUE NOT NULL,
     template TEXT UNIQUE NOT NULL,
     CONSTRAINT fk_problem
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS templates (
 );
 
 CREATE TABLE IF NOT EXISTS testcases (
-    testcase_id uuid DEFAULT uuid_generate_v4(),
+    testcase_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
     testcase TEXT UNIQUE NOT NULL,
     slug VARCHAR(128) UNIQUE NOT NULL,
     CONSTRAINT fk_problem
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS testcases (
 );
 
 CREATE TABLE IF NOT EXISTS solutions (
-    solution_id uuid DEFAULT uuid_generate_v4(),
+    solution_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
     slug VARCHAR(128) UNIQUE NOT NULL,
     solution TEXT UNIQUE NOT NULL,
     CONSTRAINT fk_problem
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS solutions (
 );
 
 CREATE TABLE IF NOT EXISTS discussions (
-    discussion_id uuid DEFAULT uuid_generate_v4(),
+    discussion_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
     author VARCHAR(16) UNIQUE NOT NULL,
     slug VARCHAR(128) UNIQUE NOT NULL,
     title VARCHAR(128) NOT NULL,
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS discussions (
 );
 
 CREATE TABLE IF NOT EXISTS comments (
-    comment_id uuid DEFAULT uuid_generate_v4(),
+    comment_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
     author VARCHAR(16) UNIQUE NOT NULL,
     discussion_id uuid,
     CONSTRAINT fk_user
