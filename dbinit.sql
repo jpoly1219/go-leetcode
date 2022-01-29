@@ -1,8 +1,8 @@
-CREATE EXTENSION [IF NOT EXISTS] "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-SET TIMEZONE='KST'
+SET TIMEZONE='Asia/Seoul';
 
-CREATE TABLE [IF NOT EXISTS] attempts (
+CREATE TABLE IF NOT EXISTS attempts (
     attempt_id uuid DEFAULT uuid_generate_v4(),
     CONSTRAINT fk_user
         FOREIGN KEY(username)
@@ -15,25 +15,25 @@ CREATE TABLE [IF NOT EXISTS] attempts (
     result TEXT NOT NULL,
     output TEXT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW()
-)
+);
 
-CREATE TABLE [IF NOT EXISTS] templates (
+CREATE TABLE IF NOT EXISTS templates (
     template_id uuid DEFAULT uuid_generate_v4(),
     CONSTRAINT fk_problem
         FOREIGN KEY(slug)
             REFERENCES problems(slug),
     template TEXT UNIQUE NOT NULL
-)
+);
 
-CREATE TABLE [IF NOT EXISTS] testcases (
+CREATE TABLE IF NOT EXISTS testcases (
     testcase_id uuid DEFAULT uuid_generate_v4(),
     CONSTRAINT fk_problem
         FOREIGN KEY(slug)
             REFERENCES problems(slug),
     testcase TEXT UNIQUE NOT NULL
-)
+);
 
-CREATE TABLE [IF NOT EXISTS] users (
+CREATE TABLE IF NOT EXISTS users (
     user_id uuid DEFAULT uuid_generate_v4(),
     username VARCHAR(16) UNIQUE NOT NULL,
     fullname VARCHAR(128) NOT NULL,
@@ -41,26 +41,26 @@ CREATE TABLE [IF NOT EXISTS] users (
     password VARCHAR(128) NOT NULL,
     profile_pic TEXT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW()
-)
+);
 
-CREATE TABLE [IF NOT EXISTS] problems (
+CREATE TABLE IF NOT EXISTS problems (
     problem_id uuid DEFAULT uuid_generate_v4(),
     title VARCHAR(128) UNIQUE NOT NULL,
     slug VARCHAR(128) UNIQUE NOT NULL,
     difficulty VARCHAR(8) NOT NULL,
     description TEXT UNIQUE NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW()
-)
+);
 
-CREATE TABLE [IF NOT EXISTS] solutions (
+CREATE TABLE IF NOT EXISTS solutions (
     solution_id uuid DEFAULT uuid_generate_v4(),
     CONSTRAINT fk_problem
         FOREIGN KEY(slug)
             REFERENCES problems(slug),
     solution TEXT UNIQUE NOT NULL
-)
+);
 
-CREATE TABLE [IF NOT EXISTS] discussions (
+CREATE TABLE IF NOT EXISTS discussions (
     discussion_id uuid DEFAULT uuid_generate_v4(),
     CONSTRAINT fk_user
         FOREIGN KEY(author)
@@ -71,9 +71,9 @@ CREATE TABLE [IF NOT EXISTS] discussions (
     title VARCHAR(128) NOT NULL,
     description TEXT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW()
-)
+);
 
-CREATE TABLE [IF NOT EXISTS] comments (
+CREATE TABLE IF NOT EXISTS comments (
     comment_id uuid DEFAULT uuid_generate_v4(),
     CONSTRAINT fk_user
         FOREIGN KEY(author)
@@ -83,4 +83,4 @@ CREATE TABLE [IF NOT EXISTS] comments (
             REFERENCES discussions(discussion_id),
     description TEXT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW()
-)
+);
