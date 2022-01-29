@@ -2,37 +2,6 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 SET TIMEZONE='Asia/Seoul';
 
-CREATE TABLE IF NOT EXISTS attempts (
-    attempt_id uuid DEFAULT uuid_generate_v4(),
-    CONSTRAINT fk_user
-        FOREIGN KEY(username)
-            REFERENCES users(username),
-    CONSTRAINT fk_problem
-        FOREIGN KEY(slug)
-            REFERENCES problems(slug),
-    lang VARCHAR(8) NOT NULL,
-    code TEXT NOT NULL,
-    result TEXT NOT NULL,
-    output TEXT NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE TABLE IF NOT EXISTS templates (
-    template_id uuid DEFAULT uuid_generate_v4(),
-    CONSTRAINT fk_problem
-        FOREIGN KEY(slug)
-            REFERENCES problems(slug),
-    template TEXT UNIQUE NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS testcases (
-    testcase_id uuid DEFAULT uuid_generate_v4(),
-    CONSTRAINT fk_problem
-        FOREIGN KEY(slug)
-            REFERENCES problems(slug),
-    testcase TEXT UNIQUE NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS users (
     user_id uuid DEFAULT uuid_generate_v4(),
     username VARCHAR(16) UNIQUE NOT NULL,
@@ -52,35 +21,84 @@ CREATE TABLE IF NOT EXISTS problems (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE IF NOT EXISTS solutions (
-    solution_id uuid DEFAULT uuid_generate_v4(),
+CREATE TABLE IF NOT EXISTS attempts (
+    attempt_id uuid DEFAULT uuid_generate_v4(),
+    username VARCHAR(16) UNIQUE NOT NULL,
+    slug VARCHAR(128) UNIQUE NOT NULL,
+    lang VARCHAR(8) NOT NULL,
+    code TEXT NOT NULL,
+    result TEXT NOT NULL,
+    output TEXT NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    CONSTRAINT fk_user
+        FOREIGN KEY(username)
+            REFERENCES users(username)
+            ON DELETE CASCADE,
     CONSTRAINT fk_problem
         FOREIGN KEY(slug)
-            REFERENCES problems(slug),
-    solution TEXT UNIQUE NOT NULL
+            REFERENCES problems(slug)
+            ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS templates (
+    template_id uuid DEFAULT uuid_generate_v4(),
+    slug VARCHAR(128) UNIQUE NOT NULL,
+    template TEXT UNIQUE NOT NULL,
+    CONSTRAINT fk_problem
+        FOREIGN KEY(slug)
+            REFERENCES problems(slug)
+            ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS testcases (
+    testcase_id uuid DEFAULT uuid_generate_v4(),
+    testcase TEXT UNIQUE NOT NULL,
+    slug VARCHAR(128) UNIQUE NOT NULL,
+    CONSTRAINT fk_problem
+        FOREIGN KEY(slug)
+            REFERENCES problems(slug)
+            ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS solutions (
+    solution_id uuid DEFAULT uuid_generate_v4(),
+    slug VARCHAR(128) UNIQUE NOT NULL,
+    solution TEXT UNIQUE NOT NULL,
+    CONSTRAINT fk_problem
+        FOREIGN KEY(slug)
+            REFERENCES problems(slug)
+            ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS discussions (
     discussion_id uuid DEFAULT uuid_generate_v4(),
-    CONSTRAINT fk_user
-        FOREIGN KEY(author)
-            REFERENCES users(username),
-    CONSTRAINT fk_problem
-        FOREIGN KEY(slug)
-            REFERENCES problems(slug),
+    username VARCHAR(16) UNIQUE NOT NULL,
+    slug VARCHAR(128) UNIQUE NOT NULL,
     title VARCHAR(128) NOT NULL,
     description TEXT NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT NOW()
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    CONSTRAINT fk_user
+        FOREIGN KEY(author)
+            REFERENCES users(username)
+            ON DELETE CASCADE,
+    CONSTRAINT fk_problem
+        FOREIGN KEY(slug)
+            REFERENCES problems(slug)
+            ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS comments (
     comment_id uuid DEFAULT uuid_generate_v4(),
+    username VARCHAR(16) UNIQUE NOT NULL,
+    discussion_id uuid,
     CONSTRAINT fk_user
         FOREIGN KEY(author)
-            REFERENCES users(username),
+            REFERENCES users(username)
+            ON DELETE CASCADE,
     CONSTRAINT fk_discussion
         FOREIGN KEY(discussion_id)
-            REFERENCES discussions(discussion_id),
+            REFERENCES discussions(discussion_id)
+            ON DELETE CASCADE,
     description TEXT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
