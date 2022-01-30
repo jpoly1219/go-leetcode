@@ -476,23 +476,220 @@ INSERT INTO templates (lang, slug, template)
 
 -- template 2
 INSERT INTO templates (lang, slug, tempalte) VALUES (
+    'cpp',
+    '2-add-two-numbers',
+    $$// template file
+    #include <fstream>
+    #include <iostream>
+    #include <vector>
+    #include "json.hpp"
 
+    using namespace std;
+    using json = nlohmann::json;
+
+    struct ListNode {
+        int val;
+        ListNode *next;
+        ListNode() : val(0), next(nullptr) {}
+        ListNode(int x) : val(x), next(nullptr) {}
+        ListNode(int x, ListNode *next) : val(x), next(next) {}
+    };
+
+    void insertNode(ListNode** head, int i) {
+        ListNode* newNode = new ListNode(i, *head);
+        *head = newNode;
+    }
+
+    ListNode* createLinkedList(vector<int> vecNums) {
+        ListNode* head = nullptr;
+        for (int i = vecNums.size()-1; i >= 0; i--) {
+            insertNode(&head, vecNums.at(i));
+        }
+        
+        return head;
+    }
+
+    vector<int> linkedListToVector(ListNode* node) {
+        vector<int> vecInt;
+        while (node != nullptr) {
+            vecInt.push_back(node->val);
+            node = node->next;
+        }
+
+        return vecInt;
+    }
+
+    // insert Solution class here
+
+
+    int main() {
+        Solution sol;
+
+        ifstream i("../testcase-2-add-two-numbers.json");
+        json j;
+        i >> j;
+
+        vector<vector<int>> vecNums1 = j["input"]["l1"];
+        vector<vector<int>> vecNums2 = j["input"]["l2"];
+        vector<vector<int>> vecExpected = j["expected"];
+
+        bool isOk = true;
+        // test
+        for (size_t i = 0; i < vecNums1.size(); i++) {
+            ListNode* l1 = createLinkedList(vecNums1.at(i));
+            ListNode* l2 = createLinkedList(vecNums2.at(i));
+
+            ListNode* solutionNode = sol.addTwoNumbers(l1, l2);
+            vector<int> vecSolution = linkedListToVector(solutionNode);
+            for (size_t j = 0; j < vecSolution.size(); j++) {
+                if (vecSolution.at(j) != vecExpected.at(i).at(j)) {
+                    isOk = false;
+                    break;
+                }
+            }
+        }
+        if (isOk) {
+            json output = {
+                {"result", "OK"}
+            };
+            cout << output.dump(4) << endl;
+        }
+        cout << "test completed" << endl;
+        i.close();
+    }$$
 );
 
 INSERT INTO templates (lang, slug, tempalte) VALUES (
+    'js',
+    '2-add-two-numbers',
+    $$// template file
+    const tc = require("../testcase-2-add-two-numbers.json")
 
+    class ListNode {
+        constructor(val, next) {
+            this.val = (val===undefined ? 0 : val)
+            this.next = (next===undefined ? null : next)
+        }
+    }
+
+    function createLinkedList(nums) {
+        let head = null
+        nums.forEach(num => {
+            let newNode = new ListNode(num, head)
+            head = newNode
+        });
+
+        return head
+    }
+
+    function linkedListToVector(node) {
+        let intList = []
+        while (node != null) {
+            intList.push(node.val)
+            node = node.next
+        }
+
+        return intList
+    }
+
+    // insert Solution class here
+
+
+    let isOk = true
+    const listL1 = tc.input.l1
+    const listL2 = tc.input.l2
+    for (let i = 0; i < listL1.length; i++) {
+        const l1 = createLinkedList(listL1[i])
+        const l2 = createLinkedList(listL2[i])
+
+        const solutionNode = addTwoNumbers(l1, l2)
+        const solutionList = linkedListToVector(solutionNode)
+
+        for (let j = 0; j < solutionList.length; j++) {
+            if (solutionList[j] != tc.expected[i][j]) {
+                isOk = false
+                break
+            }   
+        }
+    }
+
+    if (isOk) {
+        const output = {
+            "result": "OK"
+        }
+        const data = JSON.stringify(output)
+        console.log(data)
+    }
+
+    console.log("test completed")$$
 );
 
 INSERT INTO templates (lang, slug, tempalte) VALUES (
+    'py',
+    '2-add-two-numbers',
+    $$# template file
+    import json
+    from typing import List
 
-);
 
-INSERT INTO templates (lang, slug, tempalte) VALUES (
+    class ListNode:
+        def __init__(self, val=0, next=None):
+            self.val = val
+            self.next = next
 
-);
 
-INSERT INTO templates (lang, slug, tempalte) VALUES (
+    def createLinkedList(nums):
+        head = None
+        for num in reversed(nums):
+            newNode = ListNode(num, head)
+            head = newNode
+        
+        return head
 
+
+    def linkedListToVector(node):
+        intList = []
+        while (node != None):
+            intList.append(node.val)
+            node = node.next
+        
+        return intList
+
+
+    # insert Solution class here
+
+
+    with open("../testcase-2-add-two-numbers.json", "r") as read_file:
+        data = json.load(read_file)
+
+    sol = Solution()
+    isOk = True
+
+    listL1 = data["input"]["l1"]
+    listL2 = data["input"]["l2"]
+
+    for i, nums in enumerate(listL1):
+        l1 = createLinkedList(listL1[i])
+        l2 = createLinkedList(listL2[i])
+
+        solutionNode = sol.addTwoNumbers(l1, l2)
+        solutionList = linkedListToVector(solutionNode)
+        for solution in enumerate(solutionList):
+            if solutionList != data["expected"][i]:
+                isOk = False;
+                break;
+
+    if isOk:
+        # write json to file
+        output = {
+            "result": "OK"
+        }
+        json_object = json.dumps(output, indent=4)
+        print(json_object)
+
+    print("test completed")
+    
+    $$
 );
 
 -- create testcases
