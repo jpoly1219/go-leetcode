@@ -472,8 +472,6 @@ INSERT INTO templates (lang, slug, template) VALUES (
     $$
 );
 
-INSERT INTO templates (lang, slug, template)
-
 -- template 2
 INSERT INTO templates (lang, slug, template) VALUES (
     'cpp',
@@ -811,6 +809,130 @@ INSERT INTO templates (lang, slug, template) VALUES (
 );
 
 -- template 4
+INSERT INTO templates (lang, slug, template) VALUES (
+    'cpp',
+    '4-median-of-two-sorted-arrays',
+    $$// template file
+    #include <fstream>
+    #include <iostream>
+    #include <vector>
+    #include "json.hpp"
+
+    using namespace std;
+    using json = nlohmann::json;
+
+    // insert Solution class here
+
+
+    int main() {
+        Solution sol;
+
+        ifstream i("../testcase-4-median-of-two-sorted-arrays.json");
+        json j;
+        i >> j;
+
+        vector<vector<int>> vecNums1 = j["input"]["nums1"];
+        vector<vector<int>> vecNums2 = j["input"]["nums2"];
+        vector<double> vecExpected = j["expected"];
+
+        bool isOk = true;
+        // test
+        for (size_t i = 0; i < vecNums1.size(); i++) {
+            vector<int> num1 = vecNums1.at(i);
+            vector<int> num2 = vecNums2.at(i);
+            double solution  = sol.findMedianSortedArrays(num1, num2);
+            if (solution != vecExpected.at(i)) {
+                isOk = false;
+                break;
+            }
+        }
+        if (isOk) {
+            json output = {
+                {"result", "OK"}
+            };
+            cout << output.dump(4) << endl;
+        }
+        cout << "test completed" << endl;
+        i.close();
+    }$$
+);
+
+INSERT INTO templates (lang, slug, template) VALUES (
+    'js',
+    '4-median-of-two-sorted-arrays',
+    $$// template file
+    const tc = require("../testcase-4-median-of-two-sorted-arrays.json")
+
+    // insert Solution class here
+
+
+    let isOk = true
+    const arrNums1 = tc.input.nums1
+    const arrNums2 = tc.input.nums2
+    const arrExpected = tc.expected
+    for (let i = 0; i < arrNums1.length; i++) {
+        const num1 = arrNums1[i]
+        const num2 = arrNums2[i]
+        const solution = findMedianSortedArrays(num1, num2)
+        if (solution != arrExpected[i]) {
+            isOk = false
+            break
+        }
+
+    }
+
+    if (isOk) {
+        const output = {
+            "result": "OK"
+        }
+        const data = JSON.stringify(output)
+        console.log(data)
+    }
+
+    console.log("test completed")$$
+);
+
+INSERT INTO templates (lang, slug, template) VALUES (
+    'py',
+    '4-median-of-two-sorted-arrays',
+    $$# template file
+    import json
+    from typing import List
+
+
+    # insert Solution class here
+
+
+
+    with open("../testcase-4-median-of-two-sorted-arrays.json", "r") as read_file:
+        data = json.load(read_file)
+
+    sol = Solution()
+    isOk = True
+
+    listNums1 = data["input"]["nums1"]
+    listNums2 = data["input"]["nums2"]
+    listExpected = data["expected"]
+
+    for i, element in enumerate(listNums1):
+        num1 = listNums1[i]
+        num2 = listNums2[i]
+        solution = sol.findMedianSortedArrays(num1, num2)
+        if solution != listExpected[i]:
+            isOk = False
+            break
+
+    if isOk:
+        output = {
+            "result": "OK"
+        }
+        json_object = json.dumps(output, indent=4)
+        print(json_object)
+
+    print("test completed")
+
+    $$
+);
 
 -- template 5
 
