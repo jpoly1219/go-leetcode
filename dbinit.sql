@@ -935,5 +935,122 @@ INSERT INTO templates (lang, slug, template) VALUES (
 );
 
 -- template 5
+INSERT INTO templates (lang, slug, template) VALUES (
+    'cpp',
+    '5-longest-palindromic-substring',
+    $$// template file
+    #include <fstream>
+    #include <iostream>
+    #include <vector>
+    #include <string>
+    #include "json.hpp"
+
+    using namespace std;
+    using json = nlohmann::json;
+
+    // insert Solution class here
+
+
+    int main() {
+        Solution sol;
+
+        ifstream i("../testcase-5-longest-palindromic-substring.json");
+        json j;
+        i >> j;
+
+        vector<string> vecInput = j["input"];
+        vector<vector<string>> vecExpected = j["expected"];
+
+        bool isOk = true;
+        // test
+        for (size_t i = 0; i < vecInput.size(); i++) {
+            string solution  = sol.longestPalindrome(vecInput.at(i));
+            vector<string> expected = vecExpected.at(i);
+            if (find(expected.begin(), expected.end(), solution) == expected.end()) {
+                isOk = false;
+                break;
+            }
+        }
+        if (isOk) {
+            json output = {
+                {"result", "OK"}
+            };
+            cout << output.dump(4) << endl;
+        }
+        cout << "test completed" << endl;
+        i.close();
+    }$$
+);
+
+INSERT INTO templates (lang, slug, template) VALUES (
+    'js',
+    '5-longest-palindromic-substring',
+    $$// template file
+    const tc = require("../testcase-5-longest-palindromic-substring.json")
+
+    // insert Solution class here
+
+
+    let isOk = true
+    const arrInput = tc.input
+    const arrExpected = tc.expected
+    for (let i = 0; i < arrInput.length; i++) {
+        const expected = arrExpected[i]
+        const solution = longestPalindrome(arrInput[i])
+        if (!expected.includes(solution)) {
+            isOk = false
+            break
+        }
+
+    }
+
+    if (isOk) {
+        const output = {
+            "result": "OK"
+        }
+        const data = JSON.stringify(output)
+        console.log(data)
+    }
+
+    console.log("test completed")$$
+);
+
+INSERT INTO templates (lang, slug, template) VALUES (
+    'py',
+    '5-longest-palindromic-substring',
+    $$# template file
+    import json
+    from typing import List
+
+
+    # insert Solution class here
+
+
+
+    with open("../testcase-5-longest-palindromic-substring.json", "r") as read_file:
+        data = json.load(read_file)
+
+    sol = Solution()
+    isOk = True
+
+    listInput = data["input"]
+    listExpected = data["expected"]
+
+    for i, element in enumerate(listInput):
+        expected = listExpected[i]
+        solution = sol.longestPalindrome(element)
+        if solution not in expected:
+            isOk = False
+            break
+
+    if isOk:
+        output = {
+            "result": "OK"
+        }
+        json_object = json.dumps(output, indent=4)
+        print(json_object)
+
+    print("test completed")$$
+);
 
 -- create testcases
