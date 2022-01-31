@@ -53,8 +53,8 @@ CREATE TABLE IF NOT EXISTS templates (
 
 CREATE TABLE IF NOT EXISTS testcases (
     testcase_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-    testcase TEXT UNIQUE NOT NULL,
     slug VARCHAR(128) UNIQUE NOT NULL,
+    testcase TEXT UNIQUE NOT NULL,
     CONSTRAINT fk_problem
         FOREIGN KEY(slug)
             REFERENCES problems(slug)
@@ -1054,3 +1054,101 @@ INSERT INTO templates (lang, slug, template) VALUES (
 );
 
 -- create testcases
+
+INSERT INTO testcases (slug, testcase) VALUES (
+    '1-two-sum',
+    $${
+        "input": {
+            "nums": [
+                [1, 2, 3, 4, 5],
+                [1, 2, 3],
+                [5, 5, 5, 5, 5, 5],
+                [3, 2, 1],
+                [0, 0, 0, 0]
+            ],
+            "target": [
+                1, 2, 3, 4, 5
+            ]
+        },
+        "expected": [
+            [2, 3, 4, 5, 6],
+            [3, 4, 5],
+            [8, 8, 8, 8, 8, 8],
+            [7, 6, 5],
+            [5, 5, 5, 5]
+        ]
+    }$$
+);
+
+INSERT INTO testcases (slug, testcase) VALUES (
+    '2-add-two-numbers',
+    $${
+        "input": {
+            "l1": [
+                [2, 4, 3],
+                [0],
+                [9, 9, 9, 9, 9, 9, 9]
+            ],
+            "l2": [
+                [5, 6, 4],
+                [0],
+                [9, 9, 9, 9]
+            ]
+        },
+        "expected": [
+            [7, 0, 8],
+            [0],
+            [8, 9, 9, 9, 0, 0, 0, 1]
+        ]
+    }$$
+);
+
+INSERT INTO testcases (slug, testcase) VALUES (
+    '3-longest-substring-without-repeating-characters',
+    $${
+        "input": [
+            "abcabcbb",
+            "bbbbb",
+            "pwwkew"
+        ],
+        "expected": [
+            3,
+            1,
+            3
+        ]
+    }$$
+);
+
+INSERT INTO testcases (slug, testcase) VALUES (
+    '4-median-of-two-sorted-arrays',
+    $${
+        "input": {
+            "nums1": [
+                [1, 3],
+                [1, 2]
+            ],
+            "nums2": [
+                [2],
+                [3, 4]
+            ]
+        },
+        "expected": [
+            2.00000,
+            2.50000
+        ]
+    }$$
+);
+
+INSERT INTO testcases (slug, testcase) VALUES (
+    '5-longest-palindromic-substring',
+    $${
+        "input": [
+            "babad",
+            "cbbd"
+        ],
+        "expected": [
+            ["bab", "aba"],
+            ["bb"]
+        ]
+    }$$
+);
