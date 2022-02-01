@@ -104,8 +104,6 @@ CREATE TABLE IF NOT EXISTS comments (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- create users
-
 -- create problems
 INSERT INTO problems (title, slug, difficulty, description) VALUES (
     '1. Two Sum',
