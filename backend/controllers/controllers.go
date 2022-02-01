@@ -73,7 +73,7 @@ func ProblemsetsFilter(w http.ResponseWriter, r *http.Request) {
 		var result sql.NullString
 
 		results, err := models.Db.Query(
-			"SELECT DISTINCT problems.id, title, problems.slug, difficulty, result FROM problems LEFT JOIN attempts ON problems.slug = attempts.slug AND username = $1 AND result = 'OK' WHERE difficulty = $2 ORDER BY title;",
+			"SELECT DISTINCT problem_id, title, problems.slug, difficulty, result FROM problems LEFT JOIN attempts ON problems.slug = attempts.slug AND username = $1 AND result = 'OK' WHERE difficulty = $2 ORDER BY title;",
 			f.Username, f.Difficulty,
 		)
 		if err != nil {
