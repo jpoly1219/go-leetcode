@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS attempts (
 CREATE TABLE IF NOT EXISTS templates (
     template_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
     lang VARCHAR(8) NOT NULL,
-    slug VARCHAR(128) UNIQUE NOT NULL,
+    slug VARCHAR(128) NOT NULL,
     template TEXT UNIQUE NOT NULL,
     CONSTRAINT fk_problem
         FOREIGN KEY(slug)
