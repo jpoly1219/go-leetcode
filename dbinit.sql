@@ -23,8 +23,8 @@ CREATE TABLE IF NOT EXISTS problems (
 
 CREATE TABLE IF NOT EXISTS attempts (
     attempt_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-    username VARCHAR(16) UNIQUE NOT NULL,
-    slug VARCHAR(128) UNIQUE NOT NULL,
+    username VARCHAR(16) NOT NULL,
+    slug VARCHAR(128) NOT NULL,
     lang VARCHAR(8) NOT NULL,
     code TEXT NOT NULL,
     result TEXT NOT NULL,
@@ -73,8 +73,8 @@ CREATE TABLE IF NOT EXISTS solutions (
 
 CREATE TABLE IF NOT EXISTS discussions (
     discussion_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-    author VARCHAR(16) UNIQUE NOT NULL,
-    slug VARCHAR(128) UNIQUE NOT NULL,
+    author VARCHAR(16) NOT NULL,
+    slug VARCHAR(128) NOT NULL,
     title VARCHAR(128) NOT NULL,
     description TEXT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS discussions (
 
 CREATE TABLE IF NOT EXISTS comments (
     comment_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-    author VARCHAR(16) UNIQUE NOT NULL,
+    author VARCHAR(16) NOT NULL,
     discussion_id uuid,
     CONSTRAINT fk_user
         FOREIGN KEY(author)
