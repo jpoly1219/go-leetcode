@@ -77,7 +77,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	defaultProfilePic := "https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg"
 
 	err = models.Db.QueryRow(
-		"INSERT INTO users (username, fullname, email, password, profile_pic) VALUES ($1, $2, $3, $4, $5) RETURNING id, username;",
+		"INSERT INTO users (username, fullname, email, password, profile_pic) VALUES ($1, $2, $3, $4, $5) RETURNING user_id, username;",
 		formData.Username, formData.Fullname, formData.Email, string(passwordHash), defaultProfilePic,
 	).Scan(&userid, &username)
 	// check if user already exists
