@@ -10,6 +10,7 @@ import (
 	"github.com/jpoly1219/go-leetcode/backend/models"
 
 	"github.com/golang-jwt/jwt"
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -20,7 +21,7 @@ func HandleCors(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
 }
 
-func GenerateToken(userid int, username string) (*models.Token, error) {
+func GenerateToken(userid uuid.UUID, username string) (*models.Token, error) {
 	accessKey := os.Getenv("ACCESSSECRETKEY")
 	refreshKey := os.Getenv("REFRESHSECRETKEY")
 	accessExp := time.Now().Add(time.Minute * 15).Unix()
@@ -72,7 +73,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// insert user data to database
-	userid := 0
+	var userid uuid.UUID
 	username := ""
 	defaultProfilePic := "https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg"
 
@@ -182,7 +183,7 @@ func SilentRefresh(w http.ResponseWriter, r *http.Request) {
 		// if so then generate token pair and send it to user. Access token and exp as JSON, refresh token as HttpOnly cookie.
 		userid := claims["userid"]
 		username := claims["username"]
-		useridStr := userid.(int)
+		useridStr := userid.(uuid.UUID)
 		usernameStr := username.(string)
 		tokenPair, err := GenerateToken(useridStr, usernameStr)
 		if err != nil {
