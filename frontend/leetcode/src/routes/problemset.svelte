@@ -13,7 +13,11 @@
         const url = "http://localhost:8090/problemsets/all"
         const options = {
             method: "POST",
-            body: JSON.stringify({username: username})
+            body: JSON.stringify({username: username}),
+            headers: {
+                "Authorization": "Bearer " + accessToken
+            },
+            credentials: "include"
         }
 
         try {
