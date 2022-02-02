@@ -2,17 +2,19 @@ package models
 
 import (
 	"database/sql"
+
+	"github.com/google/uuid"
 )
 
 var Db *sql.DB
 
 type Problem struct {
-	Id          int    `json:"id"`
-	Title       string `json:"title"`
-	Slug        string `json:"slug"`
-	Difficulty  string `json:"difficulty"`
-	Description string `json:"description"`
-	Created     string `json:"created"`
+	Id          uuid.UUID `json:"id"`
+	Title       string    `json:"title"`
+	Slug        string    `json:"slug"`
+	Difficulty  string    `json:"difficulty"`
+	Description string    `json:"description"`
+	Created     string    `json:"created"`
 }
 
 type UserCode struct {
@@ -34,11 +36,11 @@ type Result struct {
 }
 
 type ProblemAndResult struct {
-	Id         int    `json:"id"`
-	Title      string `json:"title"`
-	Slug       string `json:"slug"`
-	Difficulty string `json:"difficulty"`
-	Result     string `json:"result"`
+	Id         uuid.UUID `json:"id"`
+	Title      string    `json:"title"`
+	Slug       string    `json:"slug"`
+	Difficulty string    `json:"difficulty"`
+	Result     string    `json:"result"`
 }
 
 type Token struct {
@@ -47,12 +49,12 @@ type Token struct {
 }
 
 type User struct {
-	Userid     int    `json:"userid"`
-	Username   string `json:"username"`
-	Fullname   string `json:"fullname"`
-	Email      string `json:"email"`
-	Password   string `json:"password"`
-	ProfilePic string `json:"profilePic"`
+	Userid     uuid.UUID `json:"userid"`
+	Username   string    `json:"username"`
+	Fullname   string    `json:"fullname"`
+	Email      string    `json:"email"`
+	Password   string    `json:"password"`
+	ProfilePic string    `json:"profilePic"`
 }
 
 type Submission struct {
@@ -66,20 +68,20 @@ type Solution struct {
 }
 
 type Discussion struct {
-	Id          int    `json:"id"`
-	Author      string `json:"author"`
-	Slug        string `json:"slug"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Created     string `json:"created"`
+	Id          uuid.UUID `json:"id"`
+	Author      string    `json:"author"`
+	Slug        string    `json:"slug"`
+	Title       string    `json:"title"`
+	Description string    `json:"description"`
+	Created     string    `json:"created"`
 }
 
 type Comment struct {
-	Id           int    `json:"id"`
-	Author       string `json:"author"`
-	DiscussionId string `json:"discussionId"`
-	Description  string `json:"description"`
-	Created      string `json:"created"`
+	Id           uuid.UUID `json:"id"`
+	Author       string    `json:"author"`
+	DiscussionId string    `json:"discussionId"`
+	Description  string    `json:"description"`
+	Created      string    `json:"created"`
 }
 
 type Filter struct {
