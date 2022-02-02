@@ -15,7 +15,8 @@
             body: JSON.stringify(loginDetails),
             headers: {
                 "Content-Type": "application/json"
-            }
+            },
+            credentials: "include"
         }
         const url = "http://localhost:8090/auth/login"
         
