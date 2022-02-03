@@ -1150,3 +1150,742 @@ INSERT INTO testcases (slug, testcase) VALUES (
         ]
     }$$
 );
+
+-- create solutions
+
+INSERT INTO solutions (slug, solution) VALUES (
+    '1-two-sum',
+    $$### Approach 1: Brute Force
+
+    **Algorithm**
+
+    The brute force approach is simple. Loop through each element *x* and find if there is another value that equals to *target - x*.
+
+    **Implementation**
+    ```
+    // Java
+    class Solution {
+        public int[] twoSum(int[] nums, int target) {
+            for (int i = 0; i < nums.length; i++) {
+                for (int j = i + 1; j < nums.length; j++) {
+                    if (nums[j] == target - nums[i]) {
+                        return new int[] { i, j };
+                    }
+                }
+            }
+            // In case there is no solution, we'll just return null
+            return null;
+        }
+    }
+    ```
+
+    ```
+    # Python3
+    class Solution:
+        def twoSum(self, nums: List[int], target: int) -> List[int]:
+            for i in range(len(nums)):
+                for j in range(i + 1, len(nums)):
+                    if nums[j] == target - nums[i]:
+                        return [i, j]
+    ```
+
+    **Complexity Analysis**
+
+    - Time complexity: *O(n^2)*. For each element, we try to find its complement by looping through the rest of the array which takes *O(n)* time. Therefore, the time complexity is *O(n^2)*.
+
+    - Space complexity: *O(1)*. The space required does not depend on the size of the input array, so only constant space is used.
+
+    ---
+
+    ### Approach 2: Two-pass Hash Table
+
+    **Intuition**
+
+    To improve our runtime complexity, we need a more efficient way to check if the complement exists in the array. If the complement exists, we need to get its index. What is the best way to maintain a mapping of each element in the array to its index? A hash table.
+
+    We can reduce the lookup time from *O(n)* to *O(1)* by trading space for speed. A hash table is well suited for this purpose because it supports fast lookup in near constant time. I say "near" because if a collision occurred, a lookup could degenerate to *O(n)* time. However, lookup in a hash table should be amortized *O(1)* time as long as the hash function was chosen carefully.
+
+    **Algorithm**
+
+    A simple implementation uses two iterations. In the first iteration, we add each element's value as a key and its index as a value to the hash table. Then, in the second iteration, we check if each element's complement (*target - nums[i]*) exists in the hash table. If it does exist, we return current element's index and its complement's index. Beware that the complement must not be *nums[i]* itself!
+
+    **Implementation**
+    ```
+    // Java
+    class Solution {
+        public int[] twoSum(int[] nums, int target) {
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int i = 0; i < nums.length; i++) {
+                map.put(nums[i], i);
+            }
+            for (int i = 0; i < nums.length; i++) {
+                int complement = target - nums[i];
+                if (map.containsKey(complement) && map.get(complement) != i) {
+                    return new int[] { i, map.get(complement) };
+                }
+            }
+            // In case there is no solution, we'll just return null
+            return null;
+        }
+    }
+    ```
+
+    ```
+    # Python3
+    class Solution:
+        def twoSum(self, nums: List[int], target: int) -> List[int]:
+            hashmap = {}
+            for i in range(len(nums)):
+                hashmap[nums[i]] = i
+            for i in range(len(nums)):
+                complement = target - nums[i]
+                if complement in hashmap and hashmap[complement] != i:
+                    return [i, hashmap[complement]] 
+    ```
+
+    **Complexity Analysis**
+
+    - Time complexity: *O(n)*. We traverse the list containing nnn elements exactly twice. Since the hash table reduces the lookup time to *O(1)*, the overall time complexity is *O(n)*.
+
+    - Space complexity: *O(n)*. The extra space required depends on the number of items stored in the hash table, which stores exactly *n* elements.
+
+    ---
+
+    ### Approach 3: One-pass Hash Table
+
+    **Algorithm**
+
+    It turns out we can do it in one-pass. While we are iterating and inserting elements into the hash table, we also look back to check if current element's complement already exists in the hash table. If it exists, we have found a solution and return the indices immediately.
+
+    **Implementation**
+    ```
+    // Java
+    class Solution {
+        public int[] twoSum(int[] nums, int target) {
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int i = 0; i < nums.length; i++) {
+                int complement = target - nums[i];
+                if (map.containsKey(complement)) {
+                    return new int[] { map.get(complement), i };
+                }
+                map.put(nums[i], i);
+            }
+            // In case there is no solution, we'll just return null
+            return null;
+        }
+    }
+    ```
+
+    ```
+    # Python3
+    class Solution:
+        def twoSum(self, nums: List[int], target: int) -> List[int]:
+            hashmap = {}
+            for i in range(len(nums)):
+                complement = target - nums[i]
+                if complement in hashmap:
+                    return [i, hashmap[complement]]
+                hashmap[nums[i]] = i
+    ```
+
+    **Complexity Analysis**
+
+    - Time complexity: *O(n)*. We traverse the list containing nnn elements only once. Each lookup in the table costs only *O(1)* time.
+
+    - Space complexity: *O(n)*. The extra space required depends on the number of items stored in the hash table, which stores at most *n* elements.
+    $$
+);
+
+INSERT INTO solutions (slug, solution) VALUES (
+    '2-add-two-numbers',
+    $$### Approach 1: Elementary Math
+
+    **Intuition**
+
+    Keep track of the carry using a variable and simulate digits-by-digits sum starting from the head of list, which contains the least-significant digit.
+
+    ![](https://leetcode.com/problems/add-two-numbers/Figures/2_add_two_numbers.svg)
+    *Figure 1. Visualization of the addition of two numbers: 342+465=807342 + 465 = 807342+465=807.*
+    *Each node contains a single digit and the digits are stored in reverse order.*
+
+    **Algorithm**
+
+    Just like how you would sum two numbers on a piece of paper, we begin by summing the least-significant digits, which is the head of *l1* and *l2*. Since each digit is in the range of *0...9*, summing two digits may "overflow". For example *5 + 7 = 12*. In this case, we set the current digit to *2* and bring over the *carry = 1* to the next iteration. *carry* must be either *0* or *1* because the largest possible sum of two digits (including the carry) is *9 + 9 + 1 = 19*.
+
+    The pseudocode is as following:
+
+    - Initialize current node to dummy head of the returning list.
+    - Initialize carry to *0*.
+    - Initialize *p* and *q* to head of *l1* and *l2* respectively.
+    - Loop through lists *l1* and *l2* until you reach both ends.
+        - Set *x* to node *p*'s value. If *p* has reached the end of *l1*, set to *0*.
+        - Set *y* to node *q*'s value. If *q* has reached the end of *l2*, set to *0*.
+        - Set *sum = x + y + carry*.
+        - Update *carry = sum / 10*.
+        - Create a new node with the digit value of (*sum mod 10*) and set it to current node's next, then advance current node to next.
+        - Advance both *p* and *q*.
+    - Check if *carry = 1*, if so append a new node with digit *1* to the returning list.
+    - Return dummy head's next node.
+
+    Note that we use a dummy head to simplify the code. Without a dummy head, you would have to write extra conditional statements to initialize the head's value.
+
+    Take extra caution of the following cases:
+
+    | Test case                         | Explanation                                                                   |
+    |-----------------------------------|-------------------------------------------------------------------------------|
+    | *l1 = [0, 1]*<br>*l2 = [0, 1, 2]* | When one list is longer than the other.                                       |
+    | *l1 = []*<br>*l2 = [0, 1]*        | When one list is null, which means an empty list.                             |
+    | *l1 = [9, 9]*<br>*l2 = [1]*       | The sum could have an extra carry of one at the end, which is easy to forget. |
+
+    ```
+    // Java
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode dummyHead = new ListNode(0);
+        ListNode p = l1, q = l2, curr = dummyHead;
+        int carry = 0;
+        while (p != null || q != null) {
+            int x = (p != null) ? p.val : 0;
+            int y = (q != null) ? q.val : 0;
+            int sum = carry + x + y;
+            carry = sum / 10;
+            curr.next = new ListNode(sum % 10);
+            curr = curr.next;
+            if (p != null) p = p.next;
+            if (q != null) q = q.next;
+        }
+        if (carry > 0) {
+            curr.next = new ListNode(carry);
+        }
+        return dummyHead.next;
+    }
+    ```
+
+    **Complexity Analysis**
+
+    - Time complexity: *O(max(m, n))*. Assume that *m* and *n* represents the length of *l1* and *l2* respectively, the algorithm above iterates at most *max(m, n)* times.
+
+    - Space complexity: *O(max(m, n))*. The length of the new list is at most *max(m, n) + 1*.
+
+    **Follow up**
+
+    What if the the digits in the linked list are stored in non-reversed order? For example:
+
+    *(3 → 4 → 2) + (4 → 6 → 5) = 8 → 0 → 7*
+    $$
+);
+
+INSERT INTO solutions (slug, solution) VALUES (
+    '3-longest-substring-without-repeating-characters',
+    $$### Approach 1: Brute Force
+
+    **Intuition**
+
+    Check all the substring one by one to see if it has no duplicate character.
+
+    **Algorithm**
+
+    Suppose we have a function `boolean allUnique(String substring)` which will return true if the characters in the substring are all unique, otherwise false. We can iterate through all the possible substrings of the given string `s` and call the function `allUnique`. If it turns out to be true, then we update our answer of the maximum length of substring without duplicate characters.
+
+    Now let's fill the missing parts:
+
+    1. To enumerate all substrings of a given string, we enumerate the start and end indices of them. Suppose the start and end indices are *i* and *j*, respectively. Then we have *0 ≤ i < j ≤ n* (here end index *j* is exclusive by convention). Thus, using two nested loops with *i* from *0* to *n − 1* and *j* from *i + 1* to *n*, we can enumerate all the substrings of *s*.
+
+    2. To check if one string has duplicate characters, we can use a set. We iterate through all the characters in the string and put them into the `set` one by one. Before putting one character, we check if the set already contains it. If so, we return `false`. After the loop, we return `true`.
+
+    ```
+    // C++
+    class Solution {
+    public:
+        int lengthOfLongestSubstring(string s) {
+            int n = s.length();
+
+            int res = 0;
+            for (int i = 0; i < n; i++) {
+                for (int j = i; j < n; j++) {
+                    if (checkRepetition(s, i, j)) {
+                        res = max(res, j - i + 1);
+                    }
+                }
+            }
+
+            return res;
+        }
+
+        bool checkRepetition(string& s, int start, int end) {
+            vector<int> chars(128);
+
+            for (int i = start; i <= end; i++) {
+                char c = s[i];
+                chars[c]++;
+                if (chars[c] > 1) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    };
+    ```
+
+    ```
+    // Java
+    public class Solution {
+        public int lengthOfLongestSubstring(String s) {
+            int n = s.length();
+
+            int res = 0;
+            for (int i = 0; i < n; i++) {
+                for (int j = i; j < n; j++) {
+                    if (checkRepetition(s, i, j)) {
+                        res = Math.max(res, j - i + 1);
+                    }
+                }
+            }
+
+            return res;
+        }
+
+        private boolean checkRepetition(String s, int start, int end) {
+            int[] chars = new int[128];
+
+            for (int i = start; i <= end; i++) {
+                char c = s.charAt(i);
+                chars[c]++;
+                if (chars[c] > 1) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+    ```
+
+    ```
+    # Python3
+    class Solution:
+        def lengthOfLongestSubstring(self, s: str) -> int:
+            def check(start, end):
+                chars = [0] * 128
+                for i in range(start, end + 1):
+                    c = s[i]
+                    chars[ord(c)] += 1
+                    if chars[ord(c)] > 1:
+                        return False
+                return True
+
+            n = len(s)
+
+            res = 0
+            for i in range(n):
+                for j in range(i, n):
+                    if check(i, j):
+                        res = max(res, j - i + 1)
+            return res
+    ```
+
+    **Complexity Analysis**
+
+    - Time complexity: *O(n^3)*.
+
+    To verify if characters within index range *[i, j)* are all unique, we need to scan all of them. Thus, it costs *O(j - i)* time.    
+
+    For a given `i`, the sum of time costed by each *j ∈ [i+1, n]* is
+
+    *∑(i+1, n) O(j − i)*
+
+    Thus, the sum of all the time consumption is:
+
+    *O(∑(i=0, n−1)(∑(j = i+1, n) (j − i))) = O(∑(i=0, n−1)(1 + n − i)(n − i) / 2) = O(n^3)*
+
+    - Space complexity: *O(min(n, m))*. We need *O(k)* space for checking a substring has no duplicate characters, where *k* is the size of the `Set`. The size of the `Set` is upper bounded by the size of the string *n* and the size of the charset/alphabet *m*.
+
+    ---
+
+    ### Approach 2: Sliding Window
+
+    **Algorithm**
+
+    The naive approach is very straightforward. But it is too slow. So how can we optimize it?
+
+    In the naive approaches, we repeatedly check a substring to see if it has duplicate character. But it is unnecessary. If a substring *s_ij*​ from index *i* to *j − 1* is already checked to have no duplicate characters. We only need to check if *s[j]* is already in the substring *s_ij*.
+
+    To check if a character is already in the substring, we can scan the substring, which leads to an *O(n^2)* algorithm. But we can do better.
+
+    By using HashSet as a sliding window, checking if a character in the current can be done in *O(1)*.
+
+    A sliding window is an abstract concept commonly used in array/string problems. A window is a range of elements in the array/string which usually defined by the start and end indices, i.e. *[i, j)* (left-closed, right-open). A sliding window is a window "slides" its two boundaries to the certain direction. For example, if we slide *[i, j)* to the right by *1* element, then it becomes *[i+1, j+1)* (left-closed, right-open).
+
+    Back to our problem. We use HashSet to store the characters in current window *[i, j)* (*j = i* initially). Then we slide the index *j* to the right. If it is not in the HashSet, we slide *j* further. Doing so until *s[j]* is already in the HashSet. At this point, we found the maximum size of substrings without duplicate characters start with index *i*. If we do this for all *i*, we get our answer.
+
+    ```
+    // C++
+    class Solution {
+    public:
+        int lengthOfLongestSubstring(string s) {
+            vector<int> chars(128);
+
+            int left = 0;
+            int right = 0;
+
+            int res = 0;
+            while (right < s.length()) {
+                char r = s[right];
+                chars[r]++;
+
+                while (chars[r] > 1) {
+                    char l = s[left];
+                    chars[l]--;
+                    left++;
+                }
+
+                res = max(res, right - left + 1);
+
+                right++;
+            }
+
+            return res;
+        }
+    };
+    ```
+
+    ```
+    // Java
+    public class Solution {
+        public int lengthOfLongestSubstring(String s) {
+            int[] chars = new int[128];
+
+            int left = 0;
+            int right = 0;
+
+            int res = 0;
+            while (right < s.length()) {
+                char r = s.charAt(right);
+                chars[r]++;
+
+                while (chars[r] > 1) {
+                    char l = s.charAt(left);
+                    chars[l]--;
+                    left++;
+                }
+
+                res = Math.max(res, right - left + 1);
+
+                right++;
+            }
+            return res;
+        }
+    }
+    ```
+
+    ```
+    # Python3
+    class Solution:
+        def lengthOfLongestSubstring(self, s: str) -> int:
+            chars = [0] * 128
+
+            left = right = 0
+
+            res = 0
+            while right < len(s):
+                r = s[right]
+                chars[ord(r)] += 1
+
+                while chars[ord(r)] > 1:
+                    l = s[left]
+                    chars[ord(l)] -= 1
+                    left += 1
+
+                res = max(res, right - left + 1)
+
+                right += 1
+            return res
+    ```
+
+    **Complexity Analysis**
+
+    - Time complexity: *O(2n) = O(n)*. In the worst case each character will be visited twice by *i* and *j*.
+
+    - Space complexity: *O(min(m, n))*. Same as the previous approach. We need *O(k)* space for the sliding window, where *k* is the size of the `Set`. The size of the `Set` is upper bounded by the size of the string *n* and the size of the charset/alphabet *m*.
+
+    ---
+
+    ### Approach 3: Sliding Window Optimized
+
+    The above solution requires at most 2n steps. In fact, it could be optimized to require only n steps. Instead of using a set to tell if a character exists or not, we could define a mapping of the characters to its index. Then we can skip the characters immediately when we found a repeated character.
+
+    The reason is that if *s[j]* have a duplicate in the range *[i, j)* with index *j'*, we don't need to increase *i* little by little. We can skip all the elements in the range *[i, j']* and let *i* to be *j' + 1* directly.
+
+    **Java (Using HashMap)**
+
+    ```
+    // Java
+    public class Solution {
+        public int lengthOfLongestSubstring(String s) {
+            int n = s.length(), ans = 0;
+            Map<Character, Integer> map = new HashMap<>(); // current index of character
+            // try to extend the range [i, j]
+            for (int j = 0, i = 0; j < n; j++) {
+                if (map.containsKey(s.charAt(j))) {
+                    i = Math.max(map.get(s.charAt(j)), i);
+                }
+                ans = Math.max(ans, j - i + 1);
+                map.put(s.charAt(j), j + 1);
+            }
+            return ans;
+        }
+    }
+    ```
+
+    ```
+    # Python3
+    class Solution:
+        def lengthOfLongestSubstring(self, s: str) -> int:
+            n = len(s)
+            ans = 0
+            # mp stores the current index of a character
+            mp = {}
+
+            i = 0
+            # try to extend the range [i, j]
+            for j in range(n):
+                if s[j] in mp:
+                    i = max(mp[s[j]], i)
+
+                ans = max(ans, j - i + 1)
+                mp[s[j]] = j + 1
+
+            return ans
+    ```
+
+    Here is a visualization of the above code.
+    [![](https://i.vimeocdn.com/video/1003183768-5623f4c10b87ca17146f1c40708c3e251a31a8550642d549f9e316d1b7bebe5e-d?mw=1000&mh=562)](https://player.vimeo.com/video/484238122)
+
+    **Java (Assuming ASCII 128)**
+
+    The previous implements all have no assumption on the charset of the string `s`.
+
+    If we know that the charset is rather small, we can replace the `Map` with an integer array as direct access table.
+
+    Commonly used tables are:
+
+    - `int[26]` for Letters 'a' - 'z' or 'A' - 'Z'
+    - `int[128]` for ASCII
+    - `int[256]` for Extended ASCII
+
+    ```
+    // C++
+    class Solution {
+    public:
+        int lengthOfLongestSubstring(string s) {
+            // we will store a senitel value of -1 to simulate 'null'/'None' in C++
+            vector<int> chars(128, -1);
+
+            int left = 0;
+            int right = 0;
+
+            int res = 0;
+            while (right < s.length()) {
+                char r = s[right];
+
+                int index = chars[r];
+                if (index != -1 and index >= left and index < right) {
+                    left = index + 1;
+                }
+                res = max(res, right - left + 1);
+
+                chars[r] = right;
+                right++;
+            }
+            return res;
+        }
+    };
+    ```
+
+    ```
+    // Java
+    public class Solution {
+        public int lengthOfLongestSubstring(String s) {
+            Integer[] chars = new Integer[128];
+
+            int left = 0;
+            int right = 0;
+
+            int res = 0;
+            while (right < s.length()) {
+                char r = s.charAt(right);
+
+                Integer index = chars[r];
+                if (index != null && index >= left && index < right) {
+                    left = index + 1;
+                }
+
+                res = Math.max(res, right - left + 1);
+
+                chars[r] = right;
+                right++;
+            }
+
+            return res;
+        }
+    }
+    ```
+
+    ```
+    # Python3
+    class Solution:
+        def lengthOfLongestSubstring(self, s: str) -> int:
+            chars = [None] * 128
+
+            left = right = 0
+
+            res = 0
+            while right < len(s):
+                r = s[right]
+
+                index = chars[ord(r)]
+                if index != None and index >= left and index < right:
+                    left = index + 1
+
+                res = max(res, right - left + 1)
+
+                chars[ord(r)] = right
+                right += 1
+            return res
+    ```
+
+    **Complexity Analysis**
+
+    - Time complexity: *O(n)*. Index *j* will iterate *n* times.
+
+    - Space complexity (HashMap): *O(min(m, n))*. Same as the previous approach.
+
+    - Space complexity (Table): *O(m)*. *m* is the size of the charset.
+    $$
+);
+
+INSERT INTO solutions (slug, solution) VALUES (
+    '4-median-of-two-sorted-arrays',
+    $$$$
+);
+
+INSERT INTO solutions (slug, solution) VALUES (
+    '5-longest-palindromic-substring',
+    $$### Approach 1: Longest Common Substring
+
+    **Common mistake**
+
+    Some people will be tempted to come up with a quick solution, which is unfortunately flawed (however can be corrected easily):
+
+    > Reverse *S* and become *S'*. Find the longest common substring between *S* and *S'*, which must also be the longest palindromic substring.
+
+    This seemed to work, let’s see some examples below.
+
+    For example, *S* = "caba", *S'* = "abac".
+
+    The longest common substring between *S* and *S'* is "aba", which is the answer.
+
+    Let’s try another example: *S* = "abacdfgdcaba", *S'* = "abacdgfdcaba".
+
+    The longest common substring between *S* and *S'* is "abacd". Clearly, this is not a valid palindrome.
+
+    **Algorithm**
+
+    We could see that the longest common substring method fails when there exists a reversed copy of a non-palindromic substring in some other part of *S*. To rectify this, each time we find a longest common substring candidate, we check if the substring’s indices are the same as the reversed substring’s original indices. If it is, then we attempt to update the longest palindrome found so far; if not, we skip this and find the next candidate.
+
+    This gives us an *O(n^2)* Dynamic Programming solution which uses *O(n^2)* space (could be improved to use *O(n)* space). Please read more about Longest Common Substring [here](http://en.wikipedia.org/wiki/Longest_common_substring).
+
+    ---
+
+    **Approach 2: Brute Force**
+
+    The obvious brute force solution is to pick all possible starting and ending positions for a substring, and verify if it is a palindrome.
+
+    Complexity Analysis
+
+    - Time complexity: *O(n^3)*. Assume that *n* is the length of the input string, there are a total of *nC2 = n(n−1) / 2​* such substrings (excluding the trivial solution where a character itself is a palindrome). Since verifying each substring takes *O(n)* time, the run time complexity is *O(n^3)*.
+
+    - Space complexity: *O(1)*.
+
+    ---
+
+    ### Approach 3: Dynamic Programming
+
+    To improve over the brute force solution, we first observe how we can avoid unnecessary re-computation while validating palindromes. Consider the case "ababa". If we already knew that "bab" is a palindrome, it is obvious that "ababa" must be a palindrome since the two left and right end letters are the same.
+
+    We define *P(i, j)* as following:
+
+    *P(i, j) = {true, if the substring Si … Sj is a palindrome. false,otherwise.}*
+
+    Therefore,
+
+    *P(i, j) = (P(i+1, j−1) and Si == Sj)*
+
+    The base cases are:
+
+    *P(i, i) = true*
+
+    *P(i, i+1) = (Si ​== Si+1​)*
+
+    This yields a straight forward DP solution, which we first initialize the one and two letters palindromes, and work our way up finding all three letters palindromes, and so on...
+
+    **Complexity Analysis**
+
+    - Time complexity: *O(n^2)*. This gives us a runtime complexity of *O(n^2)*.
+
+    - Space complexity: *O(n^2)*. It uses *O(n^2)* space to store the table.
+
+    **Additional Exercise**
+
+    Could you improve the above space complexity further and how?
+
+    ---
+
+    ### Approach 4: Expand Around Center
+
+    In fact, we could solve it in *O(n^2)* time using only constant space.
+
+    We observe that a palindrome mirrors around its center. Therefore, a palindrome can be expanded from its center, and there are only *2n - 1* such centers.
+
+    You might be asking why there are *2n - 1* but not *n* centers? The reason is the center of a palindrome can be in between two letters. Such palindromes have even number of letters (such as "abba") and its center are between the two 'b's.
+
+    ```
+    // Java
+    public String longestPalindrome(String s) {
+        if (s == null || s.length() < 1) return "";
+        int start = 0, end = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int len1 = expandAroundCenter(s, i, i);
+            int len2 = expandAroundCenter(s, i, i + 1);
+            int len = Math.max(len1, len2);
+            if (len > end - start) {
+                start = i - (len - 1) / 2;
+                end = i + len / 2;
+            }
+        }
+        return s.substring(start, end + 1);
+    }
+
+    private int expandAroundCenter(String s, int left, int right) {
+        int L = left, R = right;
+        while (L >= 0 && R < s.length() && s.charAt(L) == s.charAt(R)) {
+            L--;
+            R++;
+        }
+        return R - L - 1;
+    }
+    ```
+
+    **Complexity Analysis**
+
+    - Time complexity: *O(n^2)*. Since expanding a palindrome around its center could take *O(n)* time, the overall complexity is *O(n^2)*.
+
+    - Space complexity: O(1).
+
+    ---
+
+    ### Approach 5: Manacher's Algorithm
+
+    There is even an *O(n)* algorithm called Manacher's algorithm, explained [here in detail](https://en.wikipedia.org/wiki/Longest_palindromic_substring#Manacher's_algorithm). However, it is a non-trivial algorithm, and no one expects you to come up with this algorithm in a 45 minutes coding session. But, please go ahead and understand it, I promise it will be a lot of fun.
+    $$
+);
