@@ -4,7 +4,7 @@
 
     async function refresh() {
 		const options = {
-			method: "POST",
+			method: "GET",
 			credentials: "include"
 		}
 
