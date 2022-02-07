@@ -34,33 +34,33 @@
 <svelte:head>Profile - go-leetcode</svelte:head>
 
 <div class="container items-center flex flex-col">
-    <div class="">
-        <div>
-            <p>Welcome, {user.username}</p>
+    <div class="rounded-lg shadow-lg w-1/3">
+        <div class="m-4">
+            <p class="text-2xl font-medium text-center">Welcome, {user.username}</p>
         </div>
         <div class="grid grid-cols-2 grid-rows-4">
-            <div>
+            <div class="m-4">
                 <p>Username</p>
             </div>
-            <div>
-                <p>{user.username}</p>
+            <div class="m-4">
+                <input type="text" placeholder={user.username}>
             </div>
-            <div>
-                Full Name
+            <div class="m-4">
+                <p>Full Name</p>
             </div>
-            <div>
-                {user.fullname}
+            <div class="m-4">
+                <input type="text" placeholder={user.fullname}>
             </div>
-            <div>
-                Email
+            <div class="m-4">
+                <p>Email</p>
             </div>
-            <div>
-                {user.email}
+            <div class="m-4">
+                <input type="text" placeholder={user.email}>
             </div>
-            <div>
-                Password
+            <div class="m-4">
+                <p>Password</p>
             </div>
-            <div>
+            <div class="m-4">
                 <input type="text">
             </div>
         </div>
