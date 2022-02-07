@@ -33,10 +33,41 @@
 
 <svelte:head>Profile - go-leetcode</svelte:head>
 
-<div class="container">
-    <p>Welcome, {user.username}</p>
+<div class="container items-center flex flex-col">
+    <div class="">
+        <div>
+            <p>Welcome, {user.username}</p>
+        </div>
+        <div class="grid grid-cols-2 grid-rows-4">
+            <div>
+                <p>Username</p>
+            </div>
+            <div>
+                <p>{user.username}</p>
+            </div>
+            <div>
+                Full Name
+            </div>
+            <div>
+                {user.fullname}
+            </div>
+            <div>
+                Email
+            </div>
+            <div>
+                {user.email}
+            </div>
+            <div>
+                Password
+            </div>
+            <div>
+                <input type="text">
+            </div>
+        </div>
+    </div>
 </div>
 
+<!-- 
 <div class="container mx-auto w-1/3 shadow">
     <div class="bg-white rounded-t-lg">
         <div class="px-7 py-5">
@@ -60,7 +91,7 @@
                 <h4 class="text-base text-gray-500 font-medium mr-52 self-center">
                     Username
                 </h4>
-                <p class="text-base py-2 max-w-sm text-gray-500">{user.username}</p>
+                <input type="text" value={user.username} class="text-base py-2 flex-grow max-w-sm">
             </div>
             <div class="bg-gray-50 px-7 py-5 flex flex-row justify-between">
                 <h4 class="text-base text-gray-500 font-medium mr-52 self-center">
@@ -85,3 +116,4 @@
         </form>
     </div>
 </div>
+-->
