@@ -71,6 +71,7 @@ func main() {
 	authR.HandleFunc("/signup", auth.Signup)
 	authR.HandleFunc("/login", auth.Login)
 	authR.HandleFunc("/silentrefresh", auth.SilentRefresh)
+	authR.HandleFunc("/editprofile", auth.EditProfile)
 
 	usersR := r.PathPrefix("/users").Subrouter()
 	usersR.HandleFunc("/{username}", controllers.UsersUsername)
