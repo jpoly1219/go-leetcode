@@ -29,14 +29,18 @@
 
 <script>
     export let user
+
+    async function submit() {
+
+    }
 </script>
 
 <svelte:head>Profile - go-leetcode</svelte:head>
 
 <div class="container items-center flex flex-col">
-    <div class="rounded-lg shadow-lg w-1/3">
+    <div class="rounded-lg shadow-lg w-1/3 my-44">
         <div class="m-4">
-            <p class="text-2xl font-medium text-center">Welcome, {user.username}</p>
+            <p class="text-2xl font-medium text-center">Welcome, {user.fullname}</p>
         </div>
         <div class="grid grid-cols-2 grid-rows-4">
             <div class="m-4">
@@ -62,6 +66,11 @@
             </div>
             <div class="m-4">
                 <input type="text">
+            </div>
+            <div class="m-4 flex justify-center col-span-2">
+                <button type="submit" class="border bg-blue-400 rounded-lg p-3">
+                    <a href="/" class="mx-3 my-2 text-white">Save Changes</a>
+                </button>
             </div>
         </div>
     </div>
