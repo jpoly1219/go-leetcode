@@ -29,9 +29,35 @@
 
 <script>
     export let user
+    let username = ""
+    let fullname = ""
+    let email = ""
+    let password = ""
 
     async function submit() {
+        const editProfileDetails = {
+            username: username,
+            fullname: fullname,
+            email: email,
+            password: password
+        }
 
+        const options = {
+            method: "POST",
+            body: JSON.stringify(editProfileDetails),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+        const url = "http://localhost:8090/auth/editprofile"
+
+        try {
+            const res = await fetch(url, options)
+            const message = await res.json()
+            alert(message.message)
+        } catch(err) {
+            alert(err)
+        }
     }
 </script>
 
@@ -47,25 +73,25 @@
                 <p>Username</p>
             </div>
             <div class="m-4">
-                <input type="text" placeholder={user.username}>
+                <input bind:value={username} type="text" placeholder={user.username}>
             </div>
             <div class="m-4">
                 <p>Full Name</p>
             </div>
             <div class="m-4">
-                <input type="text" placeholder={user.fullname}>
+                <input bind:value={fullname} type="text" placeholder={user.fullname}>
             </div>
             <div class="m-4">
                 <p>Email</p>
             </div>
             <div class="m-4">
-                <input type="text" placeholder={user.email}>
+                <input bind:value={email} type="text" placeholder={user.email}>
             </div>
             <div class="m-4">
-                <p>Password</p>
+                <p>New Password</p>
             </div>
             <div class="m-4">
-                <input type="text">
+                <input bind:value={password} type="text">
             </div>
             <div class="m-4 flex justify-center col-span-2">
                 <button type="submit" class="border bg-blue-400 rounded-lg p-3">
