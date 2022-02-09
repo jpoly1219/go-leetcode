@@ -27,6 +27,7 @@
 </script>
 
 <script>
+    import { timeToExpireStore } from "../stores/stores.js"
     export let user
     let newUsername = user.username
     let newFullname = user.fullname
@@ -59,7 +60,9 @@
             accessTokenStore.set(accessToken)
             const payloadB64 = accessToken.split(".")[1]
             timeToExpireStore.set(JSON.parse(window.atob(payloadB64)).exp)
+            console.log(timeToExpireStore)
         } catch(err) {
+            console.log(err)
             alert(err)
         }
     }
