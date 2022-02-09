@@ -75,7 +75,7 @@
         <div class="m-4">
             <p class="text-2xl font-medium text-center">Edit your account information.</p>
         </div>
-        <form on:submit|preventDefault={submit} class="flex flex-col">
+        <form on:submit|preventDefault={submit} class="flex flex-col mx-4">
             <div class="flex flex-col items-stretch">
                 <input bind:value={newUsername} type="text" placeholder="New username" required class="border-b-2 py-4">
                 <input bind:value={newFullname} type="text" placeholder="New name" required class="border-b-2 py-4">
