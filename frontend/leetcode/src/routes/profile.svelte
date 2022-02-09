@@ -36,10 +36,11 @@
 
     async function submit() {
         const editProfileDetails = {
-            username: username,
-            fullname: fullname,
-            email: email,
-            password: password
+            oldUsername: user.username,
+            newUsername: username,
+            newFullname: fullname,
+            newEmail: email,
+            newPassword: password
         }
 
         const options = {
