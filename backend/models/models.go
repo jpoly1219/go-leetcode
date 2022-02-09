@@ -57,6 +57,15 @@ type User struct {
 	ProfilePic string    `json:"profilePic"`
 }
 
+type NewUserData struct {
+	OldUsername   string `json:"oldUsername"`
+	NewUsername   string `json:"newUsername"`
+	NewFullname   string `json:"newFullname"`
+	NewEmail      string `json:"newEmail"`
+	NewPassword   string `json:"newPassword"`
+	NewProfilePic string `json:"newProfilePic"`
+}
+
 type Submission struct {
 	Username string `json:"username"`
 	Slug     string `json:"slug"`
