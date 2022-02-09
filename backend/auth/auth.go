@@ -228,26 +228,15 @@ func EditProfile(w http.ResponseWriter, r *http.Request) {
 
 	var userid uuid.UUID
 	var username string
-	var email string
-	// check for UNIQUE constraint violations
-	err = models.Db.QueryRow(
-		"SELECT username, email FROM users WHERE username = $1 OR email = $2;",
-		formData.NewUsername, formData.NewEmail,
-	).Scan(&username, &email)
-	if err != nil {
-		fmt.Println("", err)
-	}
-
-	if username != "" || email != "" {
-		json.NewEncoder(w).Encode([]byte(`{"message": "username or email already exists."}`))
-	}
 	// update user data to database
 	err = models.Db.QueryRow(
-		"UPDATE users SET username = $1, fullname = $2, email = $3, password = $4 WHERE username = $5",
+		"UPDATE users SET username = $1, fullname = $2, email = $3, password = $4 WHERE username = $5 RETURNING user_id, username;",
 		formData.NewUsername, formData.NewFullname, formData.NewEmail, string(passwordHash), formData.OldUsername,
 	).Scan(&userid, &username)
 	if err != nil {
 		fmt.Println("INSERT to EditProfile failed:", err)
+		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+		w.Write([]byte("Request failed. Username or email already exists."))
 		return
 	}
 
