@@ -29,37 +29,37 @@
 
 <script>
     export let user
-    let username = ""
-    let fullname = ""
-    let email = ""
-    let password = ""
+    // let username = ""
+    // let fullname = ""
+    // let email = ""
+    // let password = ""
 
-    async function submit() {
-        const editProfileDetails = {
-            oldUsername: user.username,
-            newUsername: username,
-            newFullname: fullname,
-            newEmail: email,
-            newPassword: password
-        }
+    // async function submit() {
+    //     const editProfileDetails = {
+    //         oldUsername: user.username,
+    //         newUsername: username,
+    //         newFullname: fullname,
+    //         newEmail: email,
+    //         newPassword: password
+    //     }
 
-        const options = {
-            method: "POST",
-            body: JSON.stringify(editProfileDetails),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }
-        const url = "http://localhost:8090/auth/editprofile"
+    //     const options = {
+    //         method: "POST",
+    //         body: JSON.stringify(editProfileDetails),
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         }
+    //     }
+    //     const url = "http://localhost:8090/auth/editprofile"
 
-        try {
-            const res = await fetch(url, options)
-            const message = await res.json()
-            alert(message.message)
-        } catch(err) {
-            alert(err)
-        }
-    }
+    //     try {
+    //         const res = await fetch(url, options)
+    //         const message = await res.json()
+    //         alert(message.message)
+    //     } catch(err) {
+    //         alert(err)
+    //     }
+    // }
 </script>
 
 <svelte:head>Profile - go-leetcode</svelte:head>
@@ -74,29 +74,23 @@
                 <p>Username</p>
             </div>
             <div class="m-4">
-                <input bind:value={username} type="text" placeholder={user.username}>
+                <p>{user.username}</p>
             </div>
             <div class="m-4">
                 <p>Full Name</p>
             </div>
             <div class="m-4">
-                <input bind:value={fullname} type="text" placeholder={user.fullname}>
+                {user.fullname}
             </div>
             <div class="m-4">
                 <p>Email</p>
             </div>
             <div class="m-4">
-                <input bind:value={email} type="text" placeholder={user.email}>
-            </div>
-            <div class="m-4">
-                <p>New Password</p>
-            </div>
-            <div class="m-4">
-                <input bind:value={password} type="text">
+                <p>{user.email}</p>
             </div>
             <div class="m-4 flex justify-center col-span-2">
-                <button type="submit" class="border bg-blue-400 rounded-lg p-3">
-                    <a href="/" class="mx-3 my-2 text-white">Save Changes</a>
+                <button class="border bg-blue-400 rounded-lg p-3">
+                    <a href="/editprofile" class="mx-3 my-2 text-white">Edit Profile</a>
                 </button>
             </div>
         </div>
