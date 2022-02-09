@@ -29,37 +29,6 @@
 
 <script>
     export let user
-    // let username = ""
-    // let fullname = ""
-    // let email = ""
-    // let password = ""
-
-    // async function submit() {
-    //     const editProfileDetails = {
-    //         oldUsername: user.username,
-    //         newUsername: username,
-    //         newFullname: fullname,
-    //         newEmail: email,
-    //         newPassword: password
-    //     }
-
-    //     const options = {
-    //         method: "POST",
-    //         body: JSON.stringify(editProfileDetails),
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         }
-    //     }
-    //     const url = "http://localhost:8090/auth/editprofile"
-
-    //     try {
-    //         const res = await fetch(url, options)
-    //         const message = await res.json()
-    //         alert(message.message)
-    //     } catch(err) {
-    //         alert(err)
-    //     }
-    // }
 </script>
 
 <svelte:head>Profile - go-leetcode</svelte:head>
