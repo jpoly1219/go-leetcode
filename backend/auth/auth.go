@@ -207,3 +207,66 @@ func SilentRefresh(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 }
+
+func EditProfile(w http.ResponseWriter, r *http.Request) {
+	HandleCors(w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	// read form data and check if form is valid
+	var formData models.NewUserData
+	json.NewDecoder(r.Body).Decode(&formData)
+	fmt.Println(formData)
+
+	// hash password
+	passwordHash, err := bcrypt.GenerateFromPassword([]byte(formData.NewPassword), 14)
+	if err != nil {
+		fmt.Println("failed to generate password hash", err)
+		return
+	}
+
+	var userid uuid.UUID
+	var username string
+	var email string
+	// check for UNIQUE constraint violations
+	err = models.Db.QueryRow(
+		"SELECT username, email FROM users WHERE username = $1 OR email = $2;",
+		formData.NewUsername, formData.NewEmail,
+	).Scan(&username, &email)
+	if err != nil {
+		fmt.Println("", err)
+	}
+
+	if username != "" || email != "" {
+		json.NewEncoder(w).Encode([]byte(`{"message": "username or email already exists."}`))
+	}
+	// update user data to database
+	err = models.Db.QueryRow(
+		"UPDATE users SET username = $1, fullname = $2, email = $3, password = $4 WHERE username = $5",
+		formData.NewUsername, formData.NewFullname, formData.NewEmail, string(passwordHash), formData.OldUsername,
+	).Scan(&userid, &username)
+	if err != nil {
+		fmt.Println("INSERT to EditProfile failed:", err)
+		return
+	}
+
+	// generate token pair and send it to user. Access token and exp as JSON, refresh token as HttpOnly cookie.
+	tokenPair, err := GenerateToken(userid, username)
+	if err != nil {
+		fmt.Println("failed to generate token pair:", err)
+		return
+	}
+
+	cookie := http.Cookie{
+		HttpOnly: true,
+		Name:     "refreshToken",
+		Value:    tokenPair.RefreshToken,
+		Domain:   "localhost:3000",
+		SameSite: http.SameSiteNoneMode,
+		Secure:   true,
+	}
+	http.SetCookie(w, &cookie)
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	json.NewEncoder(w).Encode(tokenPair.AccessToken)
+}
