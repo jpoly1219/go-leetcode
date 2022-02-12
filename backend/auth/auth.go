@@ -24,7 +24,7 @@ func HandleCors(w http.ResponseWriter, r *http.Request) {
 func GenerateToken(userid uuid.UUID, username string) (*models.Token, error) {
 	accessKey := os.Getenv("ACCESSSECRETKEY")
 	refreshKey := os.Getenv("REFRESHSECRETKEY")
-	accessExp := time.Now().Add(time.Minute * 15).Unix()
+	accessExp := time.Now().Add(time.Minute * 1).Unix()
 	refreshExp := time.Now().Add(time.Hour * 24).Unix()
 
 	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
@@ -170,6 +170,7 @@ func SilentRefresh(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	refreshToken := c.Value
+	fmt.Println("refreshToken value: ", refreshToken)
 
 	// check if refresh token is valid
 	token, err := jwt.Parse(refreshToken, func(token *jwt.Token) (interface{}, error) {
@@ -187,7 +188,7 @@ func SilentRefresh(w http.ResponseWriter, r *http.Request) {
 		usernameStr := username.(string)
 		tokenPair, err := GenerateToken(useridStr, usernameStr)
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("Error generating token: ", err)
 			return
 		}
 
