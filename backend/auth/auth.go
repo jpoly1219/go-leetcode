@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"reflect"
 	"time"
 
 	"github.com/jpoly1219/go-leetcode/backend/models"
@@ -177,14 +178,18 @@ func SilentRefresh(w http.ResponseWriter, r *http.Request) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
-		return []byte(os.Getenv("ACCESSSECRETKEY")), nil
+		return []byte(os.Getenv("REFRESHSECRETKEY")), nil
 	})
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		// if so then generate token pair and send it to user. Access token and exp as JSON, refresh token as HttpOnly cookie.
 		userid := claims["userid"]
+		fmt.Println(userid, reflect.TypeOf(userid))
 		username := claims["username"]
-		useridStr := userid.(uuid.UUID)
+		useridStr, ok := userid.(uuid.UUID)
+		if !ok {
+			fmt.Println("Error: %v")
+		}
 		usernameStr := username.(string)
 		tokenPair, err := GenerateToken(useridStr, usernameStr)
 		if err != nil {
