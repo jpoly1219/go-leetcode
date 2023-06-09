@@ -146,7 +146,7 @@ func CheckSlug(w http.ResponseWriter, r *http.Request) {
 	})
 	responseBody := bytes.NewBuffer(postBody)
 
-	resp, err := http.Post("http://localhost:8091/run", "application/json", responseBody)
+	resp, err := http.Post("http://coderunner:8091/run", "application/json", responseBody)
 	if err != nil {
 		fmt.Println("POST request failed: ", err)
 		return

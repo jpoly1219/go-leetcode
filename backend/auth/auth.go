@@ -25,8 +25,8 @@ func HandleCors(w http.ResponseWriter, r *http.Request) {
 func GenerateToken(userid uuid.UUID, username string) (*models.Token, error) {
 	accessKey := os.Getenv("ACCESSSECRETKEY")
 	refreshKey := os.Getenv("REFRESHSECRETKEY")
-	accessExp := time.Now().Add(time.Minute * 1).Unix()
-	refreshExp := time.Now().Add(time.Hour * 24).Unix()
+	accessExp := time.Now().Add(time.Hour * 24).Unix()
+	refreshExp := time.Now().Add(time.Hour * 24 * 7).Unix()
 
 	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"userid":   userid,

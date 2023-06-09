@@ -9,7 +9,8 @@ using json = nlohmann::json;
 
 // insert Solution class here
 
-int main() {
+int main()
+{
     Solution sol;
 
     ifstream i("../testcase-1-two-sum.json");
@@ -22,24 +23,25 @@ int main() {
 
     bool isOk = true;
     // test
-    for (int i = 0; i < vecNums.size(); i++) {
+    for (int i = 0; i < vecNums.size(); i++)
+    {
         vector<int> vecSolution = sol.twoSum(vecNums.at(i), vecTargets.at(i));
-        if (vecSolution != vecExpected.at(i)) {
+        if (vecSolution != vecExpected.at(i))
+        {
             json output = {
                 {"result", "wrong"},
                 {"input", vecNums.at(i)},
                 {"expected", vecExpected.at(i)},
-                {"output", vecSolution}
-            };
+                {"output", vecSolution}};
             cout << output.dump(4) << endl;
             isOk = false;
             break;
         }
     }
-    if (isOk) {
+    if (isOk)
+    {
         json output = {
-            {"result", "OK"}
-        };
+            {"result", "OK"}};
         cout << output.dump(4) << endl;
     }
     cout << "test completed" << endl;

@@ -5,18 +5,18 @@ services:
     build: ./backend
     ports:
       - "8090:8090"
-  
+
   coderunner:
     build: ./coderunner
     ports:
       - "8091:8091"
-  
+
   frontend:
     build: ./frontend/leetcode
     ports:
       - "3000:3000"
       - "15000:15000"
-  
+
   database:
     container_name: database
     image: postgres

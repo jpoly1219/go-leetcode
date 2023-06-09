@@ -1,6 +1,13 @@
 # Structure
 
+## Usage
+
+```
+docker compose up --build
+```
+
 ## Workflow
+
 - User types up code in the frontend.
   - The code needs to accept CLI input (something like int argc, char argv) to accept test case inputs and return outputs.
   - The code needs to have a class Solution (for languages that support OOP), then have it run Solution.method().
@@ -20,6 +27,7 @@
   - Results and outputs are also saved to the submissions database.
 
 ## Frontend
+
 - home page (before login)
 - personalized dashboard page (after login)
 - problems list page
@@ -45,6 +53,7 @@
   - https://dev.to/sharu725/sveltekit-tutorial-2e5d
 
 ## Backend
+
 - router to the pages listed above and below
   - home, dashboard, problems list, problem solving, sign up/login/user settings, learn topics, online interview
 - controller functions for each route
@@ -71,6 +80,7 @@
   - https://callistaenterprise.se/blogg/teknik/2019/10/05/go-worker-cancellation/
 
 ## Goals
+
 - Learn more about Go
 - Try using Go's cool features: goroutines and interfaces
   - Interfaces:
@@ -107,7 +117,7 @@
       title VARCHAR(50) UNIQUE NOT NULL,
       difficulty VARCHAR(10) NOT NULL,
       description TEXT NOT NULL,
-    );
+      );
   - How should I handle test cases? Should I store them in the DB or just do it inside the backend code?
 - Learn Test Driven Development:
 
@@ -119,14 +129,17 @@
   - I will look into the code later to see how it is implemented...
 
 ### TODO:
+
 - Load `problems` database with problem sets.
   - This is done in memory at the moment, will load database later.
 - Create a query in `controllers.go` to select all problems. More detailed queries will be implemented later.
 - Call the Go API with `fetch` inside `problemstore.js`.
 - Load problems as a markdown.
+
   - Save each problem as markdown, then parse this using `snarkdown`.
 
 - 21.08.24
+
   - Backend needs to process the code sent from the frontend.
     - Experimentation with Docker is required, but it is not a priority.
   - Frontend needs syntax highlighting via PrismJS.
@@ -134,12 +147,14 @@
     - Syntax highlighting should switch according to the language chosen.
 
 - Inserting code to line number x
+
   - https://siongui.github.io/2017/01/30/go-insert-line-or-string-to-file/
   - need A Better Way To Handle Different Language Because It Is Way Too Repetitive At The Moment.
   - For a successful insert, the code must be formatted into a single line. For some reason, multi-line inserts don't seem to work...
   - Or make it so that the insert function loops over each line of user code...
 
 - User authentication
+
   - Token based authentication.
   - https://hasura.io/blog/best-practices-of-using-jwt-with-graphql/
   - https://hackernoon.com/creating-a-middleware-in-golang-for-jwt-based-authentication-cx3f32z8
@@ -148,66 +163,76 @@
   - User sends requests to a protected route, with a bearer token.
   - Middleware extracts the token from the HTTP header, then uses `jwt-go` library to check if the token is valid.
   - If token is valid, the middleware creates a ctx variable with claims stored inside it, then hands over the request to the protected endpoint.
+
     - `ctx := context.WithValue(r.Context(), <key>, claims)`, `next.ServeHTTP(w, r.WithContext(ctx))` from the middleware
     - `props, _ := r.Context().Value(<key>).(jwt.MapClaims)` from the protected endpoint
-  
+
   - Token has the following claims: `userid`, `username`, `expire`
   - Tokens won't need uuids for now.
 
   - Token generation:
+
     - User submits credentials to the backend. The backend then generates tokens.
     - Tokens will be signed by a secret key saved inside the server's environment variable.
     - Access and refresh tokens will have different secret keys.
     - Access token expires every 15min and refresh token expires every 24hrs.
     - Access token and access token expiry time will be sent as JSON payload, and refresh token will be saved inside an HttpOnly cookie.
-  
+
   - Frontend behavior:
+
     - User submits credentials to the backend and receives access token and access token expiry time as JSON, and refresh token as an HttpOnly cookie.
     - After the access token expiry time passes, the frontend will send a request for silent refresh, with the refresh token inside the HttpOnly cookie.
 
   - Database
+
     - https://www.calhoun.io/inserting-records-into-a-postgresql-database-with-gos-database-sql-package/
     - `users` table with five columns: `userid`, `username`, `fullname`, `email`, and `password`
     - `password` will hold hashes instead of string
     - Table relationships:
+
       - `users`, `problems`, `templates`, `testcases`, `attempts`
       - `templates` has a foreign key that references the primary key of `problems`
       - `testcases` has a foreign key that references the primary key of `problems`
       - `attempts` has two foreign keys that references the primary key of `users` and `problems`
-      - `CREATE TABLE users (id SERIAL PRIMARY KEY, username VARCHAR (50) UNIQUE NOT NULL, fullname VARCHAR (100) NOT NULL, email VARCHAR (255) UNIQUE NOT NULL, password VARCHAR(255) NOT NULL)`
+      - `CREATE TABLE users (user_id UUID DEFAULT gen_random_uuid() PRIMARY KEY, username VARCHAR (50) UNIQUE NOT NULL, fullname VARCHAR (100) NOT NULL, email VARCHAR (255) UNIQUE NOT NULL, password VARCHAR(255) NOT NULL, profile_pic TEXT NOT NULL)`
 
-      - `CREATE TABLE problems (id SERIAL PRIMARY KEY, title VARCHAR (100) UNIQUE NOT NULL, slug VARCHAR (100) UNIQUE NOT NULL, difficulty VARCHAR (10) NOT NULL, description TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW())`
+      - `CREATE TABLE problems (problem_id UUID DEFAULT gen_random_uuid() PRIMARY KEY, title VARCHAR (100) UNIQUE NOT NULL, slug VARCHAR (100) UNIQUE NOT NULL, difficulty VARCHAR (10) NOT NULL, description TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW())`
 
-      - `CREATE TABLE templates (id SERIAL PRIMARY KEY, slug VARCHAR (100) NOT NULL, lang VARCHAR (10) NOT NULL, template TEXT NOT NULL, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
+      - `CREATE TABLE templates (template_id UUID DEFAULT gen_random_uuid() PRIMARY KEY, slug VARCHAR (100) NOT NULL, lang VARCHAR (10) NOT NULL, template TEXT NOT NULL, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
 
-      - `CREATE TABLE testcases (id SERIAL PRIMARY KEY, slug VARCHAR (100) NOT NULL, testcase TEXT NOT NULL UNIQUE, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
+      - `CREATE TABLE testcases (testcase_id UUID DEFAULT gen_random_uuid() PRIMARY KEY, slug VARCHAR (100) NOT NULL, testcase TEXT NOT NULL UNIQUE, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
 
-      - `CREATE TABLE attempts (id SERIAL PRIMARY KEY, username VARCHAR (50) NOT NULL, slug VARCHAR (100) NOT NULL, lang VARCHAR (10) NOT NULL, code TEXT NOT NULL, result VARCHAR (50) NOT NULL, output TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW(), FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
+      - `CREATE TABLE attempts (attempt_id UUID DEFAULT gen_random_uuid() PRIMARY KEY, username VARCHAR (50) NOT NULL, slug VARCHAR (100) NOT NULL, lang VARCHAR (10) NOT NULL, code TEXT NOT NULL, result VARCHAR (50) NOT NULL, output TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW(), FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
 
-      - `CREATE TABLE solutions (id SERIAL PRIMARY KEY, slug VARCHAR (100) UNIQUE NOT NULL, solution TEXT NOT NULL, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
+      - `CREATE TABLE solutions (solution_id UUID DEFAULT gen_random_uuid() PRIMARY KEY, slug VARCHAR (100) UNIQUE NOT NULL, solution TEXT NOT NULL, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
 
-      - `CREATE TABLE discussions (id SERIAL PRIMARY KEY, author VARCHAR (50) NOT NULL, slug VARCHAR (100) NOT NULL, title VARCHAR (100) UNIQUE NOT NULL, description TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW(), FOREIGN KEY (author) REFERENCES users (username) ON DELETE CASCADE, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
+      - `CREATE TABLE discussions (discussion_id UUID DEFAULT gen_random_uuid() PRIMARY KEY, author VARCHAR (50) NOT NULL, slug VARCHAR (100) NOT NULL, title VARCHAR (100) UNIQUE NOT NULL, description TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW(), FOREIGN KEY (author) REFERENCES users (username) ON DELETE CASCADE, FOREIGN KEY (slug) REFERENCES problems (slug) ON DELETE CASCADE)`
 
-      - `CREATE TABLE comments (id SERIAL PRIMARY KEY, author VARCHAR (50) NOT NULL, discussion_id INT NOT NULL, description TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW(), FOREIGN KEY (discussionId) REFERENCES discussions (id) ON DELETE CASCADE)`
+      - `CREATE TABLE comments (comment_id UUID DEFAULT gen_random_uuid() PRIMARY KEY, author VARCHAR (50) NOT NULL, discussion_id UUID DEFAULT gen_random_uuid() NOT NULL, description TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW(), FOREIGN KEY (discussion_id) REFERENCES discussions (discussion_id) ON DELETE CASCADE)`
 
-      - `INSERT INTO templates (slug, lang, template) VALUES ('1-two-sum', 'cpp', *paste template.cpp*)`
-      - `INSERT INTO testcases (slug, testcase) VALUES ('1-two-sum', *paste template.json*)`
-      - `INSERT INTO solutions (slug, solution) VALUES ('1-two-sum', *paste solution*)`
+      - `INSERT INTO problems (title, slug, difficulty, description) VALUES ('1. Two Sum', '1-two-sum', 'Easy', $$paste problem desc$$)`
+      - `INSERT INTO templates (slug, lang, template) VALUES ('1-two-sum', 'cpp', $$paste template.cpp$$)`
+      - `INSERT INTO testcases (slug, testcase) VALUES ('1-two-sum', $$paste template.json$$)`
+      - `INSERT INTO solutions (slug, solution) VALUES ('1-two-sum', $$paste solution$$)`
       - `INSERT INTO discussions (author, slug, title, description, created) VALUES ()`
-  
+
   - CORS
+
     - https://flaviocopes.com/golang-enable-cors/
 
   - SvelteKit and Reactivity, Stores
+
     - https://github.com/sveltejs/svelte/issues/4306
-  
+
   - Current Issues:
+
     - Error loading 1-two-sum when switching tabs.
     - For some reason, SvelteKit is reloading itself every 5 seconds without me asking.
     - This is throwing off a lot of functionality.
     - https://github.com/sveltejs/kit/issues/1134
-  
+
   - Thoughts:
+
     - Per-user containers might be a better idea than per-problem containers.
     - Popular problems may have issues with being overly used and thus hogging server resources.
     - Also, having a per user container would be better for security as users cannot access other users' data.
@@ -220,6 +245,7 @@
       - Load balancing will be handled via goroutines and container orchestration tools.
       - Create a docker compose with four containers: frontend, backend (API gateway), backend (running code), database
     - Because there is only going to be one container at the moment, the container needs to be able to handle concurrent requests.
+
       - This can be an issue because all codes that the user submits will yield a `file.*` format, making it very difficult for the program to distinguish between the two. The program may even overwrite the file with new code input.
       - One way to solve this is to generate UUIDs for each file.
       - The resulting JSON file should also follow this scheme... how?
@@ -234,20 +260,24 @@
     - Run code should run tests on three most lenient testcases, and not count towards your attempts.
 
     - Feature idea: group submissions by their steps taken
+
       - go-leetcode can tell you how other people have attempted the problem, and how many people have used similar steps as you.
       - Docker Compose
-    
+
     - Dockerize the apps first before developing them!
+
       - Because this is a multi-container app, it is better if I can separate these into their own directory,
 
     - Frontend needs more polish, especially the submissions tab.
+
       - Right now the tab renders extremely basic table without any styling. Also, the og Leetcode has a feature where one can click on a submission entry to view detailed results.
       - This will need an update to the backend.
       - Code run time and memory usage should be measured.
       - Table style: https://tailwindcomponents.com/component/table-visits
       - Answers and discussion tabs need to be populated.
-    
+
     - Discussions tab:
+
       - The concept is very similar to a blog app. It will have posts, and each post will have a title, author, time created, and comments.
       - This would be nice if it was a component. The logic is complicated, and the `[slug].svelte` file will be unreadable.
       - Since it is ideal if a component is reusable, the discussion board should take props such as `slug`.
@@ -255,18 +285,20 @@
       - A discussion board is made from discussion posts and each post has comments
       - `discussions` table will hold the discussion posts. It will have columns `id`, `author`, `slug`, `title`, `description`, `created`
       - `comments` table will hold the comments to each post. It will have columns `id`, `author`, `discussion_id`, `description`, `created`
-          - Need to load in comments
+        - Need to load in comments
       - New discussions need their own controller
-    
+
     - Tokens are not working as intended, need to try this at home with local dev server instead of remote code-server
     - Probably a HttpOnly issue with HTTPS and Secure mode
-    
+
     - Color Palette:
+
       - https://coolors.co/ff9f1c-ffbf69-ffffff-cbf3f0-2ec4b6
       - https://coolors.co/1a535c-4ecdc4-f7fff7-ff6b6b-ffe66d
       - https://coolors.co/353535-3c6e71-ffffff-d9d9d9-284b63
 
     - Git stuff
+
       - https://gist.github.com/nanusdad/7e516743e5e709073f7e
 
       - Maintain a Todoist for this project
