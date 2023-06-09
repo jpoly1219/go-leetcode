@@ -210,7 +210,7 @@ docker compose up --build
 
       - `CREATE TABLE comments (comment_id UUID DEFAULT gen_random_uuid() PRIMARY KEY, author VARCHAR (50) NOT NULL, discussion_id UUID DEFAULT gen_random_uuid() NOT NULL, description TEXT NOT NULL, created TIMESTAMP NOT NULL DEFAULT NOW(), FOREIGN KEY (discussion_id) REFERENCES discussions (discussion_id) ON DELETE CASCADE)`
 
-      - `INSERT INTO problems (title, slug, difficulty, description) VALUES ('1. Two Sum', '1-two-sum', 'Easy', $$paste problem desc$$)`
+      - `INSERT INTO problems (title, slug, difficulty, description) VALUES ('1. Two Sum', '1-two-sum', 'easy', $$paste problem desc$$)`
       - `INSERT INTO templates (slug, lang, template) VALUES ('1-two-sum', 'cpp', $$paste template.cpp$$)`
       - `INSERT INTO testcases (slug, testcase) VALUES ('1-two-sum', $$paste template.json$$)`
       - `INSERT INTO solutions (slug, solution) VALUES ('1-two-sum', $$paste solution$$)`

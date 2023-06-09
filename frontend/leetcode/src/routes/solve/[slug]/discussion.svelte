@@ -1,32 +1,32 @@
 <script context="module">
-    import Discussions from "../../../components/discussions.svelte";
+	import Discussions from '../../../components/discussions.svelte';
 
-    export async function load({page}) {
-        const fullPath = page.path
-        const slugArray = fullPath.split("/")
-        const slug = slugArray[2]
+	export async function load({ page }) {
+		const fullPath = page.path;
+		const slugArray = fullPath.split('/');
+		const slug = slugArray[2];
 
-        const url = `http://localhost:8090/discussions/${slug}`
+		const url = `http://backend:8090/discussions/${slug}`;
 
-        const options = {
-            method: "GET"
-        }
+		const options = {
+			method: 'GET'
+		};
 
-        try {
-            const res = await fetch(url, options)
-            const discussions = await res.json()
-            return {props: {slug, discussions}}
-        } catch(err) {
-            alert(err)
-        }
-    }
+		try {
+			const res = await fetch(url, options);
+			const discussions = await res.json();
+			return { props: { slug, discussions } };
+		} catch (err) {
+			alert(err);
+		}
+	}
 </script>
 
 <script>
-    export let slug
-    export let discussions
+	export let slug;
+	export let discussions;
 </script>
 
 <div>
-    <Discussions slug={slug} discussions={discussions}/>
+	<Discussions {slug} {discussions} />
 </div>
