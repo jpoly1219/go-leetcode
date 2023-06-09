@@ -10,7 +10,7 @@
 			username = JSON.parse(window.atob(payloadB64)).username;
 		}
 
-		const url = 'http://backend:8090/problemsets/all';
+		const url = 'http://44.207.2.100:8090/problemsets/all';
 		const options = {
 			method: 'POST',
 			body: JSON.stringify({ username: username }),
@@ -75,13 +75,13 @@
 		let url = '';
 		let options = {};
 		if (filterObject.difficulty == 'all') {
-			url = 'http://backend:8090/problemsets/all';
+			url = 'http://44.207.2.100:8090/problemsets/all';
 			options = {
 				method: 'POST',
 				body: JSON.stringify({ username: username })
 			};
 		} else {
-			url = 'http://backend:8090/problemsets/filter';
+			url = 'http://44.207.2.100:8090/problemsets/filter';
 			options = {
 				method: 'POST',
 				body: JSON.stringify(filterObject)
