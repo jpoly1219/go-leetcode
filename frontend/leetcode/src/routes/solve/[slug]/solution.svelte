@@ -6,7 +6,7 @@
 		const slugArray = fullPath.split('/');
 		const slug = slugArray[2];
 
-		const url = `http://backend:8090/solutions/${slug}`;
+		const url = `http://54.145.220.238:8090/solutions/${slug}`;
 
 		const options = {
 			method: 'GET'

@@ -20,7 +20,7 @@
 		profilePic: ''
 	};
 	onMount(async () => {
-		const url = `http://backend:8090/users/${discussion.author}`;
+		const url = `http://54.145.220.238:8090/users/${discussion.author}`;
 		const options = {
 			method: 'GET'
 		};

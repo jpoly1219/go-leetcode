@@ -9,7 +9,7 @@
 		const slugArray = fullPath.split('/');
 		const slug = slugArray[2];
 
-		const url = `http://backend:8090/solve/${slug}`;
+		const url = `http://54.145.220.238:8090/solve/${slug}`;
 
 		let accessToken = get(accessTokenStore);
 		if (accessToken == '') {

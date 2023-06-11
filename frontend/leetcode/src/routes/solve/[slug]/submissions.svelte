@@ -7,7 +7,7 @@
 		const slugArray = fullPath.split('/');
 		const slug = slugArray[2];
 
-		const url = `http://backend:8090/submissions`;
+		const url = `http://54.145.220.238:8090/submissions`;
 
 		let accessToken = get(accessTokenStore);
 		let username;
@@ -66,7 +66,10 @@
 			};
 
 			try {
-				const res = await fetch(`http://backend:8090/check/${$submitCodeStore.slug}`, options);
+				const res = await fetch(
+					`http://54.145.220.238:8090/check/${$submitCodeStore.slug}`,
+					options
+				);
 				const data = await res.json();
 				submissions = [...submissions, data];
 			} catch (err) {
