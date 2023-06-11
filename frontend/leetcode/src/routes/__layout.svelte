@@ -9,7 +9,7 @@
 		};
 
 		try {
-			const res = await fetch('http://44.207.2.100:8090/auth/silentrefresh', options);
+			const res = await fetch('http://backend:8090/auth/silentrefresh', options);
 			const accessToken = await res.json();
 			const payloadB64 = accessToken.split('.')[1];
 			timeToExpireStore.set(JSON.parse(window.atob(payloadB64)).exp);

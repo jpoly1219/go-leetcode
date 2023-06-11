@@ -23,7 +23,7 @@
 
 	const postDiscussion = async () => {
 		console.log('running postDiscussion');
-		const url = `http://44.207.2.100:8090/discussions/newdiscussion`;
+		const url = `http://backend:8090/discussions/newdiscussion`;
 		const newDiscussionData = {
 			author: username,
 			slug: slug,

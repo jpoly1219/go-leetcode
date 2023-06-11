@@ -18,7 +18,7 @@
 			},
 			credentials: 'include'
 		};
-		const url = 'http://44.207.2.100:8090/auth/login';
+		const url = 'http://backend:8090/auth/login';
 
 		try {
 			const res = await fetch(url, options);
