@@ -6,7 +6,7 @@
 		const slugArray = fullPath.split('/');
 		const slug = slugArray[2];
 
-		const url = `http://54.145.220.238:8090/discussions/${slug}`;
+		const url = `https://goleetcode.xyz:8090/discussions/${slug}`;
 
 		const options = {
 			method: 'GET'

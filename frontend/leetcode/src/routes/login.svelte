@@ -18,7 +18,7 @@
 			},
 			credentials: 'include'
 		};
-		const url = 'http://54.145.220.238:8090/auth/login';
+		const url = 'https://goleetcode.xyz:8090/auth/login';
 
 		try {
 			const res = await fetch(url, options);

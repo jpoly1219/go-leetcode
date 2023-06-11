@@ -20,7 +20,7 @@
 		profilePic: ''
 	};
 	onMount(async () => {
-		const url = `http://54.145.220.238:8090/users/${discussion.author}`;
+		const url = `https://goleetcode.xyz:8090/users/${discussion.author}`;
 		const options = {
 			method: 'GET'
 		};

@@ -53,7 +53,7 @@ func ProblemsetsAll(w http.ResponseWriter, r *http.Request) {
 		problems = append(problems, p)
 	}
 
-	w.Header().Set("Access-Control-Allow-Origin", "http://54.145.220.238:3000")
+	w.Header().Set("Access-Control-Allow-Origin", "https://goleetcode.xyz:3000")
 	json.NewEncoder(w).Encode(problems)
 }
 
@@ -95,7 +95,7 @@ func ProblemsetsFilter(w http.ResponseWriter, r *http.Request) {
 			problems = append(problems, p)
 		}
 
-		w.Header().Set("Access-Control-Allow-Origin", "http://54.145.220.238:3000")
+		w.Header().Set("Access-Control-Allow-Origin", "https://goleetcode.xyz:3000")
 		json.NewEncoder(w).Encode(problems)
 	}
 }
@@ -121,7 +121,7 @@ func SolveSlug(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	w.Header().Set("Access-Control-Allow-Origin", "http://54.145.220.238:3000")
+	w.Header().Set("Access-Control-Allow-Origin", "https://goleetcode.xyz:3000")
 	json.NewEncoder(w).Encode(p)
 }
 
@@ -146,7 +146,7 @@ func CheckSlug(w http.ResponseWriter, r *http.Request) {
 	})
 	responseBody := bytes.NewBuffer(postBody)
 
-	resp, err := http.Post("http://54.145.220.238:8091/run", "application/json", responseBody)
+	resp, err := http.Post("https://goleetcode.xyz:8091/run", "application/json", responseBody)
 	if err != nil {
 		fmt.Println("POST request failed: ", err)
 		return
@@ -155,7 +155,7 @@ func CheckSlug(w http.ResponseWriter, r *http.Request) {
 
 	var resFromContainer models.Result
 	json.NewDecoder(resp.Body).Decode(&resFromContainer)
-	w.Header().Set("Access-Control-Allow-Origin", "http://54.145.220.238:3000")
+	w.Header().Set("Access-Control-Allow-Origin", "https://goleetcode.xyz:3000")
 	json.NewEncoder(w).Encode(resFromContainer)
 }
 
@@ -191,7 +191,7 @@ func Submissions(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println("hi", prevSubmissions)
-	w.Header().Set("Access-Control-Allow-Origin", "http://54.145.220.238:3000")
+	w.Header().Set("Access-Control-Allow-Origin", "https://goleetcode.xyz:3000")
 	json.NewEncoder(w).Encode(prevSubmissions)
 }
 
@@ -211,7 +211,7 @@ func SolutionsSlug(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Access-Control-Allow-Origin", "http://54.145.220.238:3000")
+	w.Header().Set("Access-Control-Allow-Origin", "https://goleetcode.xyz:3000")
 	json.NewEncoder(w).Encode(s)
 }
 
@@ -239,7 +239,7 @@ func DiscussionsSlug(w http.ResponseWriter, r *http.Request) {
 		discussions = append(discussions, d)
 	}
 
-	w.Header().Set("Access-Control-Allow-Origin", "http://54.145.220.238:3000")
+	w.Header().Set("Access-Control-Allow-Origin", "https://goleetcode.xyz:3000")
 	json.NewEncoder(w).Encode(discussions)
 }
 
@@ -267,7 +267,7 @@ func DiscussionsSlugDiscussionid(w http.ResponseWriter, r *http.Request) {
 		comments = append(comments, c)
 	}
 
-	w.Header().Set("Access-Control-Allow-Origin", "http://54.145.220.238:3000")
+	w.Header().Set("Access-Control-Allow-Origin", "https://goleetcode.xyz:3000")
 	json.NewEncoder(w).Encode(comments)
 }
 
