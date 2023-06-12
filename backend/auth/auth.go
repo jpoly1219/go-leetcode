@@ -99,7 +99,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		HttpOnly: true,
 		Name:     "refreshToken",
 		Value:    tokenPair.RefreshToken,
-		Domain:   "54.145.220.238:3000",
+		Domain:   "goleetcode.xyz:3000",
 		SameSite: http.SameSiteNoneMode,
 		Secure:   true,
 	}
@@ -149,7 +149,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			HttpOnly: true,
 			Name:     "refreshToken",
 			Value:    tokenPair.RefreshToken,
-			Domain:   "54.145.220.238:3000",
+			Domain:   "goleetcode.xyz:3000",
 			SameSite: http.SameSiteNoneMode,
 			Secure:   true,
 		}
@@ -257,7 +257,7 @@ func EditProfile(w http.ResponseWriter, r *http.Request) {
 		HttpOnly: true,
 		Name:     "refreshToken",
 		Value:    tokenPair.RefreshToken,
-		Domain:   "54.145.220.238:3000",
+		Domain:   "goleetcode.xyz:3000",
 		SameSite: http.SameSiteNoneMode,
 		Secure:   true,
 	}
