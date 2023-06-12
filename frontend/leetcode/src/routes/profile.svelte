@@ -10,7 +10,7 @@
 			username = JSON.parse(window.atob(payloadB64)).username;
 		}
 
-		const url = `http://backend/users/${username}`;
+		const url = `https://backend/users/${username}`;
 		const options = {
 			method: 'GET'
 		};

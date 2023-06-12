@@ -6,7 +6,7 @@
 		const slugArray = fullPath.split('/');
 		const slug = slugArray[2];
 
-		const url = `http://backend/discussions/${slug}`;
+		const url = `https://backend/discussions/${slug}`;
 
 		const options = {
 			method: 'GET'

@@ -18,7 +18,7 @@
 			},
 			credentials: 'include'
 		};
-		const url = 'http://backend/auth/login';
+		const url = 'https://backend/auth/login';
 
 		try {
 			const res = await fetch(url, options);

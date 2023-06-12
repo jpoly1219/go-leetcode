@@ -20,7 +20,7 @@
 		profilePic: ''
 	};
 	onMount(async () => {
-		const url = `http://backend/users/${discussion.author}`;
+		const url = `https://backend/users/${discussion.author}`;
 		const options = {
 			method: 'GET'
 		};

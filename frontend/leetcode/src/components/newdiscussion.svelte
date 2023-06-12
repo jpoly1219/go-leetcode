@@ -23,7 +23,7 @@
 
 	const postDiscussion = async () => {
 		console.log('running postDiscussion');
-		const url = `http://backend/discussions/newdiscussion`;
+		const url = `https://backend/discussions/newdiscussion`;
 		const newDiscussionData = {
 			author: username,
 			slug: slug,

@@ -10,7 +10,7 @@
 		profilePic: ''
 	};
 	onMount(async () => {
-		const url = `http://backend/users/${comment.author}`;
+		const url = `https://backend/users/${comment.author}`;
 		const options = {
 			method: 'GET'
 		};
