@@ -7,7 +7,7 @@
 		const slugArray = fullPath.split('/');
 		const slug = slugArray[2];
 
-		const url = `https://goleetcode.xyz:8090/submissions`;
+		const url = `https://backend/submissions`;
 
 		let accessToken = get(accessTokenStore);
 		let username;
@@ -67,7 +67,7 @@
 
 			try {
 				const res = await fetch(
-					`https://goleetcode.xyz:8090/check/${$submitCodeStore.slug}`,
+					`https://backend/check/${$submitCodeStore.slug}`,
 					options
 				);
 				const data = await res.json();

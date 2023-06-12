@@ -6,7 +6,7 @@
 		const slugArray = fullPath.split('/');
 		const slug = slugArray[2];
 
-		const url = `https://goleetcode.xyz:8090/solutions/${slug}`;
+		const url = `https://backend/solutions/${slug}`;
 
 		const options = {
 			method: 'GET'

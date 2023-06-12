@@ -9,7 +9,7 @@
 		const slugArray = fullPath.split('/');
 		const slug = slugArray[2];
 
-		const url = `https://goleetcode.xyz:8090/solve/${slug}`;
+		const url = `https://backend/solve/${slug}`;
 
 		let accessToken = get(accessTokenStore);
 		if (accessToken == '') {
