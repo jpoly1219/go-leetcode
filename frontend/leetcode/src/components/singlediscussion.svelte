@@ -21,7 +21,7 @@
 
 	let comments = [];
 	onMount(async () => {
-		const url = `https://backend/discussions/${discussion.slug}/${discussion.id}`;
+		const url = `http://backend/discussions/${discussion.slug}/${discussion.id}`;
 		const options = {
 			method: 'GET'
 		};
@@ -46,7 +46,7 @@
 	let newComment = '';
 	const postComment = async () => {
 		console.log('running postComment');
-		const url = `https://backend/discussions/${discussion.slug}/${discussion.id}/newcomment`;
+		const url = `http://backend/discussions/${discussion.slug}/${discussion.id}/newcomment`;
 		const newCommentData = {
 			author: username,
 			description: newComment

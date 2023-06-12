@@ -9,7 +9,7 @@
 		};
 
 		try {
-			const res = await fetch('https://backend/auth/silentrefresh', options);
+			const res = await fetch('http://backend/auth/silentrefresh', options);
 			const accessToken = await res.json();
 			const payloadB64 = accessToken.split('.')[1];
 			timeToExpireStore.set(JSON.parse(window.atob(payloadB64)).exp);

@@ -20,7 +20,7 @@
 				'Content-Type': 'application/json'
 			}
 		};
-		const url = 'https://backend/auth/signup';
+		const url = 'http://backend/auth/signup';
 
 		try {
 			const res = await fetch(url, options);

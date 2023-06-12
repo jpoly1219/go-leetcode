@@ -10,7 +10,7 @@
 			username = JSON.parse(window.atob(payloadB64)).username;
 		}
 
-		const url = 'https://backend/problemsets/all';
+		const url = 'http://backend/problemsets/all';
 		const options = {
 			method: 'POST',
 			body: JSON.stringify({ username: username }),
@@ -75,13 +75,13 @@
 		let url = '';
 		let options = {};
 		if (filterObject.difficulty == 'all') {
-			url = 'https://backend/problemsets/all';
+			url = 'http://backend/problemsets/all';
 			options = {
 				method: 'POST',
 				body: JSON.stringify({ username: username })
 			};
 		} else {
-			url = 'https://backend/problemsets/filter';
+			url = 'http://backend/problemsets/filter';
 			options = {
 				method: 'POST',
 				body: JSON.stringify(filterObject)
