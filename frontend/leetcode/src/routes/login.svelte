@@ -18,7 +18,7 @@
 			},
 			credentials: 'include'
 		};
-		const url = 'https://goleetcode.xyz:8090/backend/auth/login';
+		const url = 'https://goleetcode.xyz/backend/auth/login';
 
 		try {
 			const res = await fetch(url, options);

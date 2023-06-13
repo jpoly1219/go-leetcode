@@ -10,7 +10,7 @@
 			username = JSON.parse(window.atob(payloadB64)).username;
 		}
 
-		const url = `https://goleetcode.xyz:8090/backend/users/${username}`;
+		const url = `https://goleetcode.xyz/backend/users/${username}`;
 		const options = {
 			method: 'GET'
 		};
