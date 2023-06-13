@@ -23,7 +23,7 @@
 
 	const postDiscussion = async () => {
 		console.log('running postDiscussion');
-		const url = `https://backend/discussions/newdiscussion`;
+		const url = `https://goleetcode.xyz:8090/discussions/newdiscussion`;
 		const newDiscussionData = {
 			author: username,
 			slug: slug,

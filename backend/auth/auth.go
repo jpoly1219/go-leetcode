@@ -16,7 +16,7 @@ import (
 )
 
 func HandleCors(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "https://frontend")
+	w.Header().Set("Access-Control-Allow-Origin", "https://goleetcode.xyz:3000")
 	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
@@ -104,7 +104,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		Secure:   true,
 	}
 	http.SetCookie(w, &cookie)
-	w.Header().Set("Access-Control-Allow-Origin", "https://frontend")
+	w.Header().Set("Access-Control-Allow-Origin", "https://goleetcode.xyz:3000")
 	json.NewEncoder(w).Encode(tokenPair.AccessToken)
 }
 
@@ -154,7 +154,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			Secure:   true,
 		}
 		http.SetCookie(w, &cookie)
-		w.Header().Set("Access-Control-Allow-Origin", "https://frontend")
+		w.Header().Set("Access-Control-Allow-Origin", "https://goleetcode.xyz:3000")
 		json.NewEncoder(w).Encode(tokenPair.AccessToken)
 	}
 }
@@ -207,7 +207,7 @@ func SilentRefresh(w http.ResponseWriter, r *http.Request) {
 			Secure:   true,
 		}
 		http.SetCookie(w, &cookie)
-		w.Header().Set("Access-Control-Allow-Origin", "https://frontend")
+		w.Header().Set("Access-Control-Allow-Origin", "https://goleetcode.xyz:3000")
 		json.NewEncoder(w).Encode(tokenPair.AccessToken)
 	} else {
 		fmt.Println(err)
@@ -241,7 +241,7 @@ func EditProfile(w http.ResponseWriter, r *http.Request) {
 	).Scan(&userid, &username)
 	if err != nil {
 		fmt.Println("INSERT to EditProfile failed:", err)
-		w.Header().Set("Access-Control-Allow-Origin", "https://frontend")
+		w.Header().Set("Access-Control-Allow-Origin", "https://goleetcode.xyz:3000")
 		w.Write([]byte("Request failed. Username or email already exists."))
 		return
 	}
@@ -262,6 +262,6 @@ func EditProfile(w http.ResponseWriter, r *http.Request) {
 		Secure:   true,
 	}
 	http.SetCookie(w, &cookie)
-	w.Header().Set("Access-Control-Allow-Origin", "https://frontend")
+	w.Header().Set("Access-Control-Allow-Origin", "https://goleetcode.xyz:3000")
 	json.NewEncoder(w).Encode(tokenPair.AccessToken)
 }

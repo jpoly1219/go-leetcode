@@ -20,7 +20,7 @@
 				'Content-Type': 'application/json'
 			}
 		};
-		const url = 'https://backend/auth/signup';
+		const url = 'https://goleetcode.xyz:8090/auth/signup';
 
 		try {
 			const res = await fetch(url, options);
