@@ -20,7 +20,7 @@
 		profilePic: ''
 	};
 	onMount(async () => {
-		const url = `https://goleetcode.xyz:8090/users/${discussion.author}`;
+		const url = `https://goleetcode.xyz:8090/backend/users/${discussion.author}`;
 		const options = {
 			method: 'GET'
 		};

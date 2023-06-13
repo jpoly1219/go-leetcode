@@ -10,7 +10,7 @@
 			username = JSON.parse(window.atob(payloadB64)).username;
 		}
 
-		const url = `https://goleetcode.xyz:8090/users/${username}`;
+		const url = `https://goleetcode.xyz:8090/backend/users/${username}`;
 		const options = {
 			method: 'GET'
 		};
@@ -51,7 +51,7 @@
 				'Content-Type': 'application/json'
 			}
 		};
-		const url = 'https://goleetcode.xyz:8090/auth/editprofile';
+		const url = 'https://goleetcode.xyz:8090/backend/auth/editprofile';
 
 		try {
 			const res = await fetch(url, options);

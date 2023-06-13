@@ -31,7 +31,7 @@ func main() {
 	defer models.Db.Close()
 
 	r := mux.NewRouter()
-	r.HandleFunc("/run", controllers.RunTest)
+	r.HandleFunc("/coderunner/run", controllers.RunTest)
 
 	// each container will have the exact same domain, so how will the backend distinguish between the containers?
 	// plus, if all containers use port 8091, it would be even more confusing...

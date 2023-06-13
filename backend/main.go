@@ -45,35 +45,38 @@ func main() {
 	defer models.Db.Close()
 
 	r := mux.NewRouter()
-	// r.HandleFunc("/problemsets", controllers.Problemsets)
-	r.HandleFunc("/submissions", controllers.Submissions)
 
-	problemsetsR := r.PathPrefix("/problemsets").Subrouter()
+	br := r.PathPrefix("/backend").Subrouter()
+
+	// r.HandleFunc("/problemsets", controllers.Problemsets)
+	br.HandleFunc("/submissions", controllers.Submissions)
+
+	problemsetsR := br.PathPrefix("/problemsets").Subrouter()
 	problemsetsR.Handle("/all", middlewares.VerifyToken(http.HandlerFunc(controllers.ProblemsetsAll)))
 	problemsetsR.Handle("/filter", middlewares.VerifyToken(http.HandlerFunc(controllers.ProblemsetsFilter)))
 
-	solveR := r.PathPrefix("/solve").Subrouter()
+	solveR := br.PathPrefix("/solve").Subrouter()
 	solveR.Handle("/{slug}", middlewares.VerifyToken(http.HandlerFunc(controllers.SolveSlug)))
 
-	solutionsR := r.PathPrefix("/solutions").Subrouter()
+	solutionsR := br.PathPrefix("/solutions").Subrouter()
 	solutionsR.HandleFunc("/{slug}", controllers.SolutionsSlug)
 
-	discussionsR := r.PathPrefix("/discussions").Subrouter()
+	discussionsR := br.PathPrefix("/discussions").Subrouter()
 	discussionsR.HandleFunc("/newdiscussion", controllers.DiscussionsNewdiscussion)
 	discussionsR.HandleFunc("/{slug}", controllers.DiscussionsSlug)
 	discussionsR.HandleFunc("/{slug}/{discussionId}", controllers.DiscussionsSlugDiscussionid)
 	discussionsR.HandleFunc("/{slug}/{discussionId}/newcomment", controllers.DiscussionsSlugDiscussionidNewcomment)
 
-	checkR := r.PathPrefix("/check").Subrouter()
+	checkR := br.PathPrefix("/check").Subrouter()
 	checkR.HandleFunc("/{slug}", controllers.CheckSlug)
 
-	authR := r.PathPrefix("/auth").Subrouter()
+	authR := br.PathPrefix("/auth").Subrouter()
 	authR.HandleFunc("/signup", auth.Signup)
 	authR.HandleFunc("/login", auth.Login)
 	authR.HandleFunc("/silentrefresh", auth.SilentRefresh)
 	authR.HandleFunc("/editprofile", auth.EditProfile)
 
-	usersR := r.PathPrefix("/users").Subrouter()
+	usersR := br.PathPrefix("/users").Subrouter()
 	usersR.HandleFunc("/{username}", controllers.UsersUsername)
 
 	log.Fatal(http.ListenAndServe(":8090", r))

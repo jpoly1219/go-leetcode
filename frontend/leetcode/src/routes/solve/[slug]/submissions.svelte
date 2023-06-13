@@ -7,7 +7,7 @@
 		const slugArray = fullPath.split('/');
 		const slug = slugArray[2];
 
-		const url = `https://goleetcode.xyz:8090/submissions`;
+		const url = `https://goleetcode.xyz:8090/backend/submissions`;
 
 		let accessToken = get(accessTokenStore);
 		let username;
@@ -66,7 +66,10 @@
 			};
 
 			try {
-				const res = await fetch(`https://goleetcode.xyz:8090/check/${$submitCodeStore.slug}`, options);
+				const res = await fetch(
+					`https://goleetcode.xyz:8090/backend/check/${$submitCodeStore.slug}`,
+					options
+				);
 				const data = await res.json();
 				submissions = [...submissions, data];
 			} catch (err) {
