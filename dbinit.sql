@@ -75,22 +75,6 @@ CREATE TABLE IF NOT EXISTS discussions (
 );
 
 CREATE TABLE IF NOT EXISTS comments (
-    comment_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-    author VARCHAR(16) NOT NULL,
-    discussion_id uuid,
-    CONSTRAINT fk_user
-        FOREIGN KEY(author)
-            REFERENCES users(username)
-            ON DELETE CASCADE,
-    CONSTRAINT fk_discussion
-        FOREIGN KEY(discussion_id)
-            REFERENCES discussions(discussion_id)
-            ON DELETE CASCADE,
-    description TEXT NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE TABLE IF NOT EXISTS comments (
     comment_id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     author VARCHAR (64) NOT NULL,
     discussion_id UUID DEFAULT gen_random_uuid() NOT NULL,
