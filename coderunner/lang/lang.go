@@ -245,9 +245,9 @@ func GetOutput(lang Language) (string, []byte, error) {
 		fmt.Println("CompileAndRun failed")
 		return "", nil, err
 	}
+	fmt.Printf("\noutput: %s\n", output)
 
 	if !strings.Contains(output, "test completed\n") {
-		fmt.Printf("\noutput: %s\n", output)
 		return output, nil, nil
 	} else {
 		resultJson := strings.ReplaceAll(output, "test completed\n", "")
