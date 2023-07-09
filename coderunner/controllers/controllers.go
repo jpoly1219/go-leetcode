@@ -31,6 +31,7 @@ func RunTest(w http.ResponseWriter, r *http.Request) {
 	// fmt.Println("RunTest() reached: ", code.Username, code.Slug, code.Lang, code.Code)
 
 	cwd, err := os.Getwd()
+	fmt.Println(cwd)
 	if err != nil {
 		fmt.Println(err)
 		return
