@@ -1,21 +1,44 @@
 version: "3.7"
 
 services:
+  nginx:
+    image: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - /etc/letsencrypt/live/goleetcode.xyz/fullchain.pem:/etc/nginx/certs/fullchain.pem:ro
+      - /etc/letsencrypt/live/goleetcode.xyz/privkey.pem:/etc/nginx/certs/privkey.pem:ro
+    depends_on:
+      - frontend
+      - backend
+      - coderunner
+      - database
+    networks:
+      - my-network
+
   backend:
     build: ./backend
     ports:
       - "8090:8090"
+    networks:
+      - my-network
 
   coderunner:
     build: ./coderunner
     ports:
       - "8091:8091"
+    networks:
+      - my-network
 
   frontend:
     build: ./frontend/leetcode
     ports:
       - "3000:3000"
       - "15000:15000"
+    networks:
+      - my-network
 
   database:
     container_name: database
@@ -28,3 +51,9 @@ services:
       - POSTGRES_DB=goleetcode
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
