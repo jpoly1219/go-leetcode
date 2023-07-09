@@ -30,10 +30,10 @@ func main() {
 	}
 
 	const (
-		host     = "database"
+		host     = "go-leetcode-rds.cvbgqae2t74s.us-east-1.rds.amazonaws.com"
 		port     = 5432
 		user     = "postgres"
-		password = "postgres"
+		password = "NT9oOSqLJWcNUIRuJv35"
 		dbname   = "goleetcode"
 	)
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)

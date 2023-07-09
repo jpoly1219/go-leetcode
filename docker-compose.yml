@@ -40,19 +40,19 @@ services:
     networks:
       - my-network
 
-  database:
-    container_name: database
-    image: postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./database:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=goleetcode
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    networks:
-      - my-network
+  # database:
+  #   container_name: database
+  #   image: postgres
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - ./database:/var/lib/postgresql/data
+  #   environment:
+  #     - POSTGRES_DB=goleetcode
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres
+  #   networks:
+  #     - my-network
 
 networks:
   my-network:
