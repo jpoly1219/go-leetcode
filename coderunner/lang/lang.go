@@ -62,6 +62,14 @@ func (cpp Cpp) CompileAndRun() (string, error) {
 
 	cwd, _ := os.Getwd()
 	fmt.Printf("cwd from car: %s", cwd)
+	if filepath.Base(cwd) != "coderunner" {
+		err = os.Chdir("..")
+		if err != nil {
+			fmt.Println("cd failed")
+			fmt.Println(err)
+		}
+	}
+
 	err = os.Chdir("cpp")
 	if err != nil {
 		fmt.Println("cd failed")
@@ -277,6 +285,7 @@ func HandleLangs(username, slug, lang, code, template string) (*models.ResultFil
 		return &result, nil
 	}
 	if userCodeErr != "" {
+		fmt.Printf("\nresultJson: %s", string(resultJson))
 		result.Result = "wrong"
 		result.Input = ""
 		result.Expected = ""
