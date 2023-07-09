@@ -247,6 +247,7 @@ func GetOutput(lang Language) (string, []byte, error) {
 	}
 
 	if !strings.Contains(output, "test completed\n") {
+		fmt.Printf("\noutput: %s\n", output)
 		return output, nil, nil
 	} else {
 		resultJson := strings.ReplaceAll(output, "test completed\n", "")
@@ -285,7 +286,6 @@ func HandleLangs(username, slug, lang, code, template string) (*models.ResultFil
 		return &result, nil
 	}
 	if userCodeErr != "" {
-		fmt.Printf("\nresultJson: %s", string(resultJson))
 		result.Result = "wrong"
 		result.Input = ""
 		result.Expected = ""
