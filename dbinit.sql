@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS problems (
     slug VARCHAR (128) UNIQUE NOT NULL,
     difficulty VARCHAR (16) NOT NULL,
     description TEXT NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE IF NOT EXISTS templates (
