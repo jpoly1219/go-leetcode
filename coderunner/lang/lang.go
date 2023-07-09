@@ -60,6 +60,8 @@ func (cpp Cpp) CompileAndRun() (string, error) {
 		return "", err
 	}
 
+	cwd, _ := os.Getwd()
+	fmt.Printf("cwd from car: %s", cwd)
 	err = os.Chdir("cpp")
 	if err != nil {
 		fmt.Println("cd failed")
