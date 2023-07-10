@@ -71,6 +71,7 @@
 					options
 				);
 				const data = await res.json();
+				console.log(data);
 				submissions = [...submissions, data];
 			} catch (err) {
 				alert(err);
