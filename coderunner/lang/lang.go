@@ -305,6 +305,6 @@ func HandleLangs(username, slug, lang, code, template string) (*models.ResultFil
 	// }
 
 	json.Unmarshal(resultJson, &result)
-	fmt.Println(result)
+	fmt.Println("handlelangs result: %s\n", result)
 	return &result, nil
 }
