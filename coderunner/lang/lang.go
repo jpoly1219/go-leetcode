@@ -277,7 +277,17 @@ func HandleLangs(username, slug, lang, code, template string) (*models.ResultFil
 
 	// fmt.Println("now running GetOutput: userCode: ", userCode)
 	userCodeErr, resultJson, err := GetOutput(userCode)
+	type CodeResult struct {
+		Result   string
+		Input    string
+		Expected string
+		Output   string
+	}
+	var cr CodeResult
+	json.Unmarshal(resultJson, &cr)
+
 	if err != nil {
+		// "", "", err
 		fmt.Println(err)
 		result.Result = "wrong"
 		result.Input = ""
@@ -285,13 +295,14 @@ func HandleLangs(username, slug, lang, code, template string) (*models.ResultFil
 		result.Output = fmt.Sprintf("%s", err)
 		return &result, nil
 	}
-	if userCodeErr != "" {
-		result.Result = "wrong"
-		result.Input = ""
-		result.Expected = ""
-		result.Output = userCodeErr
-		return &result, nil
-	}
+	// if userCodeErr != "" {
+	// 	//
+	// 	result.Result = "wrong"
+	// 	result.Input = ""
+	// 	result.Expected = ""
+	// 	result.Output = userCodeErr
+	// 	return &result, nil
+	// }
 
 	json.Unmarshal(resultJson, &result)
 	fmt.Println(result)
