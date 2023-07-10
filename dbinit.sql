@@ -300,6 +300,8 @@ INSERT INTO templates (lang, slug, template) VALUES (
     $$// template file
     #include <fstream>
     #include <iostream>
+    #include <string>
+    #include <stringstream>
     #include <vector>
     #include "json.hpp"
 
@@ -308,7 +310,8 @@ INSERT INTO templates (lang, slug, template) VALUES (
 
     // insert Solution class here
 
-    int main() {
+    int main()
+    {
         Solution sol;
 
         ifstream i("../testcase-1-two-sum.json");
@@ -321,24 +324,37 @@ INSERT INTO templates (lang, slug, template) VALUES (
 
         bool isOk = true;
         // test
-        for (int i = 0; i < vecNums.size(); i++) {
+        for (int i = 0; i < vecNums.size(); i++)
+        {
             vector<int> vecSolution = sol.twoSum(vecNums.at(i), vecTargets.at(i));
-            if (vecSolution != vecExpected.at(i)) {
+            if (vecSolution != vecExpected.at(i))
+            {
+                stringstream input;
+                std::copy(vecNums.at(i).begin(), vecNums.at(i).end(), std::ostream_iterator<int>(input, " "));
+                input.str();
+
+                stringstream expected;
+                std::copy(vecExpected.at(i).begin(), vecExpected.at(i).end(), std::ostream_iterator<int>(expected, " "));
+                expected.str();
+
+                stringstream output;
+                std::copy(vecSolution.begin(), vecSolution.end(), std::ostream_iterator<int>(output, " "));
+                output.str();
+
                 json output = {
                     {"result", "wrong"},
-                    {"input", vecNums.at(i)},
-                    {"expected", vecExpected.at(i)},
-                    {"output", vecSolution}
-                };
+                    {"input", input.str()},
+                    {"expected", expected.str()},
+                    {"output", output.str()}};
                 cout << output.dump(4) << endl;
                 isOk = false;
                 break;
             }
         }
-        if (isOk) {
+        if (isOk)
+        {
             json output = {
-                {"result", "OK"}
-            };
+                {"result", "OK"}};
             cout << output.dump(4) << endl;
         }
         cout << "test completed" << endl;
@@ -1040,22 +1056,18 @@ INSERT INTO testcases (slug, testcase) VALUES (
     $${
         "input": {
             "nums": [
-                [1, 2, 3, 4, 5],
-                [1, 2, 3],
-                [5, 5, 5, 5, 5, 5],
-                [3, 2, 1],
-                [0, 0, 0, 0]
+                [2, 7, 11, 15],
+                [3, 2, 4],
+                [3, 3]
             ],
             "target": [
-                1, 2, 3, 4, 5
+                9, 6, 6
             ]
         },
         "expected": [
-            [2, 3, 4, 5, 6],
-            [3, 4, 5],
-            [8, 8, 8, 8, 8, 8],
-            [7, 6, 5],
-            [5, 5, 5, 5]
+            [0, 1],
+            [1, 2],
+            [0, 1]
         ]
     }$$
 );

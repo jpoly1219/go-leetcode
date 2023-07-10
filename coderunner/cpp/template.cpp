@@ -1,6 +1,8 @@
 // template file
 #include <fstream>
 #include <iostream>
+#include <string>
+#include <stringstream>
 #include <vector>
 #include "json.hpp"
 
@@ -28,11 +30,23 @@ int main()
         vector<int> vecSolution = sol.twoSum(vecNums.at(i), vecTargets.at(i));
         if (vecSolution != vecExpected.at(i))
         {
+            stringstream input;
+            std::copy(vecNums.at(i).begin(), vecNums.at(i).end(), std::ostream_iterator<int>(input, " "));
+            input.str();
+
+            stringstream expected;
+            std::copy(vecExpected.at(i).begin(), vecExpected.at(i).end(), std::ostream_iterator<int>(expected, " "));
+            expected.str();
+
+            stringstream output;
+            std::copy(vecSolution.begin(), vecSolution.end(), std::ostream_iterator<int>(output, " "));
+            output.str();
+
             json output = {
                 {"result", "wrong"},
-                {"input", vecNums.at(i)},
-                {"expected", vecExpected.at(i)},
-                {"output", vecSolution}};
+                {"input", input.str()},
+                {"expected", expected.str()},
+                {"output", output.str()}};
             cout << output.dump(4) << endl;
             isOk = false;
             break;
