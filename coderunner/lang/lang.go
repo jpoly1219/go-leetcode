@@ -286,6 +286,8 @@ func HandleLangs(username, slug, lang, code, template string) (*models.ResultFil
 	var cr CodeResult
 	json.Unmarshal(resultJson, &cr)
 	fmt.Printf("\nresultJson: %s\n", resultJson)
+	fmt.Println(cr)
+	fmt.Println(err)
 
 	if err != nil {
 		// "", "", err
