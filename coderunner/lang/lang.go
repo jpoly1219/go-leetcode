@@ -276,7 +276,7 @@ func HandleLangs(username, slug, lang, code, template string) (*models.ResultFil
 	}
 
 	// fmt.Println("now running GetOutput: userCode: ", userCode)
-	userCodeErr, resultJson, err := GetOutput(userCode)
+	_, resultJson, err := GetOutput(userCode)
 	type CodeResult struct {
 		Result   string
 		Input    string
